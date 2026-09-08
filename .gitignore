@@ -1,0 +1,10 @@
+target/
+*.class
+results/raw/
+*.aux
+*.log
+*.out
+*.bbl
+*.blg
+__pycache__/
+.venv/
