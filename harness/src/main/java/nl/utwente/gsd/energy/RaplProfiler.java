@@ -28,7 +28,8 @@ public class RaplProfiler implements InternalProfiler {
         try {
             this.reader = new RaplReader();
         } catch (IOException e) {
-            throw new ProfilerException("Cannot initialise RAPL: " + e.getMessage());
+            throw new ProfilerException(
+                "Cannot initialise RAPL: " + e.getClass().getSimpleName() + ": " + e.getMessage());
         }
     }
 
@@ -62,8 +63,7 @@ public class RaplProfiler implements InternalProfiler {
 
         for (Map.Entry<String, Long> e : start.entrySet()) {
             String domain = e.getKey();
-            Long endValue = end.get(domain);
-            if (endValue == null) continue;
+            long endValue = end.get(domain);
 
             double joules = reader.deltaFor(domain, e.getValue(), endValue) / 1_000_000.0;
             out.add(new ScalarResult("rapl." + domain + ".J",

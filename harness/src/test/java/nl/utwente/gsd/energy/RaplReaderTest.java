@@ -23,6 +23,15 @@ class RaplReaderTest {
     }
 
     @Test
+    void deltaForRejectsImplausibleDelta() {
+        long max = 262143328850L;
+        RaplReader reader = new RaplReader(Map.of("intel-rapl:0:package-0", max));
+        assertThrows(IllegalStateException.class,
+                () -> reader.deltaFor("intel-rapl:0:package-0", 0L, max / 2 + 1),
+                "delta just above maxRange/2 must be rejected as implausible");
+    }
+
+    @Test
     void discoversAtLeastOneDomainOnThisMachine() throws Exception {
         RaplReader reader = new RaplReader();
         Map<String, Long> readings = reader.readAll();
