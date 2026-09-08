@@ -24,7 +24,7 @@ public final class Workloads {
         final int maxIter = 500;
         long escapes = 0;
         for (int py = 0; py < resolution; py++) {
-            double y0 = (py + offset) * 2.0 / resolution - 1.0;
+            double y0 = ((py + offset) % resolution) * 2.0 / resolution - 1.0;
             for (int px = 0; px < resolution; px++) {
                 double x0 = px * 3.0 / resolution - 2.0;
                 double x = 0.0, y = 0.0;
@@ -41,7 +41,7 @@ public final class Workloads {
         return escapes;
     }
 
-    /** Builds {@code taskCount} identical CPU-bound tasks of the given grid resolution. */
+    /** Builds {@code taskCount} near-identical (offset-shifted rows of the same grid) CPU-bound tasks of the given grid resolution. */
     public static List<Runnable> cpuBound(int taskCount, int resolution) {
         List<Runnable> tasks = new ArrayList<>(taskCount);
         for (int i = 0; i < taskCount; i++) {

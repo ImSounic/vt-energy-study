@@ -33,6 +33,14 @@ class ExecutionStrategyTest {
         assertDoesNotThrow(() -> strategy.execute(List.of(), 4));
     }
 
+    @ParameterizedTest
+    @EnumSource(ExecutionStrategy.class)
+    void propagatesTaskFailure(ExecutionStrategy strategy) {
+        List<Runnable> tasks = List.of(() -> { throw new RuntimeException("boom"); });
+        assertThrows(Throwable.class, () -> strategy.execute(tasks, 4),
+                strategy + " swallowed a task failure");
+    }
+
     @Test
     void allFourConstructsArePresent() {
         assertEquals(4, ExecutionStrategy.values().length);

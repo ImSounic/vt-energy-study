@@ -8,10 +8,19 @@ import org.openjdk.jmh.infra.Blackhole;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Sweeps execution strategy x parallelism x workload type for the energy study.
+ *
+ * <p>Pool construction, thread creation, and the resulting allocation/GC
+ * pressure are deliberately included in the measured window: they are part of
+ * each construct's real cost. Note: the parallelism parameter is a no-op for
+ * PLATFORM_THREADS and VIRTUAL_THREADS (see plan §Task 1.8); run scripts must
+ * exclude those cells or dedupe them in analysis.
+ */
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
 @State(Scope.Benchmark)
-@Fork(value = 5, jvmArgs = {"-Xms2g", "-Xmx2g"})
+@Fork(value = 5, jvmArgs = {"-Xms2g", "-Xmx2g", "-XX:+UseG1GC"})
 @Warmup(iterations = 10, time = 1)
 @Measurement(iterations = 20, time = 1)
 public class ConcurrencyEnergyBenchmark {
