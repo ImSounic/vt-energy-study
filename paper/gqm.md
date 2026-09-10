@@ -3,7 +3,7 @@
 ## General Goal (Basili template)
 
 **Analyze** Java thread management constructs (platform threads, fixed thread pools, Fork-Join, and virtual threads)
-**for the purpose of** characterising
+**for the purpose of** characterizing
 **with respect to** their energy consumption and its relationship to execution time
 **from the point of view of** Java developers
 **in the context of** hybrid processors combining performance, efficiency and low-power-efficiency cores.
@@ -20,7 +20,7 @@ Does the 2014 "Lambda curve" (energy as a function of concurrency level) persist
 | Q1.2 | Is sequential execution still the lowest-energy option for most workloads? |
 
 **Metrics (G1):**
-- Package, core, and psys energy (J), via RAPL
+- Package, core, uncore, and psys energy (J), via RAPL
 - Execution time (s)
 - Energy per operation (J/op)
 - Energy-delay product (EDP)
@@ -57,7 +57,7 @@ Does the OS/JVM scheduler's unawareness of core asymmetry cost energy on P/E/LP-
 
 ```mermaid
 graph TD
-    GG["General Goal:<br/>Characterise energy consumption of Java<br/>thread management constructs on hybrid processors<br/>(developer viewpoint)"]
+    GG["General Goal:<br/>Characterize energy consumption of Java<br/>thread management constructs on hybrid processors<br/>(developer viewpoint)"]
 
     GG --> G1["G1: Re-establish baseline<br/>(does the 2014 Lambda curve persist<br/>under intel_pstate/HWP on hybrid cores?)"]
     GG --> G2["G2: Position virtual threads"]
@@ -72,7 +72,7 @@ graph TD
     G3 --> Q31["Q3.1: Does pinning to P/E/LP-E cores<br/>change energy per unit work?"]
     G3 --> Q32["Q3.2: Energy left on the table vs<br/>best fixed placement?"]
 
-    Q11 --> M1["Package/core/psys energy (J)"]
+    Q11 --> M1["Package/core/uncore/psys energy (J)"]
     Q11 --> M2["Execution time (s)"]
     Q12 --> M3["J/op"]
     Q12 --> M4["Energy-delay product"]
