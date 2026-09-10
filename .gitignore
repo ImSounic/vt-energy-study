@@ -9,3 +9,4 @@ results/raw/
 *.blg
 __pycache__/
 .venv/
+paper/main.pdf
