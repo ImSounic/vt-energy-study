@@ -1,6 +1,6 @@
 # Presentation script, Assignment 1 (16 September 2026, 9-minute cap)
 
-Total target: 8:35. Slides 1 to 5 about 4:20, slides 6 to 9 about 4:15.
+Total target: 7:30. Slides 1 to 5 about 4:20, slides 6 to 9 about 3:10.
 Lines marked [cut if over time] are the first to drop.
 
 ## Slide 1, Title (0:10)
@@ -20,33 +20,25 @@ Our goal is to characterize the energy of the four constructs and its relationsh
 
 [Handoff to second presenter]
 
-## Slide 6, Methodology (1:15)
-The experiment in one sentence: we give Java the same pile of work four times, using four different ways of handing it to the processor, and we measure how much electricity each way uses.
+## Slide 6, Methodology (0:55)
+We give Java the same work four times, dispatched four different ways, and measure the electricity each way uses. The four ways are the constructs: one thread per task, a fixed pool of workers, Fork/Join with work stealing, and virtual threads, where a thread that waits steps aside so a real thread can run something else. The first three are what Fernando measured in 2014; the fourth arrived in 2023.
 
-The four ways are the constructs. Think of a kitchen with 256 orders. Platform threads: one chef per order, expensive, and most of them stand around waiting. A fixed pool: eight chefs, orders queue up. Fork/Join: eight chefs who steal orders from a busy colleague when they run out. Virtual threads: 256 orders in progress but only a few real chefs; when an order goes into the oven, the chef puts it down and picks up another. The first three are what Fernando measured in 2014. The fourth arrived in 2023.
+Two kinds of work, because the constructs are built for different kinds: CPU-bound, pure computation, and I/O-bound, mostly waiting. Virtual threads are designed for waiting, so testing only one kind would bias the result. We sweep the number of workers to reproduce the 2014 curve, and we run everything unpinned and then pinned to each core type: six performance, eight efficient, two low-power cores. An Apple M4 checks whether findings are Intel-specific.
 
-We test two kinds of work, because the constructs are built for different kinds. CPU-bound is pure computation, constant chopping. I/O-bound is mostly waiting, the order sits in the oven. Virtual threads are designed for waiting, so testing only one kind would either flatter them or punish them unfairly.
+## Slide 7, How we measure (0:50)
+RAPL is the energy meter Intel builds into the processor. Linux exposes it as a file: read before, read after, subtract, and you have the joules. JMH is the standard Java benchmark harness: fresh JVM per run, warm-up so the JIT has finished, confidence intervals. Our profiler reads the counters once at the start and once at the end of each measured iteration, and reports joules per operation next to milliseconds per operation.
 
-We sweep the number of workers to reproduce the 2014 curve, and we run everything unpinned and then pinned to each core type. The machine has six performance, eight efficient and two low-power cores. An Apple M4 tells us whether our findings are Intel-specific.
+Readings are comparable because everything else is fixed: same machine on mains power, nothing else running, identical JVM settings, warm-up every time, and the same 256 tasks for all four constructs. We never poll the counters, because polling keeps the processor awake and inflates the numbers.
 
-## Slide 7, How we measure (1:10)
-Three components. RAPL is the energy meter Intel builds into the processor for its own power management. Linux exposes it as a file: read it before, read it after, subtract, and you have the joules consumed. JMH is the standard Java benchmark harness: a fresh JVM per run, warm-up before measurement so the JIT compiler has finished, and averages with confidence intervals. Our profiler connects the two: it reads the counters once at the start and once at the end of every measured iteration and reports joules per operation next to milliseconds per operation.
+## Slide 8, Feasibility (1:00)
+The pipeline is built and has run. This is a small test: I/O-bound workload, pools capped at eight workers, all four constructs.
 
-Readings are comparable because everything else is held fixed. Same machine on mains power, nothing else running, identical JVM settings. Warm-up every time. And the same list of 256 tasks for all four constructs, so the only thing that changes is how the work is dispatched.
+The pools took about 320 milliseconds: eight workers, 256 tasks, 10 milliseconds each, so 32 in a row per worker. Virtual threads took 10, because all 256 waited at once. So virtual threads used 27 times less energy. That is expected, not a discovery: with the pool capped and tasks that only wait, it had to come out this way. The point is that we predicted 320 and measured 323.5. The pipeline measures correctly.
 
-Two details matter. We never poll the counters, because polling keeps the processor awake and inflates the numbers by tens of watts. And we correct for counter wraparound; a well-known language-energy paper got negative energy readings by not doing that. [cut if over time: the last sentence]
+The interesting column is the last one. Virtual threads drew more power, 14 watts against 12, but finished so much sooner that they used far less energy overall. Faster used more power and less energy. In 2014 the opposite often held. Which one wins depends on construct, workload and hardware, and mapping that is the full study.
 
-## Slide 8, Feasibility (1:20)
-We have already built and run the full pipeline. This is a small test on our laptop: the I/O-bound workload, pools capped at eight workers, all four constructs.
-
-Read the table row by row. The fixed pool and Fork/Join took about 320 milliseconds. Eight workers, 256 tasks, each waiting 10 milliseconds: every worker does 32 in a row, 32 times 10 is 320. We measured 323.5. Virtual threads took 10 milliseconds, because all 256 waited at the same time. Platform threads took 19, all at once as well, but creating 256 real threads costs more than creating 256 virtual ones.
-
-So virtual threads used 27 times less energy. That is not a discovery, and we are careful about it. With the pool capped at eight and tasks that only wait, the pool must be slow and virtual threads must be fast. We could have predicted the 320 before running anything. The reason to show it is that we predicted 320 and measured 323.5: the pipeline measures correctly. Think of it as calibrating the scale before weighing anything.
-
-The genuinely interesting column is the last one. Virtual threads drew more power, 14 watts against 12, but finished 31 times sooner, so they used far less energy overall. Faster used more power per second and less energy in total. In 2014 the opposite pattern often held. Whether faster means greener depends on the construct, the workload and the hardware, and mapping that out is the full experiment.
-
-## Slide 9, Conclusion (0:30)
-Problem: never measured. Approach: four constructs, two workloads, controlled core placement, real energy counters, pipeline built. Assignment 2 finalizes the design; Assignment 3 executes it and publishes a replication package. Every outcome is informative: the 2014 result confirmed, overturned, or bounded. Thank you, we welcome your questions.
+## Slide 9, Conclusion (0:25)
+Problem: never measured. Approach: four constructs, two workloads, controlled core placement, real energy counters, pipeline built. Assignment 2 finalizes the design; Assignment 3 runs it and publishes a replication package. Every outcome is informative. Thank you, we welcome your questions.
 
 ---
 
