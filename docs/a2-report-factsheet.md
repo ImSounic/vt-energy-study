@@ -145,7 +145,8 @@ Settings: parallelism 8, unpinned, 2 forks × 10 × 1 s.
 - **CPU-bound runs are highly repeatable:** fork-to-fork CV 0.6–0.9%.
 - **Thermal pressure was "Nominal" in all 8094 `powermetrics` samples.** There was **no** power regime shift, unlike the Intel pilot.
 - **CPU energy under sleep-bound workloads is at the noise floor:**
-  - CPU energy per 5 s window was 0.12–0.7 J (FP, FJ, VT).
+  - CPU energy per 5 s window was 0.09–0.6 J for FP, FJ and VT, plus one FJ outlier window of 6.8 J.
+  - Memory-subsystem energy (DRAM + AMCC + DCS) per op is far more repeatable on SLEEP. Fork-to-fork CV: FP 1.4%, FJ 2.9%, VT 1.3%, PT 9.1% (verified from pilot.json).
   - Idle-subtracted J/op came out slightly negative for FJ and VT. That means the difference is within idle noise, not that the energy was negative.
   - Design response: for blocking workloads, also report memory-subsystem energy (DRAM + AMCC + DCS) and SoC-level energy; use 10 forks and bootstrap CIs; report values whose CI includes zero as "below detection limit".
 - **The `powermetrics` refresher's own overhead (AX2, preliminary)** is idle CPU power with the refresher at 1000 ms vs 100 ms:
@@ -196,6 +197,15 @@ Settings: parallelism 8, unpinned, 2 forks × 10 × 1 s.
   - n = 10 forks per cell, confirmed by a power analysis on pilot variance.
   - The CPU-bound pilot CV of under 1% means 10 forks detect differences far below 10%. The sleep-bound cells have CV up to 116% on CPU energy, which is why they get the memory/SoC metrics and bootstrap CIs.
 - **D8 JMH timing:** 5 × 1 s warmup and 5 × 5 s measured iterations; `powermetrics` refresh every 100 ms; `-rf json`.
+- **D9b Intel power regime (added after review, 1 Oct):**
+  - On Intel, CPU-bound runs use a JMH warmup of at least 60 s (a heat-soak). This exceeds the ≈ 11 s boost phase seen in the A1 pilot, so the measured window lies in the sustained power regime.
+  - The RAPL power-limit status is logged, and any iteration that still crosses a regime change is flagged.
+  - Blocking workloads draw too little power to reach the limit.
+  - The Mac keeps the cooldown of at least 10 s until thermal pressure is Nominal; the Mac pilot showed no regime shift.
+- **D9c Intel arm design (added after review):**
+  - Experiment 1 cells (69) plus an equal-count placement arm (2P, 2E, 2LP-E; the 8 Experiment-2 cells per workload, so 72 cells).
+  - 5 forks per cell: (69 + 72) × 5 = 705 runs, about 13 h including heat-soak, within the ≤ 15 h allowance. Fewer forks means wider CIs, as for a replication arm.
+  - On Intel, H0-3.1 compares 2E and 2LP-E against 2P (equal count). The unpinned run is reported descriptively, because it changes the core count.
 - **D9 Run order and environment control:**
   - Run order is randomised at fork level with a seeded shuffle, recorded in a schedule CSV.
   - Before each run, a quiet-machine gate requires CPU ≥ 95% idle over 3 s.
@@ -266,7 +276,12 @@ Settings: parallelism 8, unpinned, 2 forks × 10 × 1 s.
     - VT's time advantage at p < 256 is reported as expected by construction, not as evidence for H1-2.x.
   - **H3.1:** Mann–Whitney U, DEFAULT vs BACKGROUND, per cell; Cliff's δ; time penalty (%) with bootstrap 95% CI.
   - **H3.2:** Kruskal–Wallis of the E-share across constructs.
-  - **Main H0:** rejected if, for any workload, Kruskal–Wallis across constructs at p = 8 (plus SEQ and PT) rejects after Holm correction.
+  - **Main H0:**
+    - CPU workload: Kruskal–Wallis across SEQ, PT, FP_8, FJ_8 and VT_8 (p = 8 is near the 10-core count).
+    - SLEEP and SOCKET: the test is at equal concurrency, across PT, FP_256, FJ_256 and VT_256. SEQ is excluded there, because it is the p = 1 floor case.
+    - H0 is rejected if any workload's test rejects after Holm correction.
+  - **Tested measure:** all H0s are tested on CPU-cluster energy. On SLEEP and SOCKET they are repeated on memory-subsystem energy (DRAM + AMCC + DCS) as a separate Holm family.
+  - **SoC energy:** the sum of CPU, GPU, ANE, ISP, AVE, MSR, DRAM, AMCC, DCS, VDEC, SOC_AON and SOC_REST. It excludes the display channels and the duplicate per-core and GPU_Energy channels.
 - **Null results:** TOST via a bootstrap 90% CI of the ratio of medians within [0.95, 1.05].
 - **Sample size:** use the pilot fork-to-fork CV to compute the n needed to detect a 10% difference with power 0.8 (Mann–Whitney U, ARE 0.955); if n > 10, add forks to the key comparisons.
 
