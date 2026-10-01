@@ -10,3 +10,7 @@ results/raw/
 __pycache__/
 .venv/
 paper/main.pdf
+.DS_Store
+harness/native/*.dylib
+harness/native/shim_smoke
+results/pilot-mac/*.jfr

@@ -1,6 +1,8 @@
 package nl.utwente.gsd.energy;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledOnOs;
+import org.junit.jupiter.api.condition.OS;
 import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -32,6 +34,7 @@ class RaplReaderTest {
     }
 
     @Test
+    @EnabledOnOs(OS.LINUX)
     void discoversAtLeastOneDomainOnThisMachine() throws Exception {
         RaplReader reader = new RaplReader();
         Map<String, Long> readings = reader.readAll();
@@ -40,6 +43,7 @@ class RaplReaderTest {
     }
 
     @Test
+    @EnabledOnOs(OS.LINUX)
     void consecutiveReadsAreMonotonicOrWrapped() throws Exception {
         RaplReader reader = new RaplReader();
         Map<String, Long> first = reader.readAll();
