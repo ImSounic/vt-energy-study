@@ -1725,3 +1725,16 @@ This part becomes its own detailed plan after the A2 submission (scope check: it
   - Metric keys `ioreport.CPU_Energy.J_per_op`, `ioreport.window_s` and `rapl.intel-rapl:0:package-0.J_per_op` match `summarize_pilot.PRIMARY`.
   - The shim exports `ior_open/ior_name/ior_read` and matches the FFM descriptors.
 - **Known risk:** if the shim's channel names differ on another macOS build, `discoversCpuClusterChannels` fails loudly; it does not silently report zeros.
+
+## Execution log (deviations from the task text above)
+
+- **Task 6:** `ps … | head` and `git status … | head` now end in `|| true`. Under `set -o pipefail`, `head` closing the pipe made the scripts exit 141 (SIGPIPE), so the quiet gate could never pass. Commit 6cb4002.
+- **Code review of Tasks 2–5:** "approve with fixes". The fixes are in commit 14f7cf5:
+  - `EnergyReader.checkFresh` (a no-op by default). `IoReportReader` overrides it and throws when `CPU_Energy` doesn't advance over a window of 0.5 s or more, which means `powermetrics` isn't refreshing the counters. `EnergyProfiler.afterIteration` and `IdleBaseline` call it. Before this fix, frozen counters silently gave 0 J.
+  - `IdleBaseline` waits 2 s after JVM start before measuring and writes a `"frozen": [...]` list of domains that recorded no energy. That matters because `--samplers cpu_power,thermal` may not refresh the DRAM/AMCC/SoC channels; check `idle-start.json` after the pilot.
+  - `ConcurrencyEnergyBenchmark` annotation defaults now match D7/D8: `@Fork(10)`, `@Warmup(5×1 s)`, `@Measurement(5×5 s)`.
+  - J/op divides by `getAllOps()`, so the ops count covers the whole energy window.
+  - A unit-scaling test checks that `CPU_Energy` = `ECPU` + `PCPU`, and the powermetrics test bounds the burn to 0.05–30 J.
+  - Lookup errors in `IoReportReader` are now wrapped as `IOException`; `Locale.ROOT` is used in `forThisMachine`; the channel hierarchy is documented.
+- **Part B note (B3/B5):** pass VT carrier counts with `-jvmArgsAppend`, never `-jvmArgs`. `-jvmArgs` replaces the `@Fork` jvmArgs, which would drop `--enable-native-access` and the heap/GC flags.
+- **Deferred minor review items:** shim edge cases (matching by channel ordinal, a `MAX_CH` overflow error, skipping negative raw values) and keeping the exception cause in `ProfilerException`. Channel names are unique on this hardware.
