@@ -1,0 +1,120 @@
+% Section 4: Experiment Planning (structured after Jedlitschka et al.).
+% New in A2, so no \changed{} coloring.
+% Compact list for RQs (label in the margin) and for the analysis items (run-in label).
+\newenvironment{planrq}{\begin{list}{}{\setlength{\leftmargin}{2.7em}\setlength{\labelwidth}{2.4em}\setlength{\labelsep}{0.3em}\setlength{\itemsep}{0pt}\setlength{\parsep}{0pt}\setlength{\topsep}{1pt}\setlength{\partopsep}{0pt}}}{\end{list}}
+\newenvironment{planitems}{\begin{list}{}{\setlength{\leftmargin}{0pt}\setlength{\itemindent}{0pt}\setlength{\labelwidth}{0pt}\setlength{\labelsep}{0.4em}\setlength{\itemsep}{1pt}\setlength{\parsep}{0pt}\setlength{\topsep}{2pt}\setlength{\partopsep}{0pt}}}{\end{list}}
+
+\section{Experiment Planning}\label{sec:planning}
+This section follows the guidelines of Jedlitschka et al.~\cite{jedlitschka2008reporting}.
+
+\subsection{Goals and Research Questions}\label{sec:planning-goals}
+We reviewed the A1 goals; the specific goals, like the general goal, now follow the template of Basili et al.~\cite{basili1994gqm}:
+
+\begin{quote}
+\emergencystretch=1.5em
+\textbf{Analyze} Java thread management constructs (sequential baseline, platform threads, fixed thread pools, Fork/Join, virtual threads) \textbf{for the purpose of} characterizing \textbf{with respect to} energy consumption and its relationship to execution time \textbf{from the point of view of} Java developers \textbf{in the context of} heterogeneous (P/E) multicore processors.
+\end{quote}
+
+\noindent We refer to the five constructs as sequential execution (SEQ), one platform thread per task (PT), the fixed thread pool (FP), Fork/Join (FJ), and virtual threads (VT); Table~\ref{tab:variables} defines each.
+
+\emph{G1.} \textbf{Analyze} the concurrency level of these constructs \textbf{for the purpose of} evaluating whether the 2014 energy--concurrency relationship~\cite{pinto2014energy} still holds \textbf{with respect to} energy per operation (energy/op) and execution time \textbf{from the point of view of} Java developers \textbf{in the context of} DVFS-managed hybrid processors.
+\begin{planrq}
+\item[RQ1.1] How does energy/op vary with the concurrency level, per construct and workload?
+\item[RQ1.2] Is sequential execution the lowest-energy option?
+\item[RQ1.3] Is lower execution time associated with lower energy/op across configurations (``faster${}={}$greener'')?
+\end{planrq}
+
+\emph{G2.} \textbf{Analyze} virtual threads \textbf{for the purpose of} comparison with platform-thread-based constructs \textbf{with respect to} energy/op, execution time, and power \textbf{from the point of view of} Java developers \textbf{in the context of} CPU-bound, blocking, and network-I/O workloads.
+\begin{planrq}
+\item[RQ2.1] How does VT energy/op compare with each other construct, per workload?
+\item[RQ2.2] At which concurrency levels, if any, does VT have the lowest energy/op?
+\end{planrq}
+
+\emph{G3.} \textbf{Analyze} the restriction of execution to efficiency cores \textbf{for the purpose of} evaluating the energy cost of asymmetry-unaware scheduling \textbf{with respect to} energy/op and its split across core clusters \textbf{from the point of view of} Java developers and runtime implementers \textbf{in the context of} P/E hybrid processors.
+\begin{planrq}
+\item[RQ3.1] Does restricting execution to E cores change energy/op, and at what time cost?
+\item[RQ3.2] How is CPU energy split between the P and E clusters under default scheduling, and does the split differ between constructs?
+\end{planrq}
+
+Compared with A1, SEQ is now a treatment, so RQ1.2 is answerable; the new RQ1.3 makes the ``relationship to execution time'' testable; and G3 is reframed for a platform without CPU affinity: the Mac restricts execution to the E cores through the quality-of-service (QoS) class, and Intel uses equal-count pinning per core type.
+
+\subsection{Hypotheses}\label{sec:planning-hypotheses}
+Table~\ref{tab:hypotheses} gives a main pair and one pair per RQ; each alternative (H1) is the negation of its null (H0). For blocking workloads, the decisive VT comparisons are those at equal concurrency (Section~\ref{sec:planning-analysis}).
+
+\begin{table*}
+\caption{Hypotheses. H1-$x.y$ negates H0-$x.y$; energy/op is in the primary domain (Table~\ref{tab:variables}).}
+\label{tab:hypotheses}
+\footnotesize
+\begin{tabular}{@{}l p{10.75cm} p{5.15cm}@{}}
+\toprule
+Id & Null hypothesis (H0) & Alternative hypothesis (H1) \\
+\midrule
+Main & The thread management construct has no effect on energy per operation for any workload. & The construct affects some workload's energy/op. \\
+H0-1.1 & For a given construct and workload, energy/op does not differ across concurrency levels. & Energy/op differs across concurrency levels. \\
+H0-1.2 & Energy/op of sequential execution does not differ from that of the lowest-energy concurrent configuration. & SEQ energy/op differs from it. \\
+H0-1.3 & Across configurations, time/op and energy/op are not monotonically associated (Spearman $\rho = 0$). & They are monotonically associated ($\rho \neq 0$). \\
+H0-2.1 & For a given workload and concurrency level, VT energy/op does not differ from that of each other construct. & VT energy/op differs from another construct's. \\
+H0-2.2 & At concurrency level $p$, VT energy/op is not lower than that of every alternative ($\mathrm{FP}_p$, $\mathrm{FJ}_p$, PT, SEQ). & $\mathrm{VT}_p$ energy/op is below every alternative's. \\
+H0-3.1 & Energy/op under E-core restriction does not differ from energy/op under default scheduling. & E-core restriction changes energy/op. \\
+H0-3.2 & The E-cluster share of CPU energy does not differ between constructs. & The E-cluster share differs between constructs. \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\subsection{Experimental Units and Workloads}\label{sec:planning-units}
+The experimental units are three benchmark kernels covering the workload classes of G2, each running 256 independent tasks per operation, so the total work is identical at every $p$. \emph{CPU} computes a 128$\times$128 Mandelbrot set (at most 500 iterations per point) from the 2014 benchmark set~\cite{pinto2014energy}, tying G1 to that baseline; it is deterministic and allocation-free. \emph{SLEEP} runs a 10\,ms \texttt{Thread.sleep} per task, isolating the unmount-on-block mechanism of VT~\cite{jep444} with a nominally controlled latency (measured by AX5). \emph{SOCKET} (new) adds network I/O: each task opens a loopback TCP connection to an out-of-process server, sends 64\,B, and receives a 64\,B reply that the server delays by 10\,ms without blocking. One connection per task keeps the I/O pattern identical across constructs, since reused connections would let pool workers amortize setup; the server's constant per-task energy is a construct threat (Section~\ref{sec:threats}).
+
+\emph{Randomization.} The units are fixed, purposively chosen kernels, so randomization applies to run order: all (unit $\times$ treatment $\times$ replicate) runs follow one seeded shuffle, with seed and schedule recorded. This counters measurement bias~\cite{mytkowicz2009wrong} and the run-order confound of the Intel pilot (Figure~\ref{fig:regime}).
+
+\subsection{Variables}\label{sec:planning-variables}
+Table~\ref{tab:variables} lists the variables. The level $p$ applies only where a developer sets it, so SEQ (one thread) and PT (one thread per task, its natural usage) have none, which avoids duplicate cells. The top level, $p = 256$, equals the task count: a pool can then overlap all 256 waits, as PT and VT do. On the blocking workloads (SLEEP, SOCKET), a bounded pool's time/op has an analytic floor of $\lceil 256/p \rceil \times d$, with $d$ the measured per-task wait (AX5), so FP and FJ being slower than VT at $p < 256$ is known by construction, not a finding, as A1 noted for its 27$\times$ result. Sleeping threads leave the CPU clusters nearly idle, so waiting longer costs mainly static power, which the memory and SoC domains capture only in part (Section~\ref{sec:threats}).
+
+\begin{table*}
+\caption{Variables. Intel entries apply only to the conditional second arm.}
+\label{tab:variables}
+\footnotesize
+\begin{tabular}{@{}p{3.0cm} p{3.4cm} p{10.4cm}@{}}
+\toprule
+Variable & Levels or unit & Definition \\
+\midrule
+\multicolumn{3}{@{}l}{\emph{Independent}} \\
+Construct & SEQ, PT, FP, FJ, VT & SEQ: tasks run in the caller thread. PT: a new platform thread per task. FP: \texttt{newFixedThreadPool($p$)}. FJ: \texttt{ForkJoinPool($p$)}, recursive divide-and-conquer splitting. VT: \texttt{newVirtualThreadPerTaskExecutor()}. \\
+Concurrency level $p$ & 1, 2, 4, 8, 16, 64, 256 & Pool size (FP), parallelism (FJ), carrier count (VT, via \texttt{jdk.virtualThreadScheduler.}\allowbreak\texttt{parallelism}). \\
+Workload & CPU, SLEEP, SOCKET & The experimental units (Section~\ref{sec:planning-units}). \\
+Core restriction & Mac: DEFAULT, BACKGROUND & QoS class of the forked benchmark JVM; BACKGROUND (\texttt{taskpolicy -b}) confines it to the E cores. \\
+ & Intel: unpinned, 2P, 2E, 2LP-E & Equal-count pinning with \texttt{taskset}, which separates core type from core count. \\
+\midrule
+\multicolumn{3}{@{}l}{\emph{Dependent}} \\
+Energy/op & J & Primary: CPU clusters (Mac), package (Intel). Secondary: ECPU, PCPU, memory (DRAM${}+{}$AMCC${}+{}$DCS), SoC (Mac); core, uncore, psys (Intel). \\
+Time/op; power; EDP & ms; W; J$\cdot$s & JMH time per op; window energy over window length; energy-delay product, energy/op $\times$ time/op. \\
+E-cluster share & \% & ECPU energy over CPU-cluster energy (RQ3.2). \\
+Idle-subtracted energy/op & J & Energy/op minus the batch's idle power times time/op. \\
+Floor ratio & ratio; J & FP and FJ on SLEEP and SOCKET: time/op over $\lceil 256/p \rceil \times d$, and energy/op beyond the floor duration. \\
+\midrule
+\multicolumn{3}{@{}l}{\emph{Controlled}} \\
+\multicolumn{3}{@{}p{\dimexpr\textwidth\relax}@{}}{256 tasks per operation; JDK 25.0.4.1 with \texttt{-Xms2g -Xmx2g -XX:+UseG1GC}; JMH 1.37 with 5$\times$1\,s warmup and 5$\times$5\,s measured iterations; one machine per arm; AC power, Low Power Mode off; quiet-machine protocol; \texttt{powermetrics} refresher at 100\,ms (Section~\ref{sec:measurement}).} \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\subsection{Design}\label{sec:planning-design}
+The design is within-subjects: every unit receives every treatment. \emph{Experiment~1} (RQ1.1 to RQ2.2) is a full factorial of construct $\times$ $p$ $\times$ workload under DEFAULT QoS: SEQ and PT give one cell each and FP, FJ, and VT seven each, so 23 cells per workload and 69 in total. \emph{Experiment~2} (RQ3.1) runs BACKGROUND QoS at $p \in \{4, 16\}$, which bracket the six E cores: SEQ, PT, and two levels each of FP, FJ, and VT give 8 cells per workload, 24 in total. Their DEFAULT counterparts come from Experiment~1, whose cluster split also answers RQ3.2.
+
+One fork, a fresh JVM run, is one trial~\cite{georges2007rigorous}; its value is the median of its 5 measured iterations. With 10 forks per cell, $(69 + 24) \times 10 = 930$ runs execute in one randomized schedule, in batches of about 40 runs (Section~\ref{sec:measurement}). The pilot (Table~\ref{tab:pilot}) supports $n = 10$: the fork-to-fork coefficient of variation (CV) of CPU-bound energy/op was below 1\%, so 10 forks detect differences far below 10\%; sleep-bound CPU energy is at the noise floor (CV up to 116\%), so memory and SoC metrics with bootstrap confidence intervals (CIs) carry those comparisons. A power analysis on a second pilot (10\% difference, power 0.8) may add forks to key comparisons.
+
+\subsection{Analysis Procedure}\label{sec:planning-analysis}
+Per cell we report the median, interquartile range, and CV, and plot $\Lambda$ curves (energy/op against $p$), energy-versus-time scatter plots, and cluster-split bars. Shapiro--Wilk tests are expected to reject normality, so all tests are non-parametric, at $\alpha = 0.05$ with Holm correction within each hypothesis family; effect sizes are Cliff's~$\delta$ and $\varepsilon^2$ with bootstrap CIs.
+
+\begin{planitems}
+\item[\textbf{Main.}] Per workload, Kruskal--Wallis across constructs plus SEQ and PT, at $p = 8$ for CPU and at $p = 256$ (equal concurrency) for SLEEP and SOCKET; H0 is rejected if any workload's test rejects after Holm correction.
+\item[\textbf{H0-1.1.}] Kruskal--Wallis across $p$ for FP, FJ, and VT per workload (9 tests); Dunn post-hoc tests with Holm correction; $\varepsilon^2$.
+\item[\textbf{H0-1.2.}] Split sample, to avoid selection bias: forks 1--5 select the lowest-median concurrent configuration per workload, and forks 6--10 test SEQ against it (Mann--Whitney~$U$, Cliff's~$\delta$).
+\item[\textbf{H0-1.3.}] Spearman~$\rho$ between cell-median time/op and energy/op per workload (23 cells).
+\item[\textbf{H0-2.1.}] Per workload and $p$, Kruskal--Wallis across FP, FJ, VT, PT, and SEQ (the last two have no $p$ and enter every comparison); Dunn tests of VT against each; Cliff's~$\delta$.
+\item[\textbf{H0-2.2.}] Intersection--union test: rejected only if $\mathrm{VT}_p$ is significantly lower than every alternative (one-sided Mann--Whitney~$U$); we report the smallest such $p$, with~$\delta$.
+\item[\textbf{Blocking.}] On SLEEP and SOCKET, the decisive H0-2.1 contrasts are VT against PT (both overlap all 256 waits, so only OS versus virtual threads differ) and against $\mathrm{FP}_{256}$ and $\mathrm{FJ}_{256}$. FP and FJ at $p < 256$ are reported as floor ratios; VT's time advantage there is expected by construction and is not evidence for H1-2.1 or H1-2.2.
+\item[\textbf{H0-3.1.}] Mann--Whitney~$U$ of DEFAULT against BACKGROUND per cell; Cliff's~$\delta$; time penalty (\%) with a bootstrap 95\% CI.
+\item[\textbf{H0-3.2.}] Kruskal--Wallis of the E-cluster share across constructs.
+\end{planitems}
+
+A non-rejection is not read as equivalence: two one-sided tests (TOST) claim equivalence when the bootstrap 90\% CI of the ratio of medians lies within $[0.95, 1.05]$, a margin at least twice the instrument's worst-case boundary error (Section~\ref{sec:measurement}). Idle-subtracted values whose CI includes zero are reported as below the detection limit. The analysis uses Python (pandas, SciPy, scikit-posthocs).

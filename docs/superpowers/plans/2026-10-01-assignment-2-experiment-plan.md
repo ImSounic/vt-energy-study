@@ -52,7 +52,7 @@
 | D1 | Mac mini M4 is the primary platform; Intel 255H is a conditional second arm with go/no-go on **16 Oct** | The laptop is broken and A3 needs guaranteed data |
 | D2 | JDK 25.0.4.1 on both platforms (the Intel pilot used 26.0.2) | 25 is the current long-term-support release, the version developers deploy |
 | D3 | Five constructs: SEQUENTIAL (new), PLATFORM_THREADS (thread-per-task), FIXED_POOL, FORK_JOIN (recursive splitting, new), VIRTUAL_THREADS | Q1.2 needs a sequential arm; Fork/Join should be used as designed |
-| D4 | Concurrency level p ∈ {1, 2, 4, 8, 16, 64}. It means pool size for FIXED_POOL, parallelism for FORK_JOIN and the carrier count for VT (`-Djdk.virtualThreadScheduler.parallelism=p`). SEQUENTIAL and PLATFORM_THREADS take no p | This gives VT a real curve and removes the 28 duplicate cells |
+| D4 | Concurrency level p ∈ {1, 2, 4, 8, 16, 64, 256} (256 = task count, added 1 Oct at the user's request). It means pool size for FIXED_POOL, parallelism for FORK_JOIN and the carrier count for VT (`-Djdk.virtualThreadScheduler.parallelism=p`). SEQUENTIAL and PLATFORM_THREADS take no p | This gives VT a real curve and removes the duplicate cells. On blocking workloads a pool's time has an analytic floor ⌈256/p⌉×d, so the primary VT comparison there is against PT and FP/FJ at p=256 (fact sheet D4b) |
 | D5 | Three workloads (experimental units): CPU (Mandelbrot), SLEEP (`Thread.sleep(10)`), SOCKET (loopback TCP, 10 ms server-side delay) | SOCKET addresses the "sleep is not I/O" threat |
 | D6 | G3 on the Mac uses the QoS class as its lever: DEFAULT vs BACKGROUND (`taskpolicy -b`, restricted to E cores). On Intel: unpinned vs equal-count 2P/2E/2LP-E | macOS has no CPU affinity; equal counts separate core type from core count |
 | D7 | Replication unit = one fork (one fresh JVM run). n = 10 forks per cell, confirmed by the pilot. The value per fork is the median of its 5 measured iterations | Avoids treating iterations as independent samples (Georges et al. 2007) |
@@ -1458,7 +1458,7 @@ Content requirements per subsection follow. The numbers and wording below are th
 - [ ] **Step 7: §4.4 Variables (table).**
   - **Independent variables:**
     - Construct: 5 levels.
-    - Concurrency level p ∈ {1, 2, 4, 8, 16, 64}, with per-construct meaning as in D4.
+    - Concurrency level p ∈ {1, 2, 4, 8, 16, 64, 256}, with per-construct meaning as in D4.
     - Workload: 3 levels.
     - Core restriction (Mac): DEFAULT, BACKGROUND. On Intel: unpinned, 2P, 2E, 2LP-E.
   - **Dependent variables:**
@@ -1475,7 +1475,7 @@ Content requirements per subsection follow. The numbers and wording below are th
   - Within-subjects design: every unit receives every treatment.
   - **Experiment 1** (RQ1.x, RQ2.x) is a full factorial of construct × p × workload under DEFAULT QoS. Per workload: SEQ 1 + PT 1 + FP 6 + FJ 6 + VT 6 = 20 cells, so 60 cells in total.
   - **Experiment 2** (RQ3.x) is a fractional arm under BACKGROUND QoS with p ∈ {4, 16}. Per workload: SEQ, PT, FP×2, FJ×2, VT×2 = 8 cells, so 24 cells. Its DEFAULT counterparts come from Experiment 1.
-  - **Runs:** 10 forks per cell gives 840 runs, interleaved in one randomised schedule. A batch is about 40 runs, with a 60 s idle baseline at the start of each batch.
+  - **Runs:** 10 forks per cell gives 930 runs (69 + 24 cells after adding p = 256), interleaved in one randomised schedule. A batch is about 40 runs, with a 60 s idle baseline at the start of each batch.
 
 - [ ] **Step 9: §4.6 Analysis procedure.**
   - **Basics:**
@@ -1643,9 +1643,9 @@ git add paper/main.tex && git commit -m "docs: A2 section 5 measurement, environ
 | 19–26 Oct | Final report | — |
 | 27–30 Oct | Replication package, presentation | — |
 
-  Total machine time ≈ 15.5 h (Mac) + ≤ 15 h (Intel) ≈ 30 h, under the 40 h guideline, leaving about 10 h for re-runs.
+  Total machine time ≈ 16.5 h (Mac) + ≤ 15 h (Intel) ≈ 32 h, under the 40 h guideline, leaving about 8 h for re-runs.
 
-  Per-run estimate: about 31 s of JMH (5×1 s + 5×5 s + JVM start), plus up to 15 s for slow cells (FP/FJ SLEEP p=1, op ≈ 3.1 s), plus a 10 s cooldown, so about 45 s on average. 840 runs × 45 s ≈ 10.5 h.
+  Per-run estimate: about 31 s of JMH (5×1 s + 5×5 s + JVM start), plus up to 15 s for slow cells (FP/FJ SLEEP p=1, op ≈ 3.1 s), plus a 10 s cooldown, so about 45 s on average. 930 runs × 45 s ≈ 11.6 h.
 
 - [ ] **Step 3: §8 Concluding remarks.** Wrap up in one paragraph: what changed since A1 (Mac primary, five constructs, hypotheses, the pitfalls found) and what A3 delivers.
 
@@ -1708,7 +1708,7 @@ This part becomes its own detailed plan after the A2 submission (scope check: it
 | B2 | `FORK_JOIN` via a `RecursiveAction` splitting the task list down to single tasks | Same tests pass; JFR shows fork/join tasks |
 | B3 | VT carrier count from the `-Djdk.virtualThreadScheduler.parallelism` system property set per run; `parallelism` parameter becomes a no-op for VT in-process | A run log shows the carrier count used |
 | B4 | Rename workload `IO` → `SLEEP`; add `SOCKET` workload + `SocketDelayServer` (NIO, 10 ms scheduled reply) | A unit test shows the round trip ≥ 10 ms |
-| B5 | Orchestrator `scripts/mac/run-experiment.py`: builds the cell list (D3–D6), seeded shuffle, quiet gate, refresher, idle baseline per batch, per-run JMH invocation (VT flag, `taskpolicy` wrapper via `-jvm`), cooldown until thermal pressure is Nominal, schedule CSV | A dry run prints 840 runs and a time estimate ≤ 11 h |
+| B5 | Orchestrator `scripts/mac/run-experiment.py`: builds the cell list (D3–D6), seeded shuffle, quiet gate, refresher, idle baseline per batch, per-run JMH invocation (VT flag, `taskpolicy` wrapper via `-jvm`), cooldown until thermal pressure is Nominal, schedule CSV | A dry run prints 930 runs and a time estimate ≤ 12 h |
 | B6 | Ancillary scripts AX2–AX7 | Each writes a JSON/CSV under `results/ancillary/` |
 | B7 | Analysis (`analysis/analyse.py`, venv with pandas, scipy, scikit-posthocs) implementing §4.6 exactly | Unit tests on synthetic data for every test function |
 | B8 | Intel arm: same orchestrator with `RaplProfiler`, `taskset` equal-count arms, power-limit logging | Go/no-go 16 Oct |

@@ -1,0 +1,105 @@
+\section{Measurement Tools, Environment, and Procedure}\label{sec:measurement}
+
+\subsection{Environment}\label{sec:meas-env}
+Following Castor's primer~\cite{castor2024primer}, Table~\ref{tab:env} lists what can affect the results; the Intel arm runs only if the laptop is repaired by 16~October. A script (\texttt{scripts/mac/}\allowbreak\texttt{env-manifest.sh}) records per batch the OS build, hardware, power settings, JDK and top processes.
+
+\begin{table*}
+\caption{Measurement environment.}
+\label{tab:env}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}p{0.11\textwidth}p{0.46\textwidth}p{0.38\textwidth}@{}}
+\toprule
+Element & Mac mini M4 (primary) & Intel Core Ultra~7 255H (conditional) \\
+\midrule
+CPU, memory & Apple M4 (\texttt{Mac16,10}): 4 P + 6 E cores; 16\,GB unified memory & 6 P + 8 E + 2 LP-E cores, no SMT; \todo{RAM size} \\
+Max.\ frequency & P 4464\,MHz, E 2892\,MHz (P mostly 3936\,MHz under all-core load) & P 5.1, E 4.4, LP-E 2.5\,GHz (Linux capacity 1024, 774, 312) \\
+OS, power & macOS 27.0 (build 26A428); AC, Low Power Mode off & CachyOS Linux; AC \\
+JDK, harness & OpenJDK 25.0.4.1 (Homebrew, LTS), JMH 1.37; shim: Apple clang 21 & same JDK and JMH \\
+JVM flags & \multicolumn{2}{p{0.84\textwidth}@{}}{\texttt{-Xms2g -Xmx2g -XX:+UseG1GC -{}-enable-native-access=ALL-UNNAMED} (both platforms)} \\
+Energy interface & IOReport ``Energy Model'' counters (C shim, FFM), refreshed at 100\,ms & RAPL via powercap (package, core, uncore, psys) \\
+Frequency control & Apple's closed-loop performance controller; not user-settable, so logged & \texttt{intel\_pstate} with HWP, turbo on \\
+Placement lever & QoS class only (no affinity API): \texttt{taskpolicy -b} confines to E cores & \texttt{taskset} pinning, equal counts (2P, 2E, 2LP-E) \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\subsection{Energy Measurement}\label{sec:meas-energy}
+\emph{Instrument.} Apple's IOReport ``Energy Model'' group provides cumulative counters from the SoC's energy model at 1\,mJ resolution. The primary metric is \texttt{CPU\_Energy}, verified to be the exact sum of the E and P clusters (ECPU + PCPU), whose split answers RQ3.2; the memory subsystem (DRAM, the AMCC memory controller, and DCS) is secondary. A C shim called via the Foreign Function \& Memory (FFM) API reads all channels in-process, without root.
+
+\emph{Synchronization and sampling rate.} A custom JMH profiler reads all counters in JMH's before-iteration and after-iteration hooks and divides each iteration's energy by the operations completed. Nothing polls inside the measured region, avoiding the C-state suppression of high-frequency polling~\cite{raffin2025dissecting}; the sampling rate is two reads per iteration. On Intel the profiler reads RAPL package, core, uncore and psys domains via powercap, correcting wraparound.
+
+\emph{Refresh.} On macOS~27 the counters advance only at a privileged sampler's ticks (Section~\ref{sec:meas-pitfalls}), so \texttt{powermetrics} runs as root at 100\,ms (10\,Hz) as a refresher, also logging residency, frequency and thermal pressure. Staleness is at most 100\,ms per boundary, or 2\% of a 5\,s window, and a canary check fails loudly if \texttt{CPU\_Energy} stalls for 0.5\,s or more.
+
+\emph{Accuracy and precision.} RAPL has been validated against physical meters~\cite{khan2018rapl}; Apple's counters are model estimates without published external validation, and H\"ubner et al.\ note that \texttt{powermetrics} values are software estimates~\cite{hubner2025apple}. Lacking a wall meter, we cross-check with AX3 (IOReport against \texttt{powermetrics} CPU power) and AX4 (load scaling; Section~\ref{sec:threats}). For within-machine comparisons precision matters most: the 2\% staleness bound is at most half the $\pm$5\% equivalence margin (Section~\ref{sec:planning}). The scope excludes the power supply, SSD, fans and network.
+
+\subsection{Procedure}\label{sec:meas-procedure}
+The 930 runs follow a seeded random order in batches of about 40, each opened by a manifest, a quiet-machine gate, refresher start and a 60\,s idle baseline. \emph{Per run:} (1)~the gate requires $\geq$95\% CPU idle over 3\,s; (2)~one JMH invocation runs one fork of a cell with \mbox{\texttt{-f 1}} \mbox{\texttt{-wi 5}} \mbox{\texttt{-w 1s}} \mbox{\texttt{-i 5}} \mbox{\texttt{-r 5s}} \mbox{\texttt{-rf json}}; VT sets its carrier count with \mbox{\texttt{-jvmArgsAppend}} \mbox{\texttt{-Djdk.}}\allowbreak\texttt{virtualThreadScheduler.}\allowbreak\mbox{\texttt{parallelism=}$p$}, and BACKGROUND runs pass a \mbox{\texttt{taskpolicy -b}} wrapper to JMH's \mbox{\texttt{-jvm}} option; (3)~a cooldown of at least 10\,s lasts until thermal pressure is ``Nominal''.
+
+\emph{Executions per trial.} A trial is one fork (a fresh JVM~\cite{georges2007rigorous}): five 1\,s warmup iterations, as both pilots reached JIT steady state early, and five 5\,s measured iterations, which keep staleness at or below 2\% and whose median is the trial's value; each cell receives 10 forks.
+
+\emph{Protocol and data.} All applications are quit, Do Not Disturb is on, Wi-Fi is off, Spotlight indexing is paused, the display sleeps, and \texttt{caffeinate} keeps the system awake. Each run yields a JMH JSON file; a schedule CSV (seed, timestamps), the \texttt{powermetrics} log, and per-batch idle baselines complete the data.
+
+\subsection{Profiling}\label{sec:meas-profiling}
+We use JFR (\texttt{profile} settings) for Java-level causes (thread starts, park and sleep, GC, hot methods), \texttt{powermetrics} (\texttt{tasks} and \texttt{cpu\_power} samplers) for OS-level wakeups and cluster residency, and, on Intel, \texttt{perf stat} for context switches, CPU migrations and cycles per core type, each in separate passes (2 forks per selected cell), never during energy runs. JFR on the pilot's SLEEP workload at $p=8$ already exposes the mechanism: VT against PT showed 19 vs.\ 189,191 OS thread starts, 1 vs.\ 54 GCs, and 686 vs.\ 2,252 allocation samples. Its \texttt{jdk.}\allowbreak\texttt{VirtualThreadStart} events are disabled by default in these settings and must be enabled explicitly.
+
+\subsection{Familiarity with the Infrastructure and Pitfalls}\label{sec:meas-pitfalls}
+Two pilots, the A1 pilot on Intel (RAPL, JDK~26.0.2, $p=8$, 2 forks $\times$ 10 $\times$ 1\,s) and a Mac feasibility pilot, exercised the pipeline end to end and exposed four pitfalls.
+
+\begin{figure}
+\begin{tikzpicture}
+\begin{axis}[width=\columnwidth, height=3.6cm, xlabel={Measured iteration (1\,s)},
+  ylabel={Package energy (J)}, ymin=0, xtick={1,...,10},
+  legend style={font=\scriptsize, at={(0.98,0.97)}, anchor=north east},
+  tick label style={font=\scriptsize}, label style={font=\scriptsize}]
+\addplot+[mark=*] coordinates {(1,62.0)(2,62.8)(3,62.5)(4,57.7)(5,63.1)(6,54.2)(7,35.8)(8,25.4)(9,25.0)(10,24.9)};
+\addplot+[mark=square*] coordinates {(1,25.3)(2,27.6)(3,25.0)(4,25.1)(5,26.1)(6,25.0)(7,24.9)(8,25.8)(9,25.8)(10,26.5)};
+\legend{Fork 1, Fork 2}
+\end{axis}
+\end{tikzpicture}
+\caption{Intel pilot, platform threads on the CPU-bound workload: package energy per 1\,s iteration falls from about 62\,J to 25\,J within fork~1 while time per operation rises from 89 to 128\,ms, and fork~2 starts in the low regime. Identical treatment, different power state.}
+\label{fig:regime}
+\end{figure}
+
+\emph{(1) Power-regime shift (Intel).} Under an identical treatment, package power dropped mid-fork (Figure~\ref{fig:regime}), and VT drew about 41\,W in fork~1 but 25\,W in fork~2, consistent with an unconfirmed PL2 to PL1 transition. JMH's fixed cell order confounded run order with power state, so our A1 CPU-bound figures (3.38 vs.\ 5.13\,J/op) averaged over both regimes. \emph{Response:} randomized fork order, cooldown, thermal and power-limit logging, and AX7. On the M4, thermal pressure stayed ``Nominal'' in all 8094 pilot samples.
+
+\emph{(2) Frozen and stale counters (macOS~27).} Counters update only at sampler ticks (Table~\ref{tab:refresh}): a 1\,s burn read without proper refresh gave 1100\,mJ, the \emph{prior} sample (1077\,mW $\times$ 1.01\,s), not the burn (8149\,mW). \emph{Response:} 100\,ms refresh, 5\,s windows, canary check.
+
+\begin{table}
+\caption{AX1: IOReport refresh vs.\ \texttt{powermetrics} interval.}
+\label{tab:refresh}
+\footnotesize
+\begin{tabular}{@{}lrrrrr@{}}
+\toprule
+Interval (ms) & off & 1000 & 250 & 100 & 50 \\
+\midrule
+Updates in 6\,s & 0 & 13 & 47 & 111 & 208 \\
+Max.\ gap (ms) & n/a & 1005.6 & 256.8 & 106.0 & 55.9 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\emph{(3) Sleep overshoot (macOS).} A bounded pool's time/op has an analytic floor of $\lceil 256/p \rceil \times d$ ($d$: per-task wait), 320\,ms nominally for FP/SLEEP at $p=8$, yet the quiet Mac took 458.6\,ms (about 14.3\,ms per sleep wave) and a busy machine the same day 387\,ms (about 12.1\,ms): sleep latency depends on system activity, plausibly through timer coalescing. The floor also makes VT's time advantage on blocking work at $p<256$ expected by construction; the design therefore compares VT with PT (equal concurrency) and with pools sized to the task count, and reports FP and FJ relative to the floor (Section~\ref{sec:planning}). \emph{Response:} AX5 calibrates $d$, measured rather than nominal latency is reported, and SOCKET adds real I/O.
+
+\emph{(4) Background load.} Idle CPU power was 0.020\,W on the quiet machine against 0.184\,W with everyday applications open (about 9$\times$). \emph{Response:} the quiet-machine protocol and gate.
+
+\begin{table}
+\caption{Mac pilot, feasibility only, not results ($p=8$, 3 forks $\times$ 5 $\times$ 5\,s, default QoS): \texttt{CPU\_Energy}, medians of per-fork medians; CV of per-fork J/op.}
+\label{tab:pilot}
+\footnotesize
+\setlength{\tabcolsep}{2.5pt}
+\begin{tabular}{@{}lrrrrrrrr@{}}
+\toprule
+ & \multicolumn{4}{c}{CPU} & \multicolumn{4}{c}{SLEEP} \\
+\cmidrule(lr){2-5}\cmidrule(l){6-9}
+ & ms/op & J/op & W & CV & ms/op & J/op & W & CV \\
+\midrule
+PT & 156.8 & 1.771 & 11.27 & 0.6\% & 16.61 & 0.0251 & 1.53 & 4.8\% \\
+FP & 182.2 & 1.987 & 10.88 & 0.9\% & 458.6 & 0.0174 & 0.052 & 48.6\% \\
+FJ & 182.2 & 1.974 & 10.84 & 0.7\% & 397.5 & 0.0080 & 0.057 & 116\% \\
+VT & 154.8 & 1.767 & 11.40 & 0.9\% & 12.61 & 0.00035 & 0.027 & 2.1\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\emph{Mac pilot.} In Table~\ref{tab:pilot}, CPU-bound cells are highly repeatable (CV 0.6 to 0.9\%). Under SLEEP, CPU energy is at the noise floor (0.12 to 0.7\,J per 5\,s window for FP, FJ and VT; idle-subtracted J/op of FJ and VT slightly negative, that is, within idle noise), so blocking workloads also report memory-subsystem and SoC energy with bootstrap confidence intervals, and values whose interval includes zero as below the detection limit. The refresher's overhead is at most 13\,mW (preliminary AX2), comparable to sleep-bound CPU power but constant across treatments. The pilot supports no conclusion about which construct is greener: its FJ implementation, single $p$ and three forks differ from the experiment.

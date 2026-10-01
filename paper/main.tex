@@ -1,5 +1,12 @@
 \documentclass[sigconf,nonacm]{acmart}
 \emergencystretch=1.2em
+\usepackage{pifont}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\newcommand{\yes}{\ding{51}}
+% Text new or changed since Assignment 1 (required in Context and Related Work).
+\newcommand{\changed}[1]{\textcolor{blue}{#1}}
+\newcommand{\todo}[1]{\textcolor{red}{\textbf{[#1]}}}
 
 \begin{document}
 
@@ -13,11 +20,11 @@
 \affiliation{\institution{University of Twente}\city{Enschede}\country{The Netherlands}}
 \email{v.z.zapryanov@student.utwente.nl}
 
-% TODO: fill in the real contribution split before submission.
-\thanks{Author contributions: to be completed before submission (required by the assignment brief).}
+% Authors: replace the \todo with the real contribution split before submission.
+\thanks{Author contributions: \todo{to be written by the authors before submission}. Text added or changed since Assignment~1 in Sections~\ref{sec:context}--\ref{sec:related} is shown in \changed{blue}.}
 
 \begin{abstract}
-The last systematic measurement of the energy consumed by Java's thread management constructs dates from 2014, before two major shifts: virtual threads (JEP~444, finalized in JDK~21) and hybrid processors that mix performance, efficiency, and low-power cores whose asymmetry the JVM scheduler cannot see. No published study measures the energy of virtual threads against platform threads, fixed thread pools, and Fork/Join on JDK~21+, and none on a processor with heterogeneous core types. We propose a comparative experiment, structured by the Goal-Question-Metric approach, that measures four concurrency constructs across two workload classes (CPU-bound and I/O-bound) and controlled core placements (P, E, LP-E) on a three-tier hybrid CPU (Intel Core Ultra~7 255H), using RAPL energy counters read only at benchmark-iteration boundaries, with a cross-ISA arm on Apple~M4. A pilot exercises the full pipeline, showing a 27$\times$ package-energy difference between virtual threads and a fixed pool on an I/O-bound workload. That gap is expected by construction from the pool's worker cap, achieved at higher average power over a far shorter runtime; the pipeline resolves such known effects cleanly. The study aims to deliver workload-specific guidance on construct choice and core placement for the large deployed base of server-side Java.
+The last systematic measurement of the energy consumed by Java's thread management constructs dates from 2014, before virtual threads (JDK~21) and before hybrid processors whose core asymmetry the JVM scheduler cannot see. No published study compares the energy of virtual threads with that of platform threads, fixed thread pools, and Fork/Join on JDK~21+, and none does so on heterogeneous cores. This experiment plan compares five constructs, including a sequential baseline, at up to seven concurrency levels (up to the task count) under three workloads (CPU-bound, blocking sleep, and loopback socket I/O), and adds an arm that confines execution to efficiency cores through quality-of-service classes. The primary platform is an Apple~M4 with performance and efficiency cores, measured with IOReport energy counters read only at JMH iteration boundaries; a three-tier Intel arm is conditional. Pilots exposed two instrument pitfalls that the design addresses: a power-regime shift within a single Intel run, and macOS counters that stay frozen unless \texttt{powermetrics} refreshes them, an error we bound to at most 2\% of a measurement window. The analysis is non-parametric with equivalence testing, and the experiment needs under 40\,h of machine time.
 \end{abstract}
 
 \maketitle
@@ -25,17 +32,17 @@ The last systematic measurement of the energy consumed by Java's thread manageme
 \section{Introduction}\label{sec:intro}
 How a Java program manages its threads shapes how much energy it consumes, yet the standard reference on the energy behavior of Java's thread management constructs is more than a decade old. Pinto, Castor, and Liu measured explicit threads, fixed-size thread pools, and work stealing (Fork/Join) on JDK~1.7, on two homogeneous AMD machines, with external current meters; for six of their nine benchmarks the \emph{sequential} version consumed the least energy, and they concluded that ``being faster clearly has little correlation with being greener''~\cite{pinto2014energy}.
 
-Two developments since then limit the validity of extrapolating from that baseline. First, JDK~21 (September 2023) finalized \emph{virtual threads}~\cite{jep444}: an M:N model that multiplexes a large number of lightweight virtual threads over a small carrier \texttt{ForkJoinPool}, unmounting a virtual thread from its carrier whenever it blocks so the carrier can run other work. This changes the energy question qualitatively: where the 2014 constructs traded off thread-creation cost against pool sizing, virtual threads decouple the number of logical threads from the number of OS threads keeping cores busy, so the relationship between concurrency level and active-core power must be re-measured rather than inferred. Second, mainstream CPUs became \emph{hybrid}: Intel has shipped performance/efficiency (P/E) core mixes since 2021, and current parts add a third, low-power-efficiency (LP-E) tier. The carrier pool's work-stealing scheduler treats all carriers as equivalent, but the same unit of work costs different amounts of energy on a P-core than on an LP-E core. The energy cost of this scheduling blindness has not been measured.
+Two developments since then limit extrapolation from that baseline. First, JDK~21 finalized \emph{virtual threads}~\cite{jep444}, which multiplex many lightweight threads over a small carrier \texttt{ForkJoinPool} and unmount a thread from its carrier whenever it blocks, decoupling logical threads from the OS threads that keep cores busy. Second, mainstream CPUs became \emph{hybrid}: Intel mixes performance and efficiency (P/E) cores, recently with a third low-power tier, and Apple's M-series processors also combine P and E cores. The carrier scheduler treats all carriers as equivalent, although the same work costs different energy on a P core than on an E core; the energy cost of this blindness has not been measured.
 
-\textbf{No published study measures the energy consumption of JEP~444 virtual threads against platform threads, fixed thread pools, and Fork/Join on JDK~21+, and none on a hybrid processor with heterogeneous core types.} Three observations support this gap. (a)~The 2014 baseline~\cite{pinto2014energy} predates both Project Loom and hybrid cores. (b)~The closest hybrid-core JVM energy work~\cite{shimchenko2024scheduling} varies only the placement of garbage-collection worker threads and touches no application-level concurrency construct. (c)~The only paper attributing energy effects to virtual threads~\cite{shanjaikumar2026virtualthreads} compares just two arms on a microcontroller and reports a software stack (OpenJDK~21 with ZGC on an STM32F407VG with 192\,KB of SRAM) that cannot run as described, since ZGC requires a 64-bit address space; we read it as evidence that the construct-level comparison remains effectively unmeasured.
+\textbf{No published study measures the energy consumption of JEP~444 virtual threads against platform threads, fixed thread pools, and Fork/Join on JDK~21+, and none on a hybrid processor with heterogeneous core types.} Three observations support this gap. (a)~The 2014 baseline~\cite{pinto2014energy} predates both Project Loom and hybrid cores. (b)~The closest hybrid-core JVM energy work~\cite{shimchenko2024scheduling} varies only the placement of garbage-collection worker threads and touches no application-level concurrency construct. (c)~The two energy studies of virtual threads we found fall short of a construct-level comparison: one switches virtual threads on or off in a single web application~\cite{stocker2026energyupgrades}, and the other compares only two arms on a microcontroller with a stack (OpenJDK~21 with ZGC) that cannot run as described, since ZGC requires a 64-bit address space~\cite{shanjaikumar2026virtualthreads}.
 
-The study also addresses an unresolved question: whether reductions in execution time translate into reductions in energy consumption. Pinto et al.\ answered no~\cite{pinto2014energy}; van Kempen et al.\ recently answered yes at the language level, finding power statistically constant once active cores and memory activity are controlled, while explicitly flagging architectures mixing energy-saving and high-performance cores as a case where their results may differ~\cite{vankempen2025green}; racing-to-idle can cost several times the optimal energy~\cite{kim2015racing}; and a compiler-flag study found faster \emph{and} substantially more energy-hungry code~\cite{aragonjurado2025faster}. We examine this question on the hardware class where the strongest affirmative result itself cautions that its conclusions may not hold.
+The study also asks whether shorter execution time means lower energy: Pinto et al.\ answered no~\cite{pinto2014energy}, while van Kempen et al.\ answered yes at the language level but flagged hybrid-core architectures as a case where this may not hold~\cite{vankempen2025green}.
 
-The remainder of this proposal presents the technical and societal context (Section~\ref{sec:context}), positions the study against related work (Section~\ref{sec:related}), states the research design as a GQM tree with pilot feasibility evidence (Section~\ref{sec:method}), and outlines next steps (Section~\ref{sec:conclusion}).
+This report refines our proposal into an experiment plan. The primary platform is an Apple~M4, with the three-tier Intel platform of the proposal as a conditional second arm. The plan adds a sequential baseline, controls the concurrency level of every pooled construct (including the carrier count of virtual threads), adds a loopback socket workload, and confines execution to efficiency cores through quality-of-service classes. Sections~\ref{sec:context} and~\ref{sec:related} give the context and related work, Section~\ref{sec:planning} plans the experiment~\cite{jedlitschka2008reporting}, Section~\ref{sec:measurement} describes the measurement tools, environment, and procedure~\cite{castor2024primer}, and Sections~\ref{sec:threats} to~\ref{sec:conclusion} cover threats to validity, the schedule, and concluding remarks.
 
 \section{Context}\label{sec:context}
 \subsection{Technical Context}\label{sec:technical}
-\emph{Constructs.} We compare four thread management constructs on JDK~21+: (i)~platform threads created per task; (ii)~fixed-size thread pools (\texttt{newFixedThreadPool}); (iii)~Fork/Join work stealing; and (iv)~virtual threads (thread-per-task over a carrier pool)~\cite{jep444}. The first three are the constructs of the 2014 baseline~\cite{pinto2014energy}; the fourth did not exist then. Figure~\ref{fig:constructs} contrasts two of them: the call sites are identical while the underlying thread management differs fundamentally, which enables a controlled energy comparison. The constructs differ in the properties that plausibly drive energy: how many OS threads exist (per-task creation can oversubscribe the machine, a fixed pool caps it), how work is distributed (central queue versus per-worker deques with stealing), and what happens on blocking (a parked platform thread remains an OS-scheduled thread; a blocked virtual thread unmounts, freeing its carrier).
+\emph{Constructs.} We compare \changed{five} thread management constructs on \changed{JDK~25, the current long-term-support release}: \changed{(i)~sequential execution in the caller thread;} (ii)~platform threads created per task; (iii)~fixed-size thread pools (\texttt{newFixedThreadPool}); (iv)~Fork/Join work stealing; and (v)~virtual threads (thread-per-task over a carrier pool)~\cite{jep444}. \changed{Constructs (ii) to (iv) are those} of the 2014 baseline\changed{, which used sequential execution as its reference}~\cite{pinto2014energy}; the \changed{fifth} did not exist then. Figure~\ref{fig:constructs} contrasts two of them. The constructs differ in the properties that plausibly drive energy: how many OS threads exist (per-task creation can oversubscribe the machine, a fixed pool caps it), how work is distributed (central queue versus per-worker deques with stealing), and what happens on blocking (a parked platform thread remains an OS-scheduled thread; a blocked virtual thread unmounts, freeing its carrier). \changed{The concurrency level is the worker count of the fixed pool and of Fork/Join and the carrier count of virtual threads; sequential execution and per-task platform threads have none.}
 
 \begin{figure}
 \begin{verbatim}
@@ -50,27 +57,31 @@ try (var pool = Executors
     pool.invokeAll(tasks);
 }
 \end{verbatim}
-\caption{Two of the four compared constructs. Identical call sites with fundamentally different thread management: the fixed pool caps concurrency at eight OS threads, whereas the virtual-thread executor assigns each task its own lightweight thread.}
+\caption{Two of the \protect\changed{five} compared constructs. Identical call sites with fundamentally different thread management: the fixed pool caps concurrency at eight OS threads, whereas the virtual-thread executor assigns each task its own lightweight thread.}
 \label{fig:constructs}
 \end{figure}
 
-\emph{Platform.} The primary platform is an Intel Core Ultra~7 255H, a hybrid CPU with \emph{three} core tiers and no SMT: 6 P-cores (up to 5.1\,GHz, Linux capacity 1024), 8 E-cores (4.4\,GHz, 774), and 2 LP-E cores (2.5\,GHz, 312). The capacity values are the OS scheduler's own estimate of relative per-core throughput; the spread from 312 to 1024 quantifies how asymmetric the machine is that the JVM treats as uniform. A secondary platform, Apple~M4 (P/E cores, measured with \texttt{powermetrics}), provides a cross-ISA arm to check whether findings are Intel-specific.
+\emph{Platform.} \changed{The primary platform is an Apple Mac mini~M4 with 16\,GB of unified memory under macOS~27. Its 10 cores form two clusters: 4 performance (P) cores reaching 4.46\,GHz and 6 efficiency (E) cores reaching 2.89\,GHz. macOS offers no CPU-affinity API; the only placement lever visible to developers is the quality-of-service class, and the background class (\texttt{taskpolicy -b}) confines a process to the E cores. The conditional second arm keeps the platform of our proposal,} an Intel Core Ultra~7 255H, a hybrid CPU with \emph{three} core tiers and no SMT: 6 P-cores (up to 5.1\,GHz, Linux capacity 1024), 8 E-cores (4.4\,GHz, 774), and 2 LP-E cores (2.5\,GHz, 312). The capacity values are the OS scheduler's own estimate of relative per-core throughput; the spread from 312 to 1024 quantifies how asymmetric the machine is that the JVM treats as uniform. \changed{Unlike macOS, Linux lets placement be fixed per core with \texttt{taskset}.}
 
-\emph{Measurement.} Energy is read from the RAPL counters exposed via the Linux powercap interface, at four domains: package (the whole CPU die), core (the cores alone), uncore, and psys (platform scope where available). Reporting per domain lets us separate effects on the cores from effects on shared structures. The measurement itself can perturb the system: high-frequency RAPL polling suppresses C-states and can inflate idle power by tens of watts at kilohertz rates~\cite{raffin2025dissecting}. Our profiler therefore reads counters \emph{only at benchmark-iteration boundaries}, adding no periodic wake-ups during the measured region.
+\emph{Measurement.} \changed{On the Mac, energy is read from Apple's IOReport energy-model counters: cumulative estimates maintained by the SoC at 1\,mJ resolution for the CPU clusters (with per-core detail), the memory subsystem (DRAM and memory controller), the GPU, and other SoC blocks. They are model estimates, not meter readings. On Intel,} energy is read from the RAPL counters exposed via the Linux powercap interface, at four domains: package, core, uncore, and psys. Reporting per \changed{channel or} domain lets us separate effects on the cores from effects on shared structures. The measurement itself can perturb the system: high-frequency RAPL polling suppresses C-states and can inflate idle power by tens of watts at kilohertz rates~\cite{raffin2025dissecting}. Our profiler therefore reads counters \emph{only at benchmark-iteration boundaries}\changed{, through one code path on both platforms}, adding no periodic wake-ups during the measured region. \changed{On macOS~27, however, the CPU counters advance only while \texttt{powermetrics} refreshes them; Section~\ref{sec:measurement} shows how a 100\,ms refresh bounds the resulting error to at most 2\% of a measurement window.}
 
 \subsection{Societal Context and Sustainability}\label{sec:societal}
-We frame impact with the five-dimension sustainability model of the Karlskrona Manifesto~\cite{becker2015karlskrona}. \emph{Environmental:} data centres consumed an estimated 415\,TWh (about 1.5\% of global electricity) in 2024, a figure projected to roughly double by 2030~\cite{iea2025energyai}; Java is one of the dominant server-side languages in that fleet, so per-operation energy differences multiply across long-running services. \emph{Economic:} energy is a first-order datacenter cost, and battery life a product constraint on laptops and mobile devices; both now ship hybrid CPUs. \emph{Technical:} virtual threads improve maintainability by letting simple blocking code replace complex asynchronous code. \emph{Individual:} the same shift lowers developer cognitive load, since blocking code is easier to write, read, and debug than callback- or future-based code. \emph{Social:} the guidance serves Java's developer community, which currently must choose among these constructs without energy data.
+We frame impact with the five-dimension sustainability model of the Karlskrona Manifesto~\cite{becker2015karlskrona}. \emph{Environmental:} data centers consumed an estimated 415\,TWh (about 1.5\% of global electricity) in 2024, a figure projected to roughly double by 2030~\cite{iea2025energyai}; Java is one of the dominant server-side languages in that fleet, so per-operation energy differences multiply across long-running services. \emph{Economic:} energy is a first-order datacenter cost, and battery life a product constraint on laptops and mobile devices; both now ship hybrid CPUs. \emph{Technical:} virtual threads improve maintainability by letting simple blocking code replace complex asynchronous code. \emph{Individual:} the same shift lowers developer cognitive load, since blocking code is easier to write, read, and debug than callback- or future-based code. \emph{Social:} the guidance serves Java's developer community, which currently must choose among these constructs without energy data.
 
-These dimensions are in \emph{tension}, and we name one explicitly: virtual threads improve technical and individual sustainability (a simple blocking style), but may \emph{harm} environmental sustainability if near-free threads encourage over-parallelism that raises active-core counts and package power. Whether that trade-off is real is what the study quantifies; the pilot (Section~\ref{sec:feasibility}) already shows the interaction at work, with the lowest-energy construct drawing higher average power over a shorter runtime.
+These dimensions are in \emph{tension}, and we name one explicitly: virtual threads improve technical and individual sustainability (a simple blocking style), but may \emph{harm} environmental sustainability if near-free threads encourage over-parallelism that raises active-core counts and package power. Whether that trade-off is real is what the study quantifies\changed{, through the energy of virtual threads across concurrency levels and its relation to execution time (Section~\ref{sec:planning})}.
 
 \section{Related Work}\label{sec:related}
-We position the proposal against eight studies; Table~\ref{tab:related} summarizes the coverage gap.
+We position \changed{this study} against \changed{eleven} studies; Table~\ref{tab:related} summarizes the coverage gap.
 
-\emph{Pinto et al.}~\cite{pinto2014energy} is our baseline: three constructs on JDK~1.7, measured with external NI data-acquisition current meters at 100 samples/s on two homogeneous AMD machines (primarily a 2$\times$16-core Opteron~6378) under the \texttt{ondemand} governor. They attribute the rising energy segment at low-to-mid thread counts, before the peak of the $\Lambda$ curve, to idle-core DVFS behavior under \texttt{ondemand}. \emph{Limitation:} JDK~7 on homogeneous hardware, no on-chip (RAPL) measurement, and results confounded with a governor long since replaced.
+\emph{Pinto et al.}~\cite{pinto2014energy} is our baseline: three constructs on JDK~1.7, measured with external NI data-acquisition current meters at 100 samples/s on two homogeneous AMD machines under the \texttt{ondemand} governor. They attribute the rising energy segment at low-to-mid thread counts, before the peak of the $\Lambda$ curve, to idle-core DVFS behavior under \texttt{ondemand}. \emph{Limitation:} JDK~7 on homogeneous hardware, no on-chip (RAPL) measurement, and results confounded with a governor long since replaced.
 
 \emph{Shimchenko et al.}~\cite{shimchenko2024scheduling} is the closest hybrid-core JVM energy study and our methodological template for P/E-core work: pinning ZGC worker threads to E-cores on Alder Lake saved about 3\% energy, measured with RAPL. \emph{Limitation:} it varies only runtime (GC) threads, not application-level concurrency constructs.
 
-\emph{Shanjai Kumar et al.}~\cite{shanjaikumar2026virtualthreads} is the only paper attributing energy differences to virtual threads. \emph{Limitation:} it compares only two arms, on a microcontroller, and reports a stack (OpenJDK~21 with ZGC on 192\,KB of SRAM) that cannot run as described, leaving the construct-level comparison effectively unvalidated.
+\emph{Shanjai Kumar et al.}~\cite{shanjaikumar2026virtualthreads} \changed{attribute} energy differences to virtual threads \changed{on a battery-powered IoT device}. \emph{Limitation:} it compares only two arms, on a microcontroller, and reports a stack (OpenJDK~21 with ZGC on 192\,KB of SRAM) that cannot run as described, leaving the construct-level comparison effectively unvalidated.
+
+\changed{\emph{Stocker and Wahler}~\cite{stocker2026energyupgrades} benchmark a Spring PetClinic REST service on Xeon, Ryzen, and Apple~M1 machines and find that newer JVMs and enabling virtual threads (Java~21 and~23) save substantial energy without code changes. \emph{Limitation:} a single I/O-bound CRUD workload, per-process software energy estimates (JoularJX), virtual threads switched on or off rather than compared with thread pools or Fork/Join, no control of core placement on the hybrid M1, and JDK~21/23 only.}
+
+\changed{\emph{Siroti{\'c} et al.}~\cite{sirotic2025virtual} compare Java~21 virtual threads with an executor over platform threads, Fork/Join, and parallel streams on a CPU-bound prime-counting task, and find virtual threads slightly slower than the platform-thread executor. \emph{Limitation:} runtime only with no energy measurement, a single toy workload, and no hybrid cores.}
 
 \emph{van Kempen et al.}~\cite{vankempen2025green} show that across 13 language implementations, power was statistically constant ($\approx$189.8\,W) once active cores and memory activity were controlled, so energy tracks time. \emph{Limitation:} a homogeneous Xeon with CLBG, SPEC CPU 2017, and DaCapo benchmarks, and the authors explicitly flag ``architectures mixing energy-saving and high-performance cores'' (our platform) as a case where their results may differ.
 
@@ -82,10 +93,12 @@ We position the proposal against eight studies; Table~\ref{tab:related} summariz
 
 \emph{Raffin and Trystram}~\cite{raffin2025dissecting} dissect software energy measurement and show that high-frequency RAPL polling suppresses C-states, inflating idle power by tens of watts at 1\,kHz. \emph{Limitation:} pure measurement methodology; it motivates our boundary-only read design but answers no concurrency question.
 
-\emph{Novelty.} No prior study combines construct-level comparison, virtual threads, JDK~21+, and heterogeneous cores (Table~\ref{tab:related}); the proposed study addresses precisely that combination.
+\changed{\emph{H{\"u}bner et al.}~\cite{hubner2025apple} characterize the performance and power of the Apple M1 to M4 SoCs on HPC kernels, reading power with \texttt{powermetrics}; it is the closest precedent for energy measurement on our primary platform. \emph{Limitation:} HPC kernels rather than Java or concurrency constructs, and \texttt{powermetrics} is never validated against an external meter; the authors state that its values are software estimates.}
+
+\emph{Novelty.} No prior study combines construct-level comparison, virtual threads, JDK~21+, \changed{energy measurement,} and heterogeneous cores (Table~\ref{tab:related})\changed{; Stocker and Wahler~\cite{stocker2026energyupgrades} come closest, but they switch virtual threads on or off in one web application and do not control core placement}. The \changed{planned} study addresses precisely that combination.
 
 \begin{table}
-\caption{Related work vs.\ the dimensions of this proposal.}
+\caption{Related work vs.\ the dimensions of this \protect\changed{study}. \protect\changed{(partial): the dimension is covered only in part (see text).}}
 \label{tab:related}
 \small
 \setlength{\tabcolsep}{3pt}
@@ -93,64 +106,26 @@ We position the proposal against eight studies; Table~\ref{tab:related} summariz
 \toprule
 Study & Constructs & Hybrid & Energy & JDK$\geq$21 \\
 \midrule
-Pinto et al.~\cite{pinto2014energy} & \checkmark & & \checkmark & \\
-Shimchenko et al.~\cite{shimchenko2024scheduling} & & \checkmark & \checkmark & \\
-Shanjai K.\ et al.~\cite{shanjaikumar2026virtualthreads} & (partial) & & \checkmark & \checkmark \\
-van Kempen et al.~\cite{vankempen2025green} & & & \checkmark & \\
-Pereira et al.~\cite{pereira2017energy} & & & \checkmark & \\
-Kim et al.~\cite{kim2015racing} & & & \checkmark & \\
-Arag{\'o}n-J.\ et al.~\cite{aragonjurado2025faster} & & & \checkmark & \\
-Raffin \& Trystram~\cite{raffin2025dissecting} & & & \checkmark & \\
+Pinto et al.~\cite{pinto2014energy} & \yes & & \yes & \\
+Shimchenko et al.~\cite{shimchenko2024scheduling} & & \yes & \yes & \\
+Shanjai K.\ et al.~\cite{shanjaikumar2026virtualthreads} & (partial) & & \yes & \yes \\
+\changed{Stocker \& Wahler~\cite{stocker2026energyupgrades}} & \changed{(partial)} & \changed{(partial)} & \changed{\yes} & \changed{\yes} \\
+\changed{Siroti{\'c} et al.~\cite{sirotic2025virtual}} & \changed{\yes} & & & \changed{\yes} \\
+van Kempen et al.~\cite{vankempen2025green} & & & \yes & \\
+Pereira et al.~\cite{pereira2017energy} & & & \yes & \\
+Kim et al.~\cite{kim2015racing} & & & \yes & \\
+Arag{\'o}n-J.\ et al.~\cite{aragonjurado2025faster} & & & \yes & \\
+Raffin \& Trystram~\cite{raffin2025dissecting} & & & \yes & \\
+\changed{H{\"u}bner et al.~\cite{hubner2025apple}} & & \changed{(partial)} & \changed{\yes} & \\
 \midrule
-\textbf{This proposal} & \checkmark & \checkmark & \checkmark & \checkmark \\
+\textbf{This \changed{study}} & \yes & \yes & \yes & \yes \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\section{Methodology}\label{sec:method}
-The study is a controlled comparative experiment: four constructs $\times$ two workload classes (CPU-bound and I/O-bound) $\times$ a sweep of concurrency levels, run unpinned and under fixed core placements (P, E, LP-E) on the three-tier hybrid CPU described in Section~\ref{sec:context}, with energy read from RAPL at iteration boundaries and a cross-ISA arm on Apple~M4. We structure the design with the Goal-Question-Metric approach.
-
-\subsection{Goal-Question-Metric}\label{sec:gqm}
-We state the general goal in the Basili template~\cite{basili1994gqm}:
-
-\begin{quote}
-\textbf{Analyze} Java thread management constructs (platform threads, fixed thread pools, Fork/Join, and virtual threads) \textbf{for the purpose of} characterizing \textbf{with respect to} their energy consumption and its relationship to execution time \textbf{from the point of view of} Java developers \textbf{in the context of} hybrid processors combining performance, efficiency, and low-power-efficiency cores.
-\end{quote}
-
-\noindent Three specific goals refine it.
-
-\emph{G1: Re-establish the baseline.} Does the 2014 ``Lambda curve'' (energy as a function of concurrency level) persist under modern \texttt{intel\_pstate}/HWP frequency governance on hybrid cores? Pinto et al.\ attributed part of the curve's rising segment to how the then-current \texttt{ondemand} governor scaled idle cores~\cite{pinto2014energy}; hardware-managed P-states may have changed the shape entirely.
-\begin{itemize}
-\item[Q1.1] What is the shape of energy consumption versus concurrency level for each construct?
-\item[Q1.2] Is sequential execution still the lowest-energy option for most workloads?
-\end{itemize}
-
-\emph{G2: Position virtual threads.} Where do virtual threads sit in the energy landscape relative to classical constructs?
-\begin{itemize}
-\item[Q2.1] How does virtual-thread energy consumption compare per workload class (CPU-bound vs.\ I/O-bound)?
-\item[Q2.2] At what concurrency level, if any, do virtual threads become the lowest-energy construct?
-\end{itemize}
-
-\emph{G3: Scheduler asymmetry blindness.} Does the OS/JVM scheduler's unawareness of core asymmetry cost energy? Pinning GC threads alone to E-cores has been shown to save energy~\cite{shimchenko2024scheduling}; G3 asks the corresponding question for application threads on a three-tier processor.
-\begin{itemize}
-\item[Q3.1] Does pinning execution to P, E, or LP-E cores significantly change energy per unit of work?
-\item[Q3.2] How much energy does the asymmetry-unaware scheduler forgo compared with the best fixed core placement?
-\end{itemize}
-
-\emph{Preliminary metrics} (to be refined in Assignment~2), mapped to the goals. G1: package, core, uncore, and psys energy (J); execution time (s); energy per operation (J/op); and energy-delay product. G2: J/op per strategy~$\times$ parallelism~$\times$ workload combination; throughput (ops/s); and Cliff's delta effect size against the fixed-pool baseline. G3: J/op per core class (P/E/LP-E); time-to-completion penalty (\%); and energy saving of the best fixed placement versus unpinned scheduling (\%).
-
-\subsection{Feasibility}\label{sec:feasibility}
-A pilot implements the full pipeline: JMH benchmarks with a custom RAPL profiler that reads counters only at iteration boundaries (avoiding the C-state suppression of high-frequency polling~\cite{raffin2025dissecting}); parallelism~8, unpinned, 2 forks $\times$ 10 measured iterations, 256 tasks per operation; the I/O-bound workload is 10\,ms sleeps and the CPU-bound workload a Mandelbrot computation.
-
-On the I/O-bound workload, virtual threads completed an operation in 10.3\,ms using 0.144\,J of package energy, against 323.5\,ms and 3.86\,J/op for the fixed pool: a 27$\times$ energy reduction, achieved at \emph{higher} average power (14.0\,W vs.\ 11.9\,W) but far shorter runtime. That gap is expected by construction: pushing 256 fully blocking 10\,ms sleeps through 8 workers must take at least $256/8 \times 10\,\mathrm{ms} = 320$\,ms, while virtual threads overlap all 256 sleeps. The agreement between this arithmetic floor and the observed 323.5\,ms is itself a validity check on the pipeline; the pilot's contribution is to demonstrate that the measurement resolves this known effect cleanly rather than to report a new phenomenon. On the CPU-bound workload, virtual threads used 3.38\,J/op against the fixed pool's 5.13\,J/op; however, the pool arms were capped at 8 workers while the thread-per-task arms could span all 16 cores, so this gap partly reflects core count, an asymmetry the full design will control. The pilot thus demonstrates the pipeline end to end and already exhibits the race-to-idle dynamic (faster at higher power, winning on energy) that the study will characterize systematically.
-
-\subsection{Expected Results and Impact}
-We expect three kinds of outcome. First, \emph{actionable guidance} for practitioners: which construct to choose per workload class, and possibly a carrier-pinning recommendation: if pinning GC threads alone is worth about 3\%~\cite{shimchenko2024scheduling}, placing all application carriers may be worth more, though we make no prediction of the sign. Second, a \emph{replication-style update} of the 2014 baseline~\cite{pinto2014energy} on hardware and JDKs a decade newer. Third, evidence on whether execution-time reductions translate into energy reductions, gathered on the hardware class where the strongest affirmative result itself cautions that its conclusions may not hold~\cite{vankempen2025green}. Every outcome is informative: confirmation of the 2014 findings, a null result bounded by equivalence tests, and a reversal all answer the research questions.
-
-\section{Concluding Remarks}\label{sec:conclusion}
-This proposal identifies a concrete, falsifiable gap (no construct-level energy measurement of virtual threads on JDK~21+, and none on heterogeneous cores) and a GQM-structured experiment to close it, with a working pilot as feasibility evidence. The pilot's headline 27$\times$ difference is expected by construction (Section~\ref{sec:feasibility}); the full design will separate such known effects from genuine construct differences.
-
-Next steps. \emph{Assignment~2} delivers the full experimental design: the complete variable set, including core-pinning arms (P, E, and LP-E cores via \texttt{taskset}) and control of the carrier count through the \texttt{jdk.virtualThreadScheduler.}\allowbreak\texttt{parallelism} property; a real-socket I/O workload replacing the pilot's sleeps; idle-baseline subtraction; and a statistical plan built on non-parametric tests with equivalence testing for null results. \emph{Assignment~3} executes the experiment, including the Apple~M4 arm, analyzes the results, and publishes a replication package.
+\input{sec-planning}
+\input{sec-measurement}
+\input{sec-threats}
 
 \bibliographystyle{ACM-Reference-Format}
 \bibliography{refs}

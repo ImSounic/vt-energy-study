@@ -171,10 +171,19 @@ Settings: parallelism 8, unpinned, 2 forks × 10 × 1 s.
   - FP (`Executors.newFixedThreadPool(p)`).
   - FJ: a `ForkJoinPool(p)` with **recursive divide-and-conquer splitting** of the task list (new, replaces the flat `invokeAll` used in the pilot).
   - VT (`newVirtualThreadPerTaskExecutor`, one virtual thread per task).
-- **D4 Concurrency level p ∈ {1, 2, 4, 8, 16, 64}:**
+- **D4 Concurrency level p ∈ {1, 2, 4, 8, 16, 64, 256}:**
   - It means the pool size for FP, the parallelism for FJ, and the **carrier count for VT** (set per JVM run with `-Djdk.virtualThreadScheduler.parallelism=p`).
   - SEQ and PT have no p (one cell each).
-  - This removes the 28 duplicate cells the A1 harness would have produced.
+  - This removes the duplicate cells the A1 harness would have produced.
+  - **p = 256 equals the task count.** It is the level at which a pool overlaps all 256 waits, as VT and PT do. It was added so that the blocking-workload sweep ends where pools can catch up.
+- **D4b Fair comparison for blocking workloads (SLEEP, SOCKET). This must be stated in the report:**
+  - For a bounded pool, the elapsed time per op has an analytic floor of ⌈256/p⌉ × d, where d is the measured per-task wait (≈ 10 ms nominal; macOS overshoot measured by AX5).
+  - So for p < 256, "FP/FJ are slower than VT" is **known by construction, not a finding**. A1 already said this of its 27× result.
+  - The **primary G2 comparison on blocking workloads is therefore VT vs PT**. Both overlap all 256 waits, so concurrency is equal and only OS threads vs virtual threads differ. Pilot: PT 16.6 ms vs VT 12.6 ms. JFR: 189,191 vs 19 OS thread starts; 54 vs 1 GCs.
+  - VT is also compared against FP_256 and FJ_256, the pools sized to the task count.
+  - FP/FJ results at p < 256 are **reported relative to their predicted floor** (overhead beyond the floor). The sweep shows how quickly pools close the gap as p grows.
+  - **Energy caveat:** while threads sleep, CPU clusters are nearly idle (≈ 0.02 W on the M4). A pool that takes many times longer therefore barely registers in CPU-cluster energy. The real energy cost of waiting longer is platform static power (memory, SoC, and parts the counters do not see: PSU, fans, SSD).
+  - This is why blocking workloads also report memory-subsystem (DRAM + AMCC + DCS) and SoC-level energy. The partial visibility of static power is a construct threat.
 - **D5 Workloads (= experimental units), each 256 independent tasks per operation, so total work is identical across p:**
   - **CPU:** Mandelbrot 128×128, at most 500 iterations per point. It comes from the 2014 benchmark set and is deterministic and allocation-free.
   - **SLEEP:** `Thread.sleep(10 ms)` per task. This isolates the unmount-on-block mechanism with a nominally controlled latency.
@@ -248,9 +257,13 @@ Settings: parallelism 8, unpinned, 2 forks × 10 × 1 s.
 - **Tests:**
   - **H1.1:** Kruskal–Wallis across p within construct × workload (FP, FJ, VT × 3 workloads = 9 tests); Dunn post-hoc with Holm correction; ε².
   - **H1.2:** split-sample. Forks 1–5 select the lowest-median concurrent configuration per workload; forks 6–10 are used for Mann–Whitney U of SEQ vs that configuration; Cliff's δ.
-  - **H1.3:** Spearman ρ between cell-median time/op and energy/op per workload (20 cells per workload).
+  - **H1.3:** Spearman ρ between cell-median time/op and energy/op per workload (23 cells per workload).
   - **H2.1:** per workload × p, Kruskal–Wallis across FP, FJ, VT; Dunn tests of VT vs each; Cliff's δ.
   - **H2.2:** an intersection–union test. VT_p must be significantly lower than every alternative (one-sided Mann–Whitney U) to reject. Report the smallest such p, with δ.
+  - **Blocking workloads (SLEEP, SOCKET):**
+    - The decisive H2.1 contrasts are VT vs PT and VT vs FP_256 / FJ_256.
+    - FP/FJ at p < 256 are additionally expressed as the ratio of measured time/op to the analytic floor ⌈256/p⌉ × d, and as energy/op beyond the floor duration.
+    - VT's time advantage at p < 256 is reported as expected by construction, not as evidence for H1-2.x.
   - **H3.1:** Mann–Whitney U, DEFAULT vs BACKGROUND, per cell; Cliff's δ; time penalty (%) with bootstrap 95% CI.
   - **H3.2:** Kruskal–Wallis of the E-share across constructs.
   - **Main H0:** rejected if, for any workload, Kruskal–Wallis across constructs at p = 8 (plus SEQ and PT) rejects after Holm correction.
@@ -260,19 +273,19 @@ Settings: parallelism 8, unpinned, 2 forks × 10 × 1 s.
 ## 9. Design size and schedule (§4.5 and §7)
 
 **Experiment 1** (RQ1.x, RQ2.x): a full factorial of construct × p × workload under DEFAULT QoS.
-- Per workload: SEQ 1 + PT 1 + FP 6 + FJ 6 + VT 6 = 20 cells.
-- 3 workloads, so 60 cells.
+- Per workload: SEQ 1 + PT 1 + FP 7 + FJ 7 + VT 7 = 23 cells.
+- 3 workloads, so 69 cells.
 
 **Experiment 2** (RQ3.x): BACKGROUND QoS with p ∈ {4, 16}.
 - Per workload: SEQ, PT, FP×2, FJ×2, VT×2 = 8 cells.
 - 3 workloads, so 24 cells. The DEFAULT counterparts come from Experiment 1.
 
 **Runs:**
-- 10 forks per cell gives (60 + 24) × 10 = **840 runs**, in one randomised schedule, in batches of about 40 with a 60 s idle baseline each.
+- 10 forks per cell gives (69 + 24) × 10 = **930 runs**, in one randomised schedule, in batches of about 40 with a 60 s idle baseline each.
 - Each run takes about 31 s of JMH (5×1 s + 5×5 s + JVM start), up to 15 s more for slow cells (e.g. FP/SLEEP at p=1, where one op takes about 3.1 s), plus a 10 s cooldown: about 45 s on average.
-- 840 × 45 s ≈ **10.5 h**.
+- 930 × 45 s ≈ **11.6 h**.
 
-**Machine time:** Mac ≈ 15.5 h in total (main runs 10.5 h, idle baselines, ancillaries AX2–AX7 ≈ 1.5 h, profiling passes ≈ 1.5 h, a second pilot with sample-size check ≈ 1 h). Intel ≤ 15 h, if it is available. Total ≈ 30 h, **under 40 h**, leaving about 10 h for re-runs.
+**Machine time:** Mac ≈ 16.5 h in total (main runs 11.6 h, idle baselines, ancillaries AX2–AX7 ≈ 1.5 h, profiling passes ≈ 1.5 h, a second pilot with sample-size check ≈ 1 h). Intel ≤ 15 h, if it is available. Total ≈ 32 h, **under 40 h**, leaving about 8 h for re-runs.
 
 **Schedule** (`tab:schedule`; assumes the A3 deadline is the end of week 9, Fri 30 Oct, to be confirmed on Canvas):
 
@@ -280,7 +293,7 @@ Settings: parallelism 8, unpinned, 2 forks × 10 × 1 s.
 |---|---|---|
 | 3–7 Oct | Implement SEQ, recursive FJ, VT carrier control, SOCKET workload, run orchestrator, ancillary scripts, analysis scripts | – |
 | 8 Oct | Ancillary AX2–AX7, pilot 2, sample-size check | 3 h |
-| 9–11 Oct | Mac Experiments 1 + 2 (3 overnight batches) | 11 h |
+| 9–11 Oct | Mac Experiments 1 + 2 (3 overnight batches) | 12 h |
 | 12 Oct | Profiling passes | 1.5 h |
 | 13–16 Oct | Mac analysis; 16 Oct Intel go/no-go | – |
 | 17–20 Oct | Intel arm (if available) | ≤ 15 h |
