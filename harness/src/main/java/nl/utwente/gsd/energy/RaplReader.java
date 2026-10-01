@@ -15,7 +15,7 @@ import java.util.stream.Stream;
  * RAPL polling suppresses deep C-state residency and inflates idle power
  * (Raffin &amp; Trystram, IEEE TPDS 36(1):96-107, 2025).
  */
-public final class RaplReader {
+public final class RaplReader implements EnergyReader {
 
     private final Map<String, Path> domains = new LinkedHashMap<>();
     private final Map<String, Long> maxRange = new LinkedHashMap<>();
