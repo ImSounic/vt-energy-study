@@ -29,6 +29,10 @@ class IoReportReaderTest {
         assertTrue(readings.containsKey("ECPU"));
         assertTrue(readings.containsKey("PCPU"));
         readings.values().forEach(v -> assertTrue(v >= 0));
+        long cpu = readings.get("CPU_Energy");
+        long clusters = readings.get("ECPU") + readings.get("PCPU");
+        assertTrue(Math.abs(cpu - clusters) <= cpu / 1000,
+                "CPU_Energy should equal ECPU + PCPU (unit scaling): " + cpu + " vs " + clusters);
     }
 
     @Test
@@ -43,7 +47,20 @@ class IoReportReaderTest {
         while (System.nanoTime() < until) sink += sink * 31 + 7;
         assertTrue(sink != 42);
         long after = reader.readAll().get("CPU_Energy");
-        assertTrue(reader.deltaFor("CPU_Energy", before, after) > 0);
+        long delta = reader.deltaFor("CPU_Energy", before, after);
+        assertTrue(delta > 50_000 && delta < 30_000_000,
+                "1.5 s single-thread burn should be 0.05-30 J, got " + delta + " uJ");
+    }
+
+    @Test
+    void checkFreshRejectsFrozenCanaryOverLongWindow() {
+        assertThrows(IllegalStateException.class, () -> IoReportReader.checkFresh(5L, 5L, 1.0));
+    }
+
+    @Test
+    void checkFreshAcceptsAdvancingOrShortWindows() {
+        assertDoesNotThrow(() -> IoReportReader.checkFresh(5L, 6L, 1.0));
+        assertDoesNotThrow(() -> IoReportReader.checkFresh(5L, 5L, 0.2));
     }
 
     private static boolean powermetricsRunning() throws Exception {

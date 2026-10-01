@@ -2,6 +2,7 @@ package nl.utwente.gsd.energy;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -26,11 +27,20 @@ class IdleBaselineTest {
         Locale previous = Locale.getDefault();
         Locale.setDefault(Locale.forLanguageTag("nl-NL"));
         try {
-            String json = IdleBaseline.toJson(60.0, Map.of("CPU_Energy", 0.5));
+            String json = IdleBaseline.toJson(60.0, Map.of("CPU_Energy", 0.5), List.of());
             assertTrue(json.contains("\"seconds\": 60.000"), json);
             assertTrue(json.contains("\"CPU_Energy\": 0.500000"), json);
         } finally {
             Locale.setDefault(previous);
         }
+    }
+
+    @Test
+    void reportsFrozenDomains() {
+        Map<String, Double> w = new java.util.LinkedHashMap<>();
+        w.put("CPU_Energy", 0.5);
+        w.put("DRAM", 0.0);
+        assertEquals(List.of("DRAM"), IdleBaseline.frozen(w));
+        assertTrue(IdleBaseline.toJson(60.0, w, List.of("DRAM")).contains("\"frozen\": [\"DRAM\"]"));
     }
 }

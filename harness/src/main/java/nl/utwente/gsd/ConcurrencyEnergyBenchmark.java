@@ -20,9 +20,9 @@ import java.util.concurrent.TimeUnit;
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
 @State(Scope.Benchmark)
-@Fork(value = 5, jvmArgs = {"-Xms2g", "-Xmx2g", "-XX:+UseG1GC", "--enable-native-access=ALL-UNNAMED"})
-@Warmup(iterations = 10, time = 1)
-@Measurement(iterations = 20, time = 1)
+@Fork(value = 10, jvmArgs = {"-Xms2g", "-Xmx2g", "-XX:+UseG1GC", "--enable-native-access=ALL-UNNAMED"})
+@Warmup(iterations = 5, time = 1)
+@Measurement(iterations = 5, time = 5)
 public class ConcurrencyEnergyBenchmark {
 
     @Param({"PLATFORM_THREADS", "FIXED_POOL", "FORK_JOIN", "VIRTUAL_THREADS"})

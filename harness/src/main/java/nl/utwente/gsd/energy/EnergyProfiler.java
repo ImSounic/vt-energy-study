@@ -46,14 +46,16 @@ public abstract class EnergyProfiler implements InternalProfiler {
     public Collection<? extends Result> afterIteration(
             BenchmarkParams bp, IterationParams ip, IterationResult result) {
         long endNanos = System.nanoTime();
+        double windowSeconds = (endNanos - startNanos) / 1e9;
         Map<String, Long> end;
         try {
             end = reader.readAll();
         } catch (IOException e) {
             throw new IllegalStateException("energy read failed at iteration end", e);
         }
+        reader.checkFresh(start, end, windowSeconds);
         return results(prefix, reader, start, end,
-                result.getMetadata().getMeasuredOps(), (endNanos - startNanos) / 1e9);
+                result.getMetadata().getAllOps(), windowSeconds);
     }
 
     /** Per-domain J and J/op, plus the length of the energy window in seconds. */
