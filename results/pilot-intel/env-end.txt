@@ -1,0 +1,52 @@
+# date (UTC)
+2026-10-02T10:49:00Z
+# git
+89d93c2ede6f9baf963f0823d2f4c441670aa398
+?? results/pilot-intel/
+# os
+NAME="CachyOS Linux"
+PRETTY_NAME="CachyOS"
+Linux cachyos 7.2.3-1-cachyos #1 SMP PREEMPT_DYNAMIC Sun, 06 Sep 2026 22:01:30 +0000 x86_64 GNU/Linux
+# cpu
+CPU(s):                                  16
+Model name:                              Intel(R) Core(TM) Ultra 7 255H
+Thread(s) per core:                      1
+CPU(s) scaling MHz:                      26%
+CPU max MHz:                             5100.0000
+CPU min MHz:                             400.0000
+# core classes
+P=0-5 E=6-13 LPE=14-15
+# memory
+               total        used        free      shared  buff/cache   available
+Mem:            30Gi       7.0Gi        16Gi       2.3Gi        10Gi        23Gi
+# frequency control
+governor: powersave
+intel_pstate status: active
+no_turbo: 0
+hwp_dynamic_boost: 0
+# power
+AC online: 1
+rapl intel-rapl:0 (package-0): long_term=65000000 uW/27983872 us short_term=115000000 uW/2440 us
+rapl intel-rapl:0:0 (core): long_term=0 uW/976 us
+rapl intel-rapl:0:1 (uncore): long_term=0 uW/976 us
+rapl intel-rapl:1 (psys): long_term=220000000 uW/27983872 us short_term=221000000 uW/976 us
+# thermal
+coretemp max 60.0 C
+# java
+openjdk version "25.0.4.1" 2026-08-18 LTS
+OpenJDK Runtime Environment Temurin-25.0.4.1+1 (build 25.0.4.1+1-LTS)
+OpenJDK 64-Bit Server VM Temurin-25.0.4.1+1 (build 25.0.4.1+1-LTS, mixed mode, sharing)
+# uptime/load
+ 12:49:00 up  1:30,  1 user,  load average: 1.66, 3.86, 6.52
+# top processes by cpu
+%CPU COMMAND
+ 100 ps
+84.3 claude-desktop
+29.7 claude-desktop
+23.9 claude
+11.7 claude-desktop
+11.5 bash
+ 7.5 claude-desktop
+ 5.7 claude-desktop
+ 3.3 Hyprland
+ 2.5 qs
