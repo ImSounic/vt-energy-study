@@ -15,3 +15,4 @@ harness/native/*.dylib
 harness/native/shim_smoke
 results/pilot-mac/*.jfr
 results/pilot-mac/powermetrics-*.txt
+._*
