@@ -30,7 +30,7 @@ Following Jedlitschka et al.~\cite{jedlitschka2008reporting} and Pinto et al.~\c
 We use non-parametric tests chosen a priori for \textbf{small samples of unknown distribution}, Holm correction within families for \textbf{multiple comparisons}, effect sizes with bootstrap CIs to separate \textbf{significance from magnitude}, and TOST ($\pm 5\%$) before claiming \textbf{null results}. The fork is the unit, which avoids \textbf{pseudo-replication}~\cite{georges2007rigorous}; a split sample by fixed fork index removes \textbf{selection bias in H0-1.2}; a power check on pilot variance confirms the \textbf{sample size}; and \textbf{noise-floor} blocking-workload energy is tested idle-subtracted with a detection limit (Section~\ref{sec:planning-analysis}).
 
 \section{Schedule}\label{sec:schedule}
-Table~\ref{tab:schedule} lists the remaining steps up to the Assignment~3 deadline (30~Oct). The 930 Mac runs take about 45\,s each including cooldown (11.6\,h); with ancillaries, profiling, and a second pilot the Mac needs about 16.5\,h, and the Intel arm at most 15\,h: about 32\,h in total, under the 40\,h guideline. The fallback if the second pilot slips is 7 forks per cell.
+Table~\ref{tab:schedule} lists the remaining steps to the Assignment~3 deadline (30~Oct): about 16.5\,h of Mac time (930 runs at about 45\,s each, ancillaries, profiling, a second pilot) and at most 15\,h of Intel time, about 32\,h in total, under the 40\,h guideline; the fallback if the second pilot slips is 7 forks per cell.
 
 \begin{table}[tb]
 \caption{Schedule (2026) with dedicated machine time.}
@@ -42,9 +42,9 @@ Table~\ref{tab:schedule} lists the remaining steps up to the Assignment~3 deadli
 Dates & Activity & Machine time \\
 \midrule
 3 to 7 Oct & Constructs, SOCKET, scripts & \\
-8 Oct & AX2 to AX7, pilot 2, power check, FJ JFR check & 3\,h \\
+8 Oct & AX2 to AX7, pilot 2, power and FJ checks & 3\,h \\
 9 to 11 Oct & Mac Experiments 1 and 2 (overnight) & 12\,h \\
-12 to 16 Oct & Mac profiling passes, Mac analysis & 1.5\,h \\
+12 to 16 Oct & Mac profiling and analysis & 1.5\,h \\
 12 to 16 Oct & Intel arm, in parallel & $\leq$15\,h \\
 17 to 26 Oct & Intel analysis, final report & \\
 27 to 30 Oct & Replication package, presentation & \\
@@ -52,4 +52,4 @@ Dates & Activity & Machine time \\
 \end{tabular}
 \end{table}
 \section{Concluding Remarks}\label{sec:conclusion}
-This plan refines the proposal into a two-platform experiment with a sequential baseline, controlled concurrency levels, a socket workload, and an energy profiler piloted on both platforms. Assignment~3 will execute it and publish a replication package; this plan reports no results.
+This plan refines the proposal into a two-platform experiment with a sequential baseline, controlled concurrency levels, a socket workload, and an energy profiler piloted on both platforms; Assignment~3 will execute it and publish a replication package.
