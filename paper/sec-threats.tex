@@ -2,55 +2,56 @@
 % This file is \input from main.tex; it has no preamble.
 
 \section{Threats to Validity}\label{sec:threats}
-Following Jedlitschka et al.~\cite{jedlitschka2008reporting} and Pinto et al.~\cite{pinto2014energy}, each threat is paired with a mitigation, an ancillary experiment that bounds it, or a statement of its effect on the results. The ancillary experiments are \textbf{AX1}, refresh cadence versus \texttt{powermetrics} interval (done, Section~\ref{sec:measurement}); \textbf{AX2}, refresher overhead (preliminary); \textbf{AX3}, IOReport versus \texttt{powermetrics} CPU power (read path); \textbf{AX4}, load scaling with 0 to 10 busy threads (linearity); \textbf{AX5}, calibration of $d$ for sleep ($10^4$ sleeps per thread kind and platform) and the SOCKET round trip; \textbf{AX6}, E-core confinement under BACKGROUND QoS and its frequency effect; and \textbf{AX7}, drift of per-run energy with run index.
+Following Jedlitschka et al.~\cite{jedlitschka2008reporting} and Pinto et al.~\cite{pinto2014energy}, each threat is paired with a mitigation, an ancillary experiment that bounds it, or a statement of its effect on the results. The ancillary experiments are \textbf{AX1}, refresh cadence versus \texttt{powermetrics} interval (done, Section~\ref{sec:meas-energy}); \textbf{AX2}, refresher overhead (preliminary); \textbf{AX3}, IOReport versus \texttt{powermetrics} CPU power (read path); \textbf{AX4}, load scaling with 0 to 10 busy threads (linearity); \textbf{AX5}, calibration of $d$ ($10^4$ sleeps per thread kind and platform; SOCKET round trip); \textbf{AX6}, E-core confinement under BACKGROUND QoS and its frequency effect; and \textbf{AX7}, drift of per-run energy with run index.
 
 \subsection{Construct Validity}
-\textbf{Estimated energy.} No wall meter is available. RAPL is validated against physical measurement~\cite{khan2018rapl}, but Apple's counters are model estimates without published validation, and \texttt{powermetrics} values are software estimates that Apple advises against comparing across devices~\cite{hubner2025apple}. Hypotheses compare treatments within one machine, so a common bias cancels; AX3 checks the read path and AX4 linearity, but neither validates absolute accuracy.
-\textbf{Scope and static power.} The counters miss the power supply, SSD, fans, and network. Waiting threads leave the CPU clusters nearly idle (about 0.02\,W), so the cost of waiting longer is mainly static power, which the counters see only in part; blocking workloads are therefore also tested on memory-subsystem energy, SoC energy is reported, and the unseen remainder is a stated limitation.
+\textbf{Estimated energy.} No wall meter is available. RAPL is validated against physical measurement~\cite{khan2018rapl}; Apple's counters are model estimates without published validation, and \texttt{powermetrics} values are software estimates that Apple advises against comparing across devices~\cite{hubner2025apple}. Hypotheses compare treatments within one machine, so a common bias cancels; AX3 and AX4 check the read path and linearity, not absolute accuracy.
+\textbf{Scope and static power.} The counters miss the power supply, SSD, fans, and network, and waiting threads leave the Mac CPU clusters nearly idle (about 0.02\,W), so the cost of waiting longer is mainly static power, seen only in part; hence the idle-subtracted and (Mac) memory-subsystem tests, the SoC report, and a stated limitation.
 \textbf{Analytic time floor.} On blocking workloads VT's time advantage over pools with $p < 256$ holds by construction (Section~\ref{sec:planning-variables}), so tests use equal concurrency and smaller pools are reported relative to their floor.
 \textbf{Counter staleness} (about 2\% of a window, Section~\ref{sec:meas-energy}) is under half the $\pm 5\%$ equivalence margin, and the profiler fails if the counters stop advancing.
-\textbf{Sleep as an I/O proxy.} \texttt{Thread.sleep} involves no device, and its macOS latency depends on system activity (Section~\ref{sec:measurement}). AX5 calibrates it, $d$ is measured, and SOCKET adds real loopback I/O.
-\textbf{Energy per operation.} Pool creation and teardown are included by definition, which favors SEQ and VT (whose carrier pool persists); JFR thread-start counts bound this. We assume the co-located SOCKET server's energy is constant per task, measure its share in a server-only run, and report it.
-\textbf{Implementations.} PT and recursive FJ differ from the 2014 code but are each construct's natural current usage, so comparisons with 2014 concern shapes and rankings, not values.
-\textbf{QoS is not pure placement.} BACKGROUND QoS also lowers frequency and I/O priority and may widen timer coalescing; AX6 and residency logs quantify the former, AX5 calibrates $d$ under both QoS classes, and G3 on the Mac measures a QoS class, not core type alone.
+\textbf{Sleep as an I/O proxy.} \texttt{Thread.sleep} involves no device, and its macOS latency depends on system activity (Section~\ref{sec:meas-pitfalls}); AX5 calibrates $d$, and SOCKET adds real loopback I/O.
+\textbf{Energy per operation.} Pool creation and teardown are included by definition, which favors SEQ and VT (whose carrier pool persists); JFR thread-start counts bound this, and the SOCKET server's share is measured separately (Section~\ref{sec:planning-units}).
+\textbf{Implementations.} PT and recursive FJ differ from the 2014 code, so comparisons with 2014 concern shapes and rankings, not values.
+\textbf{QoS is not pure placement.} BACKGROUND QoS also lowers frequency and I/O priority and may widen timer coalescing; AX6 and residency logs quantify the former, AX5 calibrates $d$ under both QoS classes, and RQ3.1 on the Mac measures QoS confinement, not core type alone; the asymmetry claim rests on the Intel equal-count arm.
 
 \subsection{Internal Validity}
-\begin{table}
+\textbf{Background load} (Section~\ref{sec:meas-pitfalls}) is controlled by the quiet-machine protocol, the idle gate, and the two gated idle baselines per batch.
+\textbf{Run order and power state.} The A1 Intel pilot confounded run order with power state (Section~\ref{sec:meas-pitfalls}). As innocuous setup changes bias measurements~\cite{mytkowicz2009wrong}, we hold the setup fixed and randomize all runs at fork level; Intel CPU-bound runs heat-soak into the sustained regime with per-iteration frequency logging, Mac runs cool down to ``Nominal'' thermal pressure, and AX7 tests for drift.
+\textbf{Measurement overhead.} Boundary-only reads avoid polling-induced idle-state suppression~\cite{raffin2025dissecting}, the refresher's overhead (AX2) is constant and part of the idle baseline, and profilers never run during energy runs.
+\textbf{JIT and GC.} JMH warmup, a fresh JVM per fork, and a fixed heap stabilize the runtime; construct-induced GC is part of the cost, and JFR attributes it.
+\textbf{Uncontrolled DVFS.} Frequencies cannot be fixed on the Mac, and Intel keeps HWP and turbo on, as deployed; frequency is part of the treatment effect and is logged.
+\textbf{Core count on Intel.} \texttt{taskset} also changes the processor count the JVM sees, and with it the GC and JIT thread counts; equal-count arms keep these equal across core types.
+\textbf{Unexplained FJ behavior.} Mac pilot FJ/SLEEP was faster than FP/SLEEP with equal workers, its CPU energy/op varied strongly (CV 116\%), and one fork ran at FP speed; JFR will examine it on 8~Oct (Table~\ref{tab:schedule}).
+
+\subsection{External Validity}
+\textbf{Two machines.} Results come from one Mac mini M4, a mainstream P/E design, and one Intel Core Ultra~7 255H, a three-tier x86 design; cross-platform comparisons concern rankings and curve shapes only (Section~\ref{sec:meas-procedure}). \textbf{Workloads.} Three synthetic kernels with 256 fixed, independent tasks replace the nine 2014 benchmarks; they span CPU-bound, blocking, and network I/O behavior but characterize mechanisms, not application savings. \textbf{Runtime.} One JDK (25, long-term support), one collector, and one OS per platform; results apply to this configuration.
+
+\subsection{Conclusion Validity}
+We use non-parametric tests chosen a priori for \textbf{small samples of unknown distribution}, Holm correction within families for \textbf{multiple comparisons}, effect sizes with bootstrap CIs to separate \textbf{significance from magnitude}, and TOST ($\pm 5\%$) before claiming \textbf{null results}. The fork is the unit, which avoids \textbf{pseudo-replication}~\cite{georges2007rigorous}; a split sample by fixed fork index removes \textbf{selection bias in H0-1.2}; a power check on pilot variance confirms the \textbf{sample size}; and \textbf{noise-floor} blocking-workload energy is tested idle-subtracted with a detection limit (Section~\ref{sec:planning-analysis}).
+
+\section{Schedule}\label{sec:schedule}
+Table~\ref{tab:schedule} lists the remaining steps up to the Assignment~3 deadline (30~Oct). The 930 Mac runs take about 45\,s each including cooldown (11.6\,h); with idle baselines, AX2 to AX7, profiling, and a second pilot, the Mac needs about 16.5\,h, and the Intel arm, run 12 to 16~Oct in parallel with the Mac analysis, at most 15\,h: about 32\,h in total, under the 40\,h guideline, leaving about 8\,h for re-runs. If the second pilot slips, the fallback is to drop $p = 2$ and $p = 64$ or to reduce to 7 forks per cell, which keeps the Mac runs within 9 to 11~Oct.
+
+\begin{table}[htb]
 \caption{Schedule (2026) with dedicated machine time.}
 \label{tab:schedule}
 \footnotesize
 \setlength{\tabcolsep}{4pt}
-\begin{tabular}{@{}lp{4.95cm}r@{}}
+\begin{tabular}{@{}lp{4.55cm}r@{}}
 \toprule
 Dates & Activity & Machine time \\
 \midrule
-3--7 Oct & Implement new constructs, SOCKET, scripts & -- \\
-8 Oct & AX2 to AX7, second pilot, sample-size check & 3\,h \\
-9--11 Oct & Mac Experiments 1 and 2 (overnight) & 12\,h \\
-12 Oct & Profiling passes & 1.5\,h \\
-13--16 Oct & Mac analysis; Intel go/no-go (16 Oct) & -- \\
-17--20 Oct & Intel arm (if available) & $\leq$15\,h \\
-19--26 Oct & Final report & -- \\
-27--30 Oct & Replication package, presentation & -- \\
+3 to 7 Oct & Constructs, SOCKET, scripts & \\
+8 Oct & AX2 to AX7, second pilot, power check, FJ/SLEEP JFR investigation & 3\,h \\
+9 to 11 Oct & Mac Experiments 1 and 2 (overnight) & 12\,h \\
+12 Oct & Mac profiling passes & 1.5\,h \\
+12 to 16 Oct & Intel arm (during Mac analysis) & $\leq$15\,h \\
+13 to 16 Oct & Mac analysis & \\
+17 to 19 Oct & Intel analysis & \\
+19 to 26 Oct & Final report & \\
+27 to 30 Oct & Replication package, presentation & \\
 \bottomrule
 \end{tabular}
 \end{table}
-\textbf{Background load} (Section~\ref{sec:meas-pitfalls}) is controlled by the quiet-machine protocol, the idle gate, and per-batch idle baselines.
-\textbf{Run order and power state.} The Intel pilot confounded run order with power state (Figure~\ref{fig:regime}). As innocuous setup changes bias measurements~\cite{mytkowicz2009wrong}, we hold the setup fixed and randomize all 930 runs at fork level to spread residual drift; Intel CPU-bound runs heat-soak into the sustained regime with flagged crossings, Mac runs cool down to ``Nominal'' thermal pressure (Section~\ref{sec:meas-procedure}), and AX7 tests for drift.
-\textbf{Measurement overhead.} Boundary-only reads avoid polling-induced idle-state suppression~\cite{raffin2025dissecting}, the refresher's overhead (AX2) is constant and part of the idle baseline, and profilers never run during energy runs.
-\textbf{JIT and GC.} JMH warmup, a fresh JVM per fork, and a fixed heap stabilize the runtime; construct-induced GC is part of the cost, and JFR attributes it.
-\textbf{Uncontrolled DVFS.} Frequencies cannot be fixed on the Mac; on Intel we keep \texttt{intel\_pstate} with HWP and turbo on, as deployed. Frequency is part of the treatment effect and is logged.
-\textbf{Core count on Intel.} \texttt{taskset} also changes the processor count the JVM sees, and with it the GC and JIT thread counts; equal-count arms keep these equal across core types.
-\textbf{Unexplained FJ behavior.} Pilot FJ/SLEEP was faster than FP/SLEEP with equal workers, its CPU energy/op varied strongly (CV 116\%), and one fork ran at FP speed; we will examine it with JFR before the main runs.
-
-\subsection{External Validity}
-\textbf{One machine.} Results come from one Mac mini M4, a mainstream P/E design; the conditional Intel arm would add a three-tier x86 design. \textbf{Workloads.} Three synthetic kernels with 256 fixed, independent tasks replace the nine 2014 benchmarks; they span CPU-bound, blocking, and network I/O behavior but characterize mechanisms, not application savings. \textbf{Runtime.} One JDK (25, long-term support), one collector, and one OS per platform; results apply to this configuration.
-
-\subsection{Conclusion Validity}
-We use non-parametric tests for \textbf{non-normal data}, Holm correction for \textbf{multiple comparisons}, Cliff's $\delta$ and $\varepsilon^2$ with bootstrap CIs to separate \textbf{significance from magnitude}, and TOST ($\pm 5\%$) before claiming \textbf{null results}. The fork is the unit, which avoids \textbf{pseudo-replication}~\cite{georges2007rigorous}; a split sample (forks 1 to 5 select, 6 to 10 test) removes \textbf{selection bias in H0-1.2}; a power analysis on pilot variance checks the \textbf{sample size}; and \textbf{noise-floor} sleep-bound CPU energy is backed by memory-subsystem tests (Section~\ref{sec:planning-analysis}).
-
-\section{Schedule}\label{sec:schedule}
-Table~\ref{tab:schedule} lists the remaining steps up to the Assignment~3 deadline at the end of week~9 (30~Oct). The 930 main runs take about 45\,s each including cooldown (11.6\,h); with idle baselines, AX2 to AX7, profiling, and a second pilot, the Mac needs about 16.5\,h, and the Intel arm at most 15\,h: about 32\,h in total, under the 40\,h guideline, leaving about 8\,h for re-runs. Analysis, report, and presentation do not depend on the Intel arm.
-
 \section{Concluding Remarks}\label{sec:conclusion}
-This plan refines the proposal with an Apple M4 as primary platform, a sequential baseline, recursive Fork/Join, VT carrier control, pools sized to the task count, a socket workload, and a cross-platform energy profiler tested in two pilots. Assignment~3 will execute it and publish a replication package; this plan reports no results.
+This plan refines the proposal with two platforms with distinct roles (an Apple M4 for the per-cluster split, a three-tier Intel Core Ultra~7 for equal-count pinning), a sequential baseline, recursive Fork/Join, VT carrier control, pools sized to the task count, a socket workload, and an energy profiler piloted on both platforms. Assignment~3 will execute it and publish a replication package; this plan reports no results.
