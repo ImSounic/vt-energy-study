@@ -56,7 +56,7 @@ We reviewed the A1 goals; the general goal follows the template of Basili et al.
 \item[RQ3.2] How is CPU energy split between the P and E clusters under default scheduling, and does the split differ between constructs?
 \end{planrq}
 
-Compared with A1, SEQ is now a treatment (RQ1.2), RQ1.3 is new, and G3 is split by platform because macOS has no CPU affinity: the Mac restricts execution through the quality-of-service (QoS) class and uniquely yields the per-cluster split of RQ3.2.
+Compared with A1, SEQ is now a treatment (RQ1.2), RQ1.3 is new, and G3 is split by platform because macOS has no CPU affinity: the Mac restricts execution through the quality-of-service (QoS) class and is the only platform that gives the per-cluster split of RQ3.2.
 
 \subsection{Hypotheses}\label{sec:planning-hypotheses}
 Table~\ref{tab:hypotheses} gives a main pair and one pair per RQ. All H0s are tested on CPU-cluster energy/op on the Mac and package energy/op on Intel. On SLEEP and SOCKET the primary tested measure is idle-subtracted energy/op with the detection-limit rule of Section~\ref{sec:planning-analysis}, and H0-1.3 is tested on CPU only, because on blocking workloads energy/op equals idle power times time/op by construction (the Mac and 2 Oct Intel pilots, Section~\ref{sec:meas-pitfalls}). The SLEEP and SOCKET tests of H0-1.1, H0-2.1, and H0-2.2 are repeated on memory-subsystem energy (DRAM${}+{}$AMCC${}+{}$DCS) as a separate Holm-corrected family on the Mac only: the Intel 255H exposes no DRAM RAPL domain, and its uncore domain is not equivalent.
@@ -129,7 +129,7 @@ Per cell we report the median, interquartile range, and CV, and plot $\Lambda$ c
 \begin{planitems}
 \item[\textbf{Main.}] Per workload, Kruskal-Wallis across SEQ, PT, $\mathrm{FP}_8$, $\mathrm{FJ}_8$, and $\mathrm{VT}_8$ on CPU ($p = 8$ is near the Mac's 10 cores; on Intel $p = 16$, its core count, replaces $p = 8$) and, at equal concurrency, across PT, $\mathrm{FP}_{256}$, $\mathrm{FJ}_{256}$, and $\mathrm{VT}_{256}$ on SLEEP and SOCKET (SEQ, the $p = 1$ floor case, is excluded); H0 is rejected if any workload's test rejects.
 \item[\textbf{H0-1.1.}] Kruskal-Wallis across $p$ for FP, FJ, and VT per workload; Dunn post-hoc tests; $\varepsilon^2$.
-\item[\textbf{H0-1.2.}] A split sample per workload avoids selection bias: forks 1 to 5 select the lowest-median concurrent configuration and forks 6 to 10 test SEQ against it (Mann-Whitney~$U$, Cliff's~$\delta$); forks are assigned by fork index, fixed before any data exist, not by schedule position.
+\item[\textbf{H0-1.2.}] A split sample per workload avoids selection bias: forks 1 to 5 select the lowest-median concurrent configuration and forks 6 to 10 test SEQ against it (Mann-Whitney~$U$, Cliff's~$\delta$); forks are assigned by fork index, fixed before any data exist.
 \item[\textbf{H0-1.3.}] Spearman~$\rho$ between cell-median time/op and energy/op on CPU (23 cells).
 \item[\textbf{H0-2.1.}] Per workload and $p$, Kruskal-Wallis across FP, FJ, VT, PT, and SEQ (PT and SEQ enter at every $p$); Dunn tests of VT against each; Cliff's~$\delta$.
 \item[\textbf{H0-2.2.}] Intersection-union (IU) test: rejected only if $\mathrm{VT}_p$ is significantly lower than every alternative (one-sided Mann-Whitney~$U$); we report the smallest such $p$, with~$\delta$.
