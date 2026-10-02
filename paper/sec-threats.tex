@@ -11,7 +11,7 @@ Following Jedlitschka et al.~\cite{jedlitschka2008reporting} and Pinto et al.~\c
 \textbf{Counter staleness} (about 2\% of a window, Section~\ref{sec:meas-energy}) is under half the $\pm 5\%$ equivalence margin, and the profiler fails if the counters stop advancing.
 \textbf{Sleep as an I/O proxy.} \texttt{Thread.sleep} involves no device, and its macOS latency depends on system activity (Section~\ref{sec:meas-pitfalls}); AX5 calibrates $d$, and SOCKET adds real loopback I/O.
 \textbf{Energy per operation.} Pool creation and teardown are included by definition, which favors SEQ and VT (whose carrier pool persists); JFR thread-start counts bound this, and the SOCKET server's share is measured separately (Section~\ref{sec:planning-units}).
-\textbf{Implementations.} PT and recursive FJ differ from the 2014 code, so comparisons with 2014 concern shapes and rankings, not values.
+\textbf{Implementations.} PT and recursive FJ differ from the 2014 code, so 2014 comparisons concern shapes and rankings.
 \textbf{QoS is not pure placement.} BACKGROUND QoS also lowers frequency and I/O priority and may widen timer coalescing; AX6 and residency logs quantify the former, AX5 calibrates $d$ under both QoS classes, and RQ3.1 on the Mac measures QoS confinement, not core type alone; the asymmetry claim rests on the Intel equal-count arm.
 
 \subsection{Internal Validity}
@@ -30,28 +30,26 @@ Following Jedlitschka et al.~\cite{jedlitschka2008reporting} and Pinto et al.~\c
 We use non-parametric tests chosen a priori for \textbf{small samples of unknown distribution}, Holm correction within families for \textbf{multiple comparisons}, effect sizes with bootstrap CIs to separate \textbf{significance from magnitude}, and TOST ($\pm 5\%$) before claiming \textbf{null results}. The fork is the unit, which avoids \textbf{pseudo-replication}~\cite{georges2007rigorous}; a split sample by fixed fork index removes \textbf{selection bias in H0-1.2}; a power check on pilot variance confirms the \textbf{sample size}; and \textbf{noise-floor} blocking-workload energy is tested idle-subtracted with a detection limit (Section~\ref{sec:planning-analysis}).
 
 \section{Schedule}\label{sec:schedule}
-Table~\ref{tab:schedule} lists the remaining steps up to the Assignment~3 deadline (30~Oct). The 930 Mac runs take about 45\,s each including cooldown (11.6\,h); with idle baselines, AX2 to AX7, profiling, and a second pilot, the Mac needs about 16.5\,h, and the Intel arm, run 12 to 16~Oct in parallel with the Mac analysis, at most 15\,h: about 32\,h in total, under the 40\,h guideline, leaving about 8\,h for re-runs. If the second pilot slips, the fallback is to drop $p = 2$ and $p = 64$ or to reduce to 7 forks per cell, which keeps the Mac runs within 9 to 11~Oct.
+Table~\ref{tab:schedule} lists the remaining steps up to the Assignment~3 deadline (30~Oct). The 930 Mac runs take about 45\,s each including cooldown (11.6\,h); with idle baselines, AX2 to AX7, profiling, and a second pilot the Mac needs about 16.5\,h, and the Intel arm at most 15\,h: about 32\,h in total, under the 40\,h guideline. If the second pilot slips, the fallback is to drop $p = 2$ and $p = 64$ or to use 7 forks per cell.
 
-\begin{table}[htb]
+\begin{table}[tb]
 \caption{Schedule (2026) with dedicated machine time.}
 \label{tab:schedule}
-\footnotesize
-\setlength{\tabcolsep}{4pt}
-\begin{tabular}{@{}lp{4.55cm}r@{}}
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}lp{5.0cm}r@{}}
 \toprule
 Dates & Activity & Machine time \\
 \midrule
 3 to 7 Oct & Constructs, SOCKET, scripts & \\
-8 Oct & AX2 to AX7, second pilot, power check, FJ/SLEEP JFR investigation & 3\,h \\
+8 Oct & AX2 to AX7, pilot 2, power check, FJ JFR check & 3\,h \\
 9 to 11 Oct & Mac Experiments 1 and 2 (overnight) & 12\,h \\
-12 Oct & Mac profiling passes & 1.5\,h \\
-12 to 16 Oct & Intel arm (during Mac analysis) & $\leq$15\,h \\
-13 to 16 Oct & Mac analysis & \\
-17 to 19 Oct & Intel analysis & \\
-19 to 26 Oct & Final report & \\
+12 to 16 Oct & Mac profiling passes, Mac analysis & 1.5\,h \\
+12 to 16 Oct & Intel arm, in parallel & $\leq$15\,h \\
+17 to 26 Oct & Intel analysis, final report & \\
 27 to 30 Oct & Replication package, presentation & \\
 \bottomrule
 \end{tabular}
 \end{table}
 \section{Concluding Remarks}\label{sec:conclusion}
-This plan refines the proposal with two platforms with distinct roles (an Apple M4 for the per-cluster split, a three-tier Intel Core Ultra~7 for equal-count pinning), a sequential baseline, recursive Fork/Join, VT carrier control, pools sized to the task count, a socket workload, and an energy profiler piloted on both platforms. Assignment~3 will execute it and publish a replication package; this plan reports no results.
+This plan refines the proposal into a two-platform experiment (an Apple M4 for the per-cluster split, a three-tier Intel Core Ultra~7 for equal-count pinning) with a sequential baseline, controlled concurrency levels, a socket workload, and an energy profiler piloted on both platforms. Assignment~3 will execute it and publish a replication package; this plan reports no results.

@@ -6,7 +6,7 @@ Following Castor's primer~\cite{castor2024primer}, Table~\ref{tab:env} lists wha
 \begin{table*}[tb]
 \caption{Measurement environment of both arms.}
 \label{tab:env}
-\footnotesize
+\scriptsize
 \setlength{\tabcolsep}{4pt}
 \begin{tabular}{@{}p{0.11\textwidth}p{0.42\textwidth}p{0.42\textwidth}@{}}
 \toprule
@@ -36,7 +36,7 @@ Frequency, limits & Apple's closed-loop performance controller, not user-settabl
 \begin{table}[tb]
 \caption{Feasibility pilots, $p=8$, 3 forks $\times$ 5 $\times$ 5\,s: Mac \texttt{CPU\_Energy} (1~Oct) and Intel package energy (2~Oct, unpinned, 60\,s heat-soak before CPU-bound forks). ms/op and J/op: medians of per-fork medians; CV: fork-to-fork CV of J/op; W: per-fork window energy over window length, the mean of forks (Mac) or the median of forks (Intel).}
 \label{tab:pilot}
-\footnotesize
+\scriptsize
 \setlength{\tabcolsep}{2pt}
 \begin{tabular}{@{}lrrrrrrrr@{}}
 \toprule
@@ -80,4 +80,4 @@ Three pilots exercised the pipeline end to end: the A1 Intel pilot (RAPL, JDK~26
 
 \emph{(5) Contaminated idle baseline (Intel).} The end-of-run baseline of the 2~Oct pilot was taken after the operator had returned to the machine: package power read 14.99\,W against 3.65\,W at the start, and uncore 7.10\,W against 0.05\,W. \emph{Response:} the quiet gate precedes every idle baseline, and a batch's two baselines must agree within 10\% (Section~\ref{sec:meas-procedure}).
 
-\emph{Pilot observations.} Table~\ref{tab:pilot} supports no conclusion about which construct is greener (single $p$, three forks, flat FJ). On the Mac under SLEEP, CPU energy is at the noise floor (0.09 to 0.7\,J per 5\,s window for FP, FJ and VT, except one FJ window of 6.8\,J; idle-subtracted J/op of FJ and VT slightly negative, that is, within idle noise), unlike memory-subsystem energy (Section~\ref{sec:planning-design}). The refresher's overhead is at most 13\,mW (preliminary AX2), comparable to sleep-bound CPU power but constant across treatments; since the refresher is itself a 10\,Hz poller, AX2 compares idle power at 100, 250, and 1000\,ms refresh intervals, and the report will trade staleness against wakeups explicitly. On Intel under SLEEP, package power for FP, FJ, and VT equals the idle baseline within 0.1\,W, so energy/op equals idle power times time/op and the idle-subtracted value is zero within noise, whereas PT draws about 6.5\,W (core domain 13.2\,J against 2.8\,J per window for VT): creating 256 OS threads per operation is measurable even while waiting.
+\emph{Pilot observations.} Table~\ref{tab:pilot} supports no conclusion about which construct is greener (single $p$, three forks, flat FJ). On the Mac under SLEEP, CPU energy is at the noise floor (0.09 to 0.7\,J per 5\,s window for FP, FJ and VT; idle-subtracted J/op within idle noise), unlike memory-subsystem energy (Section~\ref{sec:planning-design}). The refresher's overhead is at most 13\,mW (preliminary AX2), comparable to sleep-bound CPU power but constant across treatments; because the refresher is itself a 10\,Hz poller, AX2 compares idle power at 100, 250, and 1000\,ms intervals to trade staleness against wakeups. On Intel under SLEEP, package power for FP, FJ, and VT equals the idle baseline within 0.1\,W, so energy/op equals idle power times time/op and the idle-subtracted value is zero within noise, whereas PT draws about 6.5\,W (core domain 13.2\,J against 2.8\,J per window for VT): creating 256 OS threads per operation is measurable even while waiting.
