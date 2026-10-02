@@ -59,7 +59,7 @@ We reviewed the A1 goals; the general goal follows the template of Basili et al.
 Compared with A1, SEQ is now a treatment (RQ1.2), RQ1.3 is new, and G3 is split by platform because macOS has no CPU affinity: the Mac restricts execution through the quality-of-service (QoS) class and uniquely yields the per-cluster split of RQ3.2.
 
 \subsection{Hypotheses}\label{sec:planning-hypotheses}
-Table~\ref{tab:hypotheses} gives a main pair and one pair per RQ. All H0s are tested on CPU-cluster energy/op on the Mac and package energy/op on Intel. On SLEEP and SOCKET the primary tested measure is idle-subtracted energy/op with the detection-limit rule of Section~\ref{sec:planning-analysis}, and H0-1.3 is tested on CPU only, because on blocking workloads energy/op equals idle power times time/op by construction (both pilots, Section~\ref{sec:meas-pitfalls}). The SLEEP and SOCKET tests of H0-1.1, H0-2.1, and H0-2.2 are repeated on memory-subsystem energy (DRAM${}+{}$AMCC${}+{}$DCS) as a separate Holm-corrected family on the Mac only: the Intel 255H exposes no DRAM RAPL domain, and its uncore domain is not equivalent.
+Table~\ref{tab:hypotheses} gives a main pair and one pair per RQ. All H0s are tested on CPU-cluster energy/op on the Mac and package energy/op on Intel. On SLEEP and SOCKET the primary tested measure is idle-subtracted energy/op with the detection-limit rule of Section~\ref{sec:planning-analysis}, and H0-1.3 is tested on CPU only, because on blocking workloads energy/op equals idle power times time/op by construction (the Mac and 2 Oct Intel pilots, Section~\ref{sec:meas-pitfalls}). The SLEEP and SOCKET tests of H0-1.1, H0-2.1, and H0-2.2 are repeated on memory-subsystem energy (DRAM${}+{}$AMCC${}+{}$DCS) as a separate Holm-corrected family on the Mac only: the Intel 255H exposes no DRAM RAPL domain, and its uncore domain is not equivalent.
 
 \subsection{Experimental Units and Workloads}\label{sec:planning-units}
 The experimental units are three benchmark kernels, each running 256 independent tasks per operation so that total work is identical at every $p$. \emph{CPU} computes a 128$\times$128 Mandelbrot set (at most 500 iterations per point) from the 2014 benchmark set~\cite{pinto2014energy}, tying G1 to that baseline; it is deterministic and allocation-free, each task computes the full grid offset by its task index (so tasks are near-identical), and it stands for embarrassingly parallel compute such as image or batch processing. \emph{SLEEP} runs a 10\,ms \texttt{Thread.sleep} per task, isolating the unmount-on-block mechanism of VT~\cite{jep444} with a nominally controlled latency (calibrated by ancillary experiment AX5, Section~\ref{sec:threats}); it stands for a request handler waiting on a remote call. \emph{SOCKET} (new) adds network I/O: each task opens a loopback TCP connection to an out-of-process server, sends 64\,B, and receives a 64\,B reply; it stands for a service fan-out over the network. The server is a single-threaded Java NIO server that schedules each reply 10\,ms after the request on a timer, so it blocks no thread; its energy share is measured in a server-only run and reported as a constant per-task overhead. One connection per task keeps the I/O pattern identical across constructs.
@@ -100,7 +100,7 @@ Floor ratio & ratio & FP, FJ, and SEQ ($p = 1$) on SLEEP and SOCKET: time/op ove
 \subsection{Design}\label{sec:planning-design}
 The design is within-subjects: every unit receives every treatment, so the workload is a blocking factor. \emph{Experiment~1} (RQ1.1 to RQ2.2) is a full factorial of construct $\times$ $p$ $\times$ workload under DEFAULT QoS: SEQ and PT give one cell each and FP, FJ, and VT seven each, so 23 cells per workload and 69 in total. \emph{Experiment~2} (RQ3.1) runs BACKGROUND QoS at $p \in \{4, 16\}$, which bracket the six E cores: 8 cells per workload, 24 in total; their DEFAULT counterparts come from Experiment~1, whose cluster split also answers RQ3.2.
 
-One fork, a fresh JVM run, is one trial~\cite{georges2007rigorous}; its value is the median of its 5 measured iterations. With 10 forks per cell, $(69 + 24) \times 10 = 930$ runs execute in one randomized schedule, in batches of about 40 (Section~\ref{sec:measurement}). The pilots (Table~\ref{tab:pilot}) support $n = 10$: the fork-to-fork coefficient of variation (CV) of CPU-bound energy/op was below 1\% on the Mac and 0.1 to 0.6\% on Intel, so 10 forks detect differences far below 10\%. On SLEEP, Mac CPU energy/op was at the noise floor (CV up to 116\%), whereas memory-subsystem energy/op had a CV of 1.4\% (FP), 2.9\% (FJ), 1.3\% (VT), and 9.1\% (PT). The Intel arm runs the Experiment~1 cells plus an equal-count placement arm (2P, 2E, and 2LP-E for the 8 Experiment-2 cells per workload, 72 cells) at 5 forks per cell: 705 runs, about 13\,h including heat-soak (Section~\ref{sec:meas-procedure}), within the 15\,h allowance.
+One fork, a fresh JVM run, is one trial~\cite{georges2007rigorous}; its value is the median of its 5 measured iterations. With 10 forks per cell, $(69 + 24) \times 10 = 930$ runs execute in one randomized schedule, in batches of about 40 (Section~\ref{sec:measurement}). The pilots (Table~\ref{tab:pilot}) support $n = 10$: the fork-to-fork coefficient of variation (CV) of CPU-bound energy/op was below 1\% on the Mac and 0.2 to 0.6\% on Intel, so 10 forks detect differences far below 10\%. On SLEEP, Mac CPU energy/op was at the noise floor (CV up to 116\%), whereas memory-subsystem energy/op had a CV of 1.4\% (FP), 2.9\% (FJ), 1.3\% (VT), and 9.1\% (PT). The Intel arm runs the Experiment~1 cells plus an equal-count placement arm (2P, 2E, and 2LP-E for the 8 Experiment-2 cells per workload, 72 cells) at 5 forks per cell: 705 runs, about 13\,h including heat-soak (Section~\ref{sec:meas-procedure}), within the 15\,h allowance.
 
 \subsection{Analysis Procedure}\label{sec:planning-analysis}
 \begin{table}[tb]
@@ -112,13 +112,13 @@ One fork, a fresh JVM run, is one trial~\cite{georges2007rigorous}; its value is
 \toprule
 Family & Tests \\
 \midrule
-Main & 3 KW (one per workload) \\
+Main & 3 KW per platform (one per workload) \\
 H0-1.1 & 9 KW, Dunn post-hoc \\
 H0-1.2 & 3 MW (split sample) \\
 H0-1.3 & 1 Spearman $\rho$ (CPU only) \\
 H0-2.1 & 21 KW ($3 \times 7$); Dunn, VT vs.\ each construct \\
-H0-2.2 & Holm over 7 $p$ per workload; none inside IU test \\
-H0-3.1 & 24 MW \\
+H0-2.2 & Holm over the $p$ levels tested per workload (7 on CPU; $p = 256$ only on SLEEP and SOCKET); none inside the IU test \\
+H0-3.1 & 24 MW (Mac) and 48 MW (Intel: 2E and 2LP-E vs.\ 2P) \\
 H0-3.2 & 6 KW (shared SEQ, PT cells; not independent) \\
 Memory & H0-1.1, 2.1, 2.2 repeated (Mac; SLEEP, SOCKET) \\
 \bottomrule
