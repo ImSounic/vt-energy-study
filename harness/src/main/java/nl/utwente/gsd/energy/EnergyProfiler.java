@@ -54,8 +54,19 @@ public abstract class EnergyProfiler implements InternalProfiler {
             throw new IllegalStateException("energy read failed at iteration end", e);
         }
         reader.checkFresh(start, end, windowSeconds);
-        return results(prefix, reader, start, end,
+        List<Result> out = results(prefix, reader, start, end,
                 result.getMetadata().getAllOps(), windowSeconds);
+        out.addAll(extraResults());
+        return out;
+    }
+
+    /**
+     * Further per-iteration values read at the iteration-end boundary (after
+     * the energy counters, so they cannot perturb the energy window).
+     * Default: none.
+     */
+    protected List<Result> extraResults() {
+        return List.of();
     }
 
     /** Per-domain J and J/op, plus the length of the energy window in seconds. */

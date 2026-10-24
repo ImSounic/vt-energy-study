@@ -24,14 +24,14 @@ class WorkloadsTest {
     }
 
     @Test
-    void ioBoundProducesRequestedTaskCount() {
-        List<Runnable> tasks = Workloads.ioBound(30, 1);
+    void sleepProducesRequestedTaskCount() {
+        List<Runnable> tasks = Workloads.sleep(30, 1);
         assertEquals(30, tasks.size());
     }
 
     @Test
-    void ioBoundTasksBlockForApproximatelyTheRequestedTime() {
-        List<Runnable> tasks = Workloads.ioBound(1, 50);
+    void sleepTasksBlockForApproximatelyTheRequestedTime() {
+        List<Runnable> tasks = Workloads.sleep(1, 50);
         long startNanos = System.nanoTime();
         tasks.get(0).run();
         long elapsedMillis = (System.nanoTime() - startNanos) / 1_000_000;

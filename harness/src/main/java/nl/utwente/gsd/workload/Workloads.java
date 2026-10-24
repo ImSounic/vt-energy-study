@@ -1,15 +1,20 @@
 package nl.utwente.gsd.workload;
 
+import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Deterministic workloads for the concurrency energy study.
  *
- * <p>Two classes are provided because the constructs under test have different
- * design intents: virtual threads target blocking (I/O-bound) work, while
- * Fork-Join targets compute-bound divide-and-conquer work. Measuring only one
- * class would bias the comparison.
+ * <p>Compute-bound and blocking workloads are both provided because the
+ * constructs under test have different design intents: virtual threads target
+ * blocking (I/O-bound) work, while Fork-Join targets compute-bound
+ * divide-and-conquer work. Measuring only one class would bias the comparison.
  */
 public final class Workloads {
 
@@ -55,15 +60,14 @@ public final class Workloads {
     }
 
     /**
-     * I/O-bound task: blocks for a fixed duration.
+     * SLEEP task: blocks for a fixed duration.
      *
      * <p>{@link Thread#sleep} is a genuine blocking operation that causes a
      * virtual thread to unmount from its carrier, which is precisely the
-     * mechanism under study, and it makes latency an exactly controlled
-     * independent variable. A real-socket variant is planned for Assignment 2
-     * to address the external-validity threat this introduces.
+     * mechanism under study, with a nominally controlled latency. It involves no
+     * device; {@link #socket} adds real (loopback) network I/O.
      */
-    public static List<Runnable> ioBound(int taskCount, int blockMillis) {
+    public static List<Runnable> sleep(int taskCount, int blockMillis) {
         List<Runnable> tasks = new ArrayList<>(taskCount);
         for (int i = 0; i < taskCount; i++) {
             tasks.add(() -> {
@@ -71,6 +75,42 @@ public final class Workloads {
                     Thread.sleep(blockMillis);
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
+                }
+            });
+        }
+        return tasks;
+    }
+
+    /** Request and reply size of the SOCKET workload, in bytes. */
+    public static final int SOCKET_PAYLOAD = 64;
+
+    /**
+     * SOCKET task: one loopback TCP round trip to a {@link SocketDelayServer},
+     * which replies {@code delay} ms after the request. One connection per task
+     * keeps the I/O pattern identical across constructs.
+     *
+     * <p>The client closes with SO_LINGER 0 (an RST), so no port is left in
+     * TIME_WAIT: at about 20 000 connections/s the ephemeral port range would
+     * otherwise be exhausted within seconds. Any I/O failure is rethrown, so a
+     * missing server fails the run instead of producing cheap, empty work.
+     */
+    public static List<Runnable> socket(int taskCount, int port) {
+        InetSocketAddress server = new InetSocketAddress(InetAddress.getLoopbackAddress(), port);
+        byte[] request = new byte[SOCKET_PAYLOAD];
+        List<Runnable> tasks = new ArrayList<>(taskCount);
+        for (int i = 0; i < taskCount; i++) {
+            tasks.add(() -> {
+                try (Socket s = new Socket()) {
+                    s.setSoLinger(true, 0);
+                    s.setTcpNoDelay(true);
+                    s.setSoTimeout(5_000);
+                    s.connect(server, 5_000);
+                    s.getOutputStream().write(request);
+                    if (s.getInputStream().readNBytes(SOCKET_PAYLOAD).length != SOCKET_PAYLOAD) {
+                        throw new IOException("short reply from " + server);
+                    }
+                } catch (IOException e) {
+                    throw new UncheckedIOException(e);
                 }
             });
         }

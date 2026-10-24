@@ -9,13 +9,22 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Sweeps execution strategy x parallelism x workload type for the energy study.
+ * Sweeps construct x concurrency level x workload for the energy study.
  *
  * <p>Pool construction, thread creation, and the resulting allocation/GC
  * pressure are deliberately included in the measured window: they are part of
- * each construct's real cost. Note: the parallelism parameter is a no-op for
- * PLATFORM_THREADS and VIRTUAL_THREADS (see plan §Task 1.8); run scripts must
- * exclude those cells or dedupe them in analysis.
+ * each construct's real cost.
+ *
+ * <p>{@code parallelism} is the pool size (FIXED_POOL), the parallelism
+ * (FORK_JOIN), or the carrier count (VIRTUAL_THREADS). The carrier count cannot
+ * be set in-process: run with
+ * {@code -jvmArgsAppend "-Djdk.virtualThreadScheduler.parallelism=p
+ * -Djdk.virtualThreadScheduler.maxPoolSize=p"} (never {@code -jvmArgs}, which
+ * would drop the flags below); setup fails if it does not match. SEQUENTIAL and
+ * PLATFORM_THREADS have no concurrency level; run them once, with p = 1.
+ *
+ * <p>SOCKET needs a running {@link nl.utwente.gsd.workload.SocketDelayServer}
+ * whose port is passed as {@code -Dvtenergy.socket.port}.
  */
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
@@ -25,25 +34,34 @@ import java.util.concurrent.TimeUnit;
 @Measurement(iterations = 5, time = 5)
 public class ConcurrencyEnergyBenchmark {
 
-    @Param({"PLATFORM_THREADS", "FIXED_POOL", "FORK_JOIN", "VIRTUAL_THREADS"})
+    static final String CARRIER_PROPERTY = "jdk.virtualThreadScheduler.parallelism";
+    static final String SOCKET_PORT_PROPERTY = "vtenergy.socket.port";
+
+    /** Tasks per operation, identical at every concurrency level. */
+    static final int TASKS = 256;
+
+    @Param({"SEQUENTIAL", "PLATFORM_THREADS", "FIXED_POOL", "FORK_JOIN", "VIRTUAL_THREADS"})
     public ExecutionStrategy strategy;
 
     /** Concurrency level; sweeps the "Lambda curve" from the 2014 baseline. */
-    @Param({"1", "2", "4", "8", "16", "32", "64", "128"})
+    @Param({"1", "2", "4", "8", "16", "64", "256"})
     public int parallelism;
 
-    @Param({"CPU", "IO"})
+    @Param({"CPU", "SLEEP", "SOCKET"})
     public String workloadType;
 
     private List<Runnable> tasks;
 
     @Setup(Level.Trial)
     public void setUp() {
-        // Task count is held constant so total work is identical across all
-        // levels of `parallelism`; only the degree of concurrency varies.
+        checkCarrierCount(strategy, parallelism, System.getProperty(CARRIER_PROPERTY));
+        if (strategy == ExecutionStrategy.VIRTUAL_THREADS) {
+            System.out.println("VT carriers = " + System.getProperty(CARRIER_PROPERTY));
+        }
         tasks = switch (workloadType) {
-            case "CPU" -> Workloads.cpuBound(256, 128);
-            case "IO"  -> Workloads.ioBound(256, 10);
+            case "CPU" -> Workloads.cpuBound(TASKS, 128);
+            case "SLEEP" -> Workloads.sleep(TASKS, 10);
+            case "SOCKET" -> Workloads.socket(TASKS, socketPort(Integer.getInteger(SOCKET_PORT_PROPERTY)));
             default -> throw new IllegalArgumentException("unknown workload: " + workloadType);
         };
     }
@@ -52,5 +70,22 @@ public class ConcurrencyEnergyBenchmark {
     public void execute(Blackhole bh) throws InterruptedException {
         strategy.execute(tasks, parallelism);
         bh.consume(tasks.size());
+    }
+
+    /** Fails unless a VT run's carrier count equals its concurrency level. */
+    static void checkCarrierCount(ExecutionStrategy strategy, int parallelism, String carrierProperty) {
+        if (strategy != ExecutionStrategy.VIRTUAL_THREADS) return;
+        if (!String.valueOf(parallelism).equals(carrierProperty)) {
+            throw new IllegalStateException("VIRTUAL_THREADS at parallelism " + parallelism
+                    + " needs -D" + CARRIER_PROPERTY + "=" + parallelism + ", got " + carrierProperty);
+        }
+    }
+
+    static int socketPort(Integer port) {
+        if (port == null) {
+            throw new IllegalStateException("SOCKET needs -D" + SOCKET_PORT_PROPERTY
+                    + "=<port> of a running SocketDelayServer");
+        }
+        return port;
     }
 }
