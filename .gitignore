@@ -16,3 +16,7 @@ harness/native/shim_smoke
 results/pilot-mac/*.jfr
 results/pilot-mac/powermetrics-*.txt
 ._*
+# A3 campaigns: keep JMH JSON, CSVs, manifests and idle baselines; drop bulky raw logs
+results/**/profile/**/*.jfr
+results/**/powermetrics*.txt
+results/ancillary/*/.server.out
