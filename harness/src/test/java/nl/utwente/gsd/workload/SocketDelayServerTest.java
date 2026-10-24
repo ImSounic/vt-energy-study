@@ -18,7 +18,17 @@ class SocketDelayServerTest {
 
     @BeforeEach
     void start() throws Exception {
+        assertListenBacklogFits256();
         server = SocketDelayServer.start(0, 10);
+    }
+
+    /** macOS caps the listen backlog at kern.ipc.somaxconn (default 128): 256 simultaneous connects are reset. */
+    private static void assertListenBacklogFits256() throws Exception {
+        if (!System.getProperty("os.name").toLowerCase(java.util.Locale.ROOT).contains("mac")) return;
+        Process p = new ProcessBuilder("sysctl", "-n", "kern.ipc.somaxconn").start();
+        int somaxconn = Integer.parseInt(new String(p.getInputStream().readAllBytes()).trim());
+        assertTrue(somaxconn >= 256, "kern.ipc.somaxconn=" + somaxconn
+                + " < 256 resets SOCKET connections; run: sudo sysctl kern.ipc.somaxconn=1024");
     }
 
     @AfterEach
