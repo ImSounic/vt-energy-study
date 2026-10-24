@@ -43,6 +43,13 @@ Read this first on the Mac, whether you are Sounic or a Claude session. It is se
 - **`kern.ipc.somaxconn` is 128.** That resets SOCKET connections above 128 concurrent: 3/20 operations failed at 200, and 19/20 at 256. It must be set to 1024 after every boot (section 2). The runner checks it.
 - **macOS is now 27.2, a beta build (26B5091g)**, not the 27.0 (26A428) of the A2 pilot. State this in the report. The smoke test shows whether the IOReport refresh still behaves as AX1 measured.
 
+- **Animated Aerial wallpaper and screen saver.** `WallpaperAerials` plus `VTDecoderXPCService` decoding video after a few idle minutes made CPU idle swing between 93 and 98 %.
+  - The quiet gate then failed at random, and the idle baselines disagreed (0.014 vs 0.03–0.12 W, mostly P cores).
+  - The user switched to a static wallpaper and screen saver. After that the median idle was 99.2 % (min 96.0 %).
+  - **Keep it that way** on the Mac, and on any machine that reruns this.
+- **Wi-Fi stays on** (`en1`) because the Mac is controlled over SSH; Ethernet is not connected. `airportd` and `kernel_task` use a few % of CPU. **Report this as a deviation** from the quiet protocol: it is a small, constant cost for every construct.
+- **24 Oct, 23:31:** the ancillaries (AX2–AX6, SRV) started, then `--campaign main` (930 runs, about 14 h), in tmux session `vt` on the Mac. Do not SSH in while it runs: logins show up in the measurements.
+
 ## 1. Mac setup (once; already done on 24 Oct, kept for replication)
 
 Clone the repo and switch to the branch:

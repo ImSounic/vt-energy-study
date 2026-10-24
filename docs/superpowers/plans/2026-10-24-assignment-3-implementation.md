@@ -302,6 +302,13 @@ Side-effecting loop (`main`):
   - `env-manifest.sh` now logs the MMIO limits, EPP and the power profile.
   - The quiet gate deny-lists browsers and Electron, chat and media apps.
   - The runner requires EPP = `balance_performance` (`--epp`) and rejects idle baselines above 6 W on Intel or 0.08 W on the Mac (`--idle-ceiling`); it retries 5 × 60 s, then stops.
+- **24 Oct, Mac smoke test** (3/3 runs ok: IOReport profiler, SOCKET server, refresher, re-queue). Three findings:
+  1. `kern.ipc.somaxconn` = 128 resets SOCKET connections above 128 concurrent (19/20 operations failed at 256). It must be 1024; the test now says so.
+  2. `Future.resultNow()` hid the cause of failed tasks; fixed with `awaitAll`.
+  3. Idle baselines disagreed (0.014 vs 0.069 and 0.078 vs 0.029 W) because of the animated Aerial wallpaper and screen saver (`WallpaperAerials`, `VTDecoderXPCService`), not because of the runs. Removing it gave a median idle of 99.2 %.
+- **The Mac is on Wi-Fi** for SSH control, a deviation from the quiet protocol.
+- **macOS is 27.2 beta (26B5091g)**, not the 27.0 of the A2 pilot.
+- **Mac main campaign started 24 Oct, 23:31.**
 - **Added beyond the plan:**
   - `analysis/vtenergy/profile.py` (JFR event counts per cell) and `analysis/vtenergy/ancillary.py` (AX3–AX6 and SRV summaries).
   - `.gitignore` drops JFR recordings and raw powermetrics logs.
