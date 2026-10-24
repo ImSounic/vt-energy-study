@@ -7,7 +7,7 @@
 # Usage: scripts/mac/quiet-check.sh [min_idle_percent]
 set -euo pipefail
 min="${1:-95}"
-DENY='^(Safari|Google Chrome|Google Chrome Helper.*|Chromium|Firefox|firefox|zen|Zen|Arc|Brave Browser|Vivaldi|Microsoft Edge|Claude|Claude Helper.*|Discord|Discord Helper.*|Slack|Slack Helper.*|Spotify|Music|TV|Code|Code Helper.*|Cursor|Electron|Microsoft Teams|zoom.us|Mail|Messages|WhatsApp|Telegram|Signal|Notion|Obsidian|Photos|QuickTime Player|VLC|IINA|Steam)$'
+DENY='^(Safari|Google Chrome|Google Chrome Helper.*|Chromium|Firefox|firefox|zen|Zen|Arc|Brave Browser|Vivaldi|Microsoft Edge|Claude|claude|Claude Helper.*|Discord|Discord Helper.*|Slack|Slack Helper.*|Spotify|Music|TV|Code|Code Helper.*|Cursor|Electron|Microsoft Teams|zoom.us|Mail|Messages|WhatsApp|Telegram|Signal|Notion|Obsidian|Photos|QuickTime Player|VLC|IINA|Steam)$'
 busy=$(ps -axo comm= | awk -F/ '{print $NF}' | grep -E "$DENY" | sort | uniq -c || true)
 if [[ -n "$busy" ]]; then
   echo "applications running (quit them first):"; echo "$busy"
