@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ForkJoinPool;
@@ -56,7 +57,7 @@ public enum ExecutionStrategy {
         public void execute(List<Runnable> tasks, int parallelism) throws InterruptedException {
             try (ExecutorService pool = Executors.newFixedThreadPool(parallelism)) {
                 List<Future<Void>> futures = pool.invokeAll(toCallables(tasks));
-                for (Future<Void> f : futures) f.resultNow();
+                awaitAll(futures);
             }
         }
     },
@@ -89,7 +90,7 @@ public enum ExecutionStrategy {
         public void execute(List<Runnable> tasks, int parallelism) throws InterruptedException {
             try (ExecutorService pool = Executors.newVirtualThreadPerTaskExecutor()) {
                 List<Future<Void>> futures = pool.invokeAll(toCallables(tasks));
-                for (Future<Void> f : futures) f.resultNow();
+                awaitAll(futures);
             }
         }
     };
@@ -128,6 +129,17 @@ public enum ExecutionStrategy {
             }
             int mid = (lo + hi) >>> 1;
             invokeAll(new Split(tasks, lo, mid), new Split(tasks, mid, hi));
+        }
+    }
+
+    /** Waits for every future; a failed task is rethrown with its real cause (resultNow() drops it). */
+    static void awaitAll(List<Future<Void>> futures) throws InterruptedException {
+        for (Future<Void> f : futures) {
+            try {
+                f.get();
+            } catch (ExecutionException e) {
+                throw new IllegalStateException("task failed", e.getCause());
+            }
         }
     }
 

@@ -44,6 +44,16 @@ class ExecutionStrategyTest {
                 strategy + " swallowed a task failure");
     }
 
+    @ParameterizedTest
+    @EnumSource(ExecutionStrategy.class)
+    void taskFailureKeepsItsCause(ExecutionStrategy strategy) {
+        RuntimeException boom = new RuntimeException("boom");
+        Throwable thrown = assertThrows(Throwable.class, () -> strategy.execute(List.of(() -> { throw boom; }), 2));
+        Throwable root = thrown;
+        while (root != boom && root.getCause() != null) root = root.getCause();
+        assertSame(boom, root, strategy + " lost the task's exception: " + thrown);
+    }
+
     @Test
     void allFiveConstructsArePresent() {
         assertEquals(List.of(ExecutionStrategy.SEQUENTIAL, ExecutionStrategy.PLATFORM_THREADS,
