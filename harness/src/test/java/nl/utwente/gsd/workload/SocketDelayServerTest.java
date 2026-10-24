@@ -33,7 +33,7 @@ class SocketDelayServerTest {
 
     @AfterEach
     void stop() throws Exception {
-        server.close();
+        if (server != null) server.close();
     }
 
     @Test

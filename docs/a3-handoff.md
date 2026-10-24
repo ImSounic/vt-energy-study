@@ -28,7 +28,22 @@ Read this first on the Mac, whether you are Sounic or a Claude session. It is se
    - Then the H0-1.2 confirmation (30 runs) and the profile campaign.
 3. **Analysis and final report:** see "For the report" at the end.
 
-## 1. Mac setup (once)
+## 0. State of the Mac (checked over SSH on 24 Oct, 23:00)
+
+- **Reachable:** `ssh imsounic@mac.home` uses the laptop's key; Remote Login is on.
+- **Repo:** a clone of this repo is at `~/vt-energy` on `assignment-3`, up to date.
+  - `gh` is **not** logged in on the Mac, and `git pull` over SSH fails (the keychain is locked in SSH sessions).
+  - Code reaches the Mac from the laptop with `git push mac assignment-3:refs/heads/from-laptop`, followed on the Mac by `git merge --ff-only from-laptop`.
+  - Results come back with `git fetch mac`, or with `git push` from the Mac's own GUI terminal.
+- **Built and tested:**
+  - Toolchain: JDK 25.0.4.1, Maven, Python 3.14, tectonic, tmux.
+  - The IOReport shim (29 channels) and `benchmarks.jar`.
+  - `.venv`, with 57 analysis tests and 37 orchestrator tests OK.
+  - Java: all tests pass except the SOCKET tests, which need `somaxconn` raised (next item).
+- **`kern.ipc.somaxconn` is 128.** That resets SOCKET connections above 128 concurrent: 3/20 operations failed at 200, and 19/20 at 256. It must be set to 1024 after every boot (section 2). The runner checks it.
+- **macOS is now 27.2, a beta build (26B5091g)**, not the 27.0 (26A428) of the A2 pilot. State this in the report. The smoke test shows whether the IOReport refresh still behaves as AX1 measured.
+
+## 1. Mac setup (once; already done on 24 Oct, kept for replication)
 
 Clone the repo and switch to the branch:
 
