@@ -17,8 +17,12 @@ JAVA_HOME="${JAVA_HOME:-$HOME/.local/opt/jdk-25}"
   echo "intel_pstate status: $(cat /sys/devices/system/cpu/intel_pstate/status)"
   echo "no_turbo: $(cat /sys/devices/system/cpu/intel_pstate/no_turbo)"
   echo "hwp_dynamic_boost: $(cat /sys/devices/system/cpu/intel_pstate/hwp_dynamic_boost 2>/dev/null || echo n/a)"
+  echo "energy_performance_preference: $(cat /sys/devices/system/cpu/cpu*/cpufreq/energy_performance_preference | sort | uniq -c | tr '\n' ' ')"
+  echo "power profile: $(powerprofilesctl get 2>/dev/null || echo n/a)"
+  echo "platform_profile: $(cat /sys/firmware/acpi/platform_profile 2>/dev/null || echo n/a)"
   echo "# power";        echo "AC online: $(cat /sys/class/power_supply/AC*/online 2>/dev/null | head -1)"
-  for d in /sys/class/powercap/intel-rapl:*; do
+  # intel-rapl-mmio is the firmware's limit (PL1 25 W on this laptop); the MSR one (65 W) is not the binding one
+  for d in /sys/class/powercap/intel-rapl:* /sys/class/powercap/intel-rapl-mmio:*; do
     [[ -e "$d/name" ]] || continue
     printf "rapl %s (%s):" "$(basename "$d")" "$(cat "$d/name")"
     for c in 0 1; do
