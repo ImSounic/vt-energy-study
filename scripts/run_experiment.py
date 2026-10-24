@@ -475,11 +475,14 @@ class Campaign:
             return
         script = SCRIPT_DIR[self.platform] / "quiet-check.sh"
         for attempt in range(1, QUIET_ATTEMPTS + 1):
-            if self.sh("bash", script, self.args.min_idle, capture_output=True).returncode == 0:
+            check = self.sh("bash", script, self.args.min_idle, capture_output=True, text=True)
+            if check.returncode == 0:
                 return
             if self.stop:
                 raise CampaignStopped()
-            log(f"machine not quiet (attempt {attempt}/{QUIET_ATTEMPTS}); waiting {QUIET_WAIT_S} s")
+            # Say why (idle % and top processes, or the applications still open), compactly.
+            why = "; ".join(line.strip() for line in check.stdout.splitlines()[:5] if line.strip())
+            log(f"machine not quiet (attempt {attempt}/{QUIET_ATTEMPTS}): {why[:300]}; waiting {QUIET_WAIT_S} s")
             time.sleep(QUIET_WAIT_S)
         raise CampaignStopped("machine never became quiet; close applications and resume")
 
