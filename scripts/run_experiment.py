@@ -435,6 +435,11 @@ class Campaign:
             pm = subprocess.run(["pmset", "-g"], capture_output=True, text=True).stdout
             if any(line.split()[:2] == ["lowpowermode", "1"] for line in pm.splitlines()):
                 problems.append("Low Power Mode is on")
+            wrapper = REPO / "scripts" / "mac" / "bg-java.sh"
+            probe = subprocess.run([str(wrapper), "-version"], env=self.env, capture_output=True, text=True)
+            if probe.returncode != 0:  # JMH -jvm executes it directly: it must be executable and work
+                problems.append(f"BACKGROUND wrapper {wrapper} does not run (chmod +x?): "
+                                f"{(probe.stderr or probe.stdout).strip()[:200]}")
         if problems:
             sys.exit("preflight failed:\n  " + "\n  ".join(problems))
         self.keep_awake()
@@ -448,6 +453,20 @@ class Campaign:
                     subprocess.run(["sudo", "-n", "true"], capture_output=True)
 
             threading.Thread(target=keepalive, daemon=True).start()
+
+    def os_build(self):
+        argv = ["sw_vers", "-buildVersion"] if self.platform == "mac" else ["uname", "-r"]
+        return subprocess.run(argv, capture_output=True, text=True).stdout.strip()
+
+    def check_os(self):
+        """The whole campaign must run on one OS build: an update in between is a confound."""
+        marker = self.dir / "os-build.txt"
+        build = self.os_build()
+        if not marker.exists():
+            marker.write_text(build + "\n")
+        elif marker.read_text().strip() != build:
+            raise CampaignStopped(f"OS build changed from {marker.read_text().strip()} to {build} during the "
+                                  f"campaign; start a new campaign (and turn off automatic updates)")
 
     def keep_awake(self):
         """Hold off system sleep (and, on Linux, the lid switch) until this process exits."""
@@ -619,6 +638,7 @@ class Campaign:
 
     # ---- one batch execution
     def run_batch(self, batch, runs, attempts):
+        self.check_os()  # before creating anything for this batch
         k = 1
         while (self.dir / "batches" / (batch if k == 1 else f"{batch}-{k}")).exists():
             k += 1

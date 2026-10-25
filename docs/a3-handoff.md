@@ -92,6 +92,9 @@ python3 -m venv .venv && .venv/bin/pip install -r analysis/requirements.txt
 
 ## 2. Before every Mac session
 
+**Automatic macOS updates must be off.** On 25 Oct at 01:56, macOS installed 27.2 final over 27.2 Beta 2 and rebooted, which killed the first main campaign. Turn it off in System Settings → General → Software Update → Automatic Updates: disable "Install macOS updates" and "Install Security Responses and system files". The runner now stops if the OS build changes during a campaign (`os-build.txt`).
+
+
 Raise the listen backlog. The default of 128 overflows with 256 simultaneous SOCKET connects, and the setting resets at reboot:
 
 ```bash
