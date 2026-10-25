@@ -20,3 +20,5 @@ results/pilot-mac/powermetrics-*.txt
 results/**/profile/**/*.jfr
 results/**/powermetrics*.txt
 results/ancillary/*/.server.out
+# runs from before the 25 Oct macOS auto-update (beta OS), kept on the Mac only
+results/aborted-*/
