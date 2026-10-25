@@ -40,11 +40,13 @@ The bounded pools follow the ⌈256/p⌉×d floor.
 
 | Construct | ms/op | CPU J/op |
 |---|---|---|
-| VT_4 (VT minimum) | 19.9 | **0.031** |
+| VT_4 (VT minimum) | 19.9 | 0.031 |
 | VT_256 | 20.6 | 0.049 |
 | PT | 18.5 | 0.061 |
 | FP_256 / FJ_256 | 21 | 0.112 |
 | SEQ | 3119 | 0.060 |
+
+**Caution:** the bounded pools at p = 8–64 use *less* CPU-cluster energy per op than VT (FP_16 0.010, FJ_64 0.0097 J/op), but they are **3–20× slower** (57–405 ms vs 20 ms). CPU-cluster energy does not charge them for the static power of the longer operation; this is the report's "static power seen only in part" threat. VT is lowest only at equal concurrency (p = 256: VT 0.049 < PT 0.061 < FP/FJ 0.112). The same pattern appears on SLEEP for idle-subtracted values (figure `lambda.pdf`).
 
 **Tests**
 - **Main:** every workload's KW test rejects (ε² 0.85–0.94).
