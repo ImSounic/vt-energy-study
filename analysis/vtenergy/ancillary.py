@@ -10,6 +10,7 @@ Each prints a small CSV table on stdout and writes it next to the inputs.
 """
 import csv
 import datetime as dt
+import gzip
 import io
 import json
 import re
@@ -49,6 +50,15 @@ def parse_powermetrics(text):
     return samples
 
 
+def read_log(d, name="powermetrics.txt"):
+    """A powermetrics log, plain or gzipped (raw logs are git-ignored; .gz copies are committed)."""
+    plain, packed = Path(d) / name, Path(d) / (name + ".gz")
+    if plain.exists():
+        return plain.read_text(errors="replace")
+    with gzip.open(packed, "rt", errors="replace") as f:
+        return f.read()
+
+
 def window(samples, start, seconds):
     """Samples that end inside [start, start + seconds] (1 s header resolution)."""
     return [s for s in samples if start <= s["end"] <= start + seconds + 1]
@@ -85,7 +95,7 @@ def ax4(d):
 
 
 def ax3(d):
-    samples = parse_powermetrics((Path(d) / "powermetrics.txt").read_text(errors="replace"))
+    samples = parse_powermetrics(read_log(d))
     rows = []
     for name, p in _probes(d, "k*.json").items():
         start = p["start_epoch_ms"] / 1000
@@ -98,7 +108,7 @@ def ax3(d):
 
 
 def ax6(d):
-    samples = parse_powermetrics((Path(d) / "powermetrics.txt").read_text(errors="replace"))
+    samples = parse_powermetrics(read_log(d))
     rows = []
     for name, p in _probes(d, "*.json").items():
         if "threads" not in p:
