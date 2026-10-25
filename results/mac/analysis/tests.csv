@@ -1,0 +1,1013 @@
+family,test,platform,workload,p,comparison,measure,statistic,p_raw,p_holm,effect,effect_name,ci_lo,ci_hi,decision,note
+Main,KW,mac,CPU,8,SEQ | PT | FP_8 | FJ_8 | VT_8,primary_J_op,44.94898194391085,4.074260288881471e-09,1.2222780866644413e-08,0.9173261621206297,epsilon^2,0.9134945435315609,0.9453821114585347,reject,"n=10,10,10,10,10"
+Main,KW,mac,SLEEP,256,PT | FP_256 | FJ_256 | VT_256,primary_J_op_active,36.585365853658544,5.631198837697744e-08,1.1262397675395487e-07,0.9380863039399626,epsilon^2,0.9391435011269724,0.9416195856873825,reject,"n=10,10,10,10"
+Main,KW,mac,SOCKET,256,PT | FP_256 | FJ_256 | VT_256,primary_J_op_active,33.02048780487806,3.18878316792333e-07,3.18878316792333e-07,0.8466791744840528,epsilon^2,0.8456466610312763,0.8923408204253278,reject,"n=10,10,10,10"
+Main,any workload,mac,,,H0 rejected if any workload's KW rejects,,,,1.2222780866644413e-08,,,,,reject,3 of 3 workloads tested
+H0-1.1,KW across p,mac,CPU,,FP: FP_1 | FP_2 | FP_4 | FP_8 | FP_16 | FP_64 | FP_256,primary_J_op,66.43750503018111,2.1935532307219976e-12,1.974197907649798e-11,0.9628623917417553,epsilon^2,0.9628120295487169,0.9709973914109141,reject,"n=10,10,10,10,10,10,10"
+H0-1.1,Dunn,mac,CPU,,FP_1 vs FP_2,primary_J_op,,0.27187873536673646,1.0,1.0,Cliff's delta,1.0,1.0,not rejected,
+H0-1.1,TOST,mac,CPU,,FP_1 vs FP_2,primary_J_op,,,,1.0310856534576929,ratio of medians,1.029591642924976,1.033241981323589,equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,CPU,,FP_1 vs FP_4,primary_J_op,,0.02798528251601987,0.2798528251601987,1.0,Cliff's delta,1.0,1.0,not rejected,
+H0-1.1,TOST,mac,CPU,,FP_1 vs FP_4,primary_J_op,,,,1.44361951700345,ratio of medians,1.4411061977407251,1.4465925348541209,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,CPU,,FP_1 vs FP_8,primary_J_op,,0.0009798863695179671,0.013718409173251539,1.0,Cliff's delta,1.0,1.0,reject,
+H0-1.1,Dunn,mac,CPU,,FP_1 vs FP_16,primary_J_op,,8.149301915434936e-10,1.7113534022413366e-08,1.0,Cliff's delta,1.0,1.0,reject,
+H0-1.1,Dunn,mac,CPU,,FP_1 vs FP_64,primary_J_op,,2.7778047877523014e-09,5.555609575504603e-08,1.0,Cliff's delta,1.0,1.0,reject,
+H0-1.1,Dunn,mac,CPU,,FP_1 vs FP_256,primary_J_op,,1.1078027417682743e-05,0.00018832646610060662,1.0,Cliff's delta,1.0,1.0,reject,
+H0-1.1,Dunn,mac,CPU,,FP_2 vs FP_4,primary_J_op,,0.27187873536673646,1.0,1.0,Cliff's delta,1.0,1.0,not rejected,
+H0-1.1,TOST,mac,CPU,,FP_2 vs FP_4,primary_J_op,,,,1.400096599310005,ratio of medians,1.397116520917041,1.4026772493040338,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,CPU,,FP_2 vs FP_8,primary_J_op,,0.02798528251601987,0.2798528251601987,1.0,Cliff's delta,1.0,1.0,not rejected,
+H0-1.1,TOST,mac,CPU,,FP_2 vs FP_8,primary_J_op,,,,2.049237161591898,ratio of medians,2.043805465493284,2.056006779219086,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,CPU,,FP_2 vs FP_16,primary_J_op,,4.5770121525591464e-07,8.696323089862379e-06,1.0,Cliff's delta,1.0,1.0,reject,
+H0-1.1,Dunn,mac,CPU,,FP_2 vs FP_64,primary_J_op,,1.2631150839962416e-06,2.273607151193235e-05,1.0,Cliff's delta,1.0,1.0,reject,
+H0-1.1,Dunn,mac,CPU,,FP_2 vs FP_256,primary_J_op,,0.0009798863695179671,0.013718409173251539,1.0,Cliff's delta,1.0,1.0,reject,
+H0-1.1,Dunn,mac,CPU,,FP_4 vs FP_8,primary_J_op,,0.27187873536673646,1.0,1.0,Cliff's delta,1.0,1.0,not rejected,
+H0-1.1,TOST,mac,CPU,,FP_4 vs FP_8,primary_J_op,,,,1.4636398392809482,ratio of medians,1.4597167318313065,1.4688046430298745,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,CPU,,FP_4 vs FP_16,primary_J_op,,7.996689908576447e-05,0.0012794703853722315,1.0,Cliff's delta,1.0,1.0,reject,
+H0-1.1,Dunn,mac,CPU,,FP_4 vs FP_64,primary_J_op,,0.0001791583593728025,0.0026873753905920375,1.0,Cliff's delta,1.0,1.0,reject,
+H0-1.1,Dunn,mac,CPU,,FP_4 vs FP_256,primary_J_op,,0.02798528251601987,0.2798528251601987,1.0,Cliff's delta,1.0,1.0,not rejected,
+H0-1.1,TOST,mac,CPU,,FP_4 vs FP_256,primary_J_op,,,,1.6146568506034569,ratio of medians,1.6090253331188982,1.6206990808078996,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,CPU,,FP_8 vs FP_16,primary_J_op,,0.004430655419811788,0.05316786503774146,1.0,Cliff's delta,1.0,1.0,not rejected,
+H0-1.1,TOST,mac,CPU,,FP_8 vs FP_16,primary_J_op,,,,1.1301460321413008,ratio of medians,1.1260414637287082,1.1332619467540102,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,CPU,,FP_8 vs FP_64,primary_J_op,,0.008097464733454806,0.08907211206800286,1.0,Cliff's delta,1.0,1.0,not rejected,
+H0-1.1,TOST,mac,CPU,,FP_8 vs FP_64,primary_J_op,,,,1.1289612558746966,ratio of medians,1.1251075571111286,1.1327895610211898,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,CPU,,FP_8 vs FP_256,primary_J_op,,0.27187873536673646,1.0,1.0,Cliff's delta,1.0,1.0,not rejected,
+H0-1.1,TOST,mac,CPU,,FP_8 vs FP_256,primary_J_op,,,,1.103179079490416,ratio of medians,1.0971668618319086,1.1076822044876777,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,CPU,,FP_16 vs FP_64,primary_J_op,,0.8432216261530736,1.0,-0.18,Cliff's delta,-0.66,0.36,not rejected,
+H0-1.1,TOST,mac,CPU,,FP_16 vs FP_64,primary_J_op,,,,0.9989516609067244,ratio of medians,0.9965338415850362,1.0018790296726392,equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,CPU,,FP_16 vs FP_256,primary_J_op,,0.08063618667770163,0.5644533067439114,-1.0,Cliff's delta,-1.0,-1.0,not rejected,
+H0-1.1,TOST,mac,CPU,,FP_16 vs FP_256,primary_J_op,,,,0.976138523797858,ratio of medians,0.97225338759222,0.9799573446921003,equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,CPU,,FP_64 vs FP_256,primary_J_op,,0.12132588709252008,0.7279553225551205,-1.0,Cliff's delta,-1.0,-1.0,not rejected,
+H0-1.1,TOST,mac,CPU,,FP_64 vs FP_256,primary_J_op,,,,0.9771629218893741,ratio of medians,0.9729893058639865,0.9807714596811188,equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,KW across p,mac,CPU,,FJ: FJ_1 | FJ_2 | FJ_4 | FJ_8 | FJ_16 | FJ_64 | FJ_256,primary_J_op,66.04654792315495,2.6367658441205447e-12,2.1094126752964358e-11,0.9571963467123905,epsilon^2,0.9494066119251975,0.9680538581408791,reject,"n=10,10,10,10,10,10,10"
+H0-1.1,Dunn,mac,CPU,,FJ_1 vs FJ_2,primary_J_op,,0.2718745415728092,1.0,1.0,Cliff's delta,1.0,1.0,not rejected,
+H0-1.1,TOST,mac,CPU,,FJ_1 vs FJ_2,primary_J_op,,,,1.0193744810406864,ratio of medians,1.0159542444310656,1.0263991284740694,equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,CPU,,FJ_1 vs FJ_4,primary_J_op,,0.02798391106139893,0.2518551995525904,1.0,Cliff's delta,1.0,1.0,not rejected,
+H0-1.1,TOST,mac,CPU,,FJ_1 vs FJ_4,primary_J_op,,,,1.4443423319931072,ratio of medians,1.4431083650190113,1.4496900314920083,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,CPU,,FJ_1 vs FJ_8,primary_J_op,,0.0009797857891312232,0.012737215258705902,1.0,Cliff's delta,1.0,1.0,reject,
+H0-1.1,Dunn,mac,CPU,,FJ_1 vs FJ_16,primary_J_op,,1.8530041000525216e-09,3.7060082001050435e-08,1.0,Cliff's delta,1.0,1.0,reject,
+H0-1.1,Dunn,mac,CPU,,FJ_1 vs FJ_64,primary_J_op,,1.731474248254127e-09,3.636095921333667e-08,1.0,Cliff's delta,1.0,1.0,reject,
+H0-1.1,Dunn,mac,CPU,,FJ_1 vs FJ_256,primary_J_op,,8.588568539742621e-06,0.00014600566517562456,1.0,Cliff's delta,1.0,1.0,reject,
+H0-1.1,Dunn,mac,CPU,,FJ_2 vs FJ_4,primary_J_op,,0.2718745415728092,1.0,1.0,Cliff's delta,1.0,1.0,not rejected,
+H0-1.1,TOST,mac,CPU,,FJ_2 vs FJ_4,primary_J_op,,,,1.4168908078987503,ratio of medians,1.4089970399263447,1.4227884748854824,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,CPU,,FJ_2 vs FJ_8,primary_J_op,,0.02798391106139893,0.2518551995525904,1.0,Cliff's delta,1.0,1.0,not rejected,
+H0-1.1,TOST,mac,CPU,,FJ_2 vs FJ_8,primary_J_op,,,,2.030697172703531,ratio of medians,2.014346799511808,2.0490634596677286,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,CPU,,FJ_2 vs FJ_16,primary_J_op,,9.041042124465966e-07,1.627387582403874e-05,1.0,Cliff's delta,1.0,1.0,reject,
+H0-1.1,Dunn,mac,CPU,,FJ_2 vs FJ_64,primary_J_op,,8.547765253017664e-07,1.624075398073356e-05,1.0,Cliff's delta,1.0,1.0,reject,
+H0-1.1,Dunn,mac,CPU,,FJ_2 vs FJ_256,primary_J_op,,0.000804605486839257,0.011264476815749597,1.0,Cliff's delta,1.0,1.0,reject,
+H0-1.1,Dunn,mac,CPU,,FJ_4 vs FJ_8,primary_J_op,,0.2718745415728092,1.0,1.0,Cliff's delta,1.0,1.0,not rejected,
+H0-1.1,TOST,mac,CPU,,FJ_4 vs FJ_8,primary_J_op,,,,1.433206540252072,ratio of medians,1.425716492901128,1.4447838704750267,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,CPU,,FJ_4 vs FJ_16,primary_J_op,,0.00013746634321052685,0.0021036725337039595,1.0,Cliff's delta,1.0,1.0,reject,
+H0-1.1,Dunn,mac,CPU,,FJ_4 vs FJ_64,primary_J_op,,0.00013147953335649747,0.0021036725337039595,1.0,Cliff's delta,1.0,1.0,reject,
+H0-1.1,Dunn,mac,CPU,,FJ_4 vs FJ_256,primary_J_op,,0.024293871340329416,0.24293871340329415,1.0,Cliff's delta,1.0,1.0,not rejected,
+H0-1.1,TOST,mac,CPU,,FJ_4 vs FJ_256,primary_J_op,,,,1.6243480079304757,ratio of medians,1.6185359536601156,1.6317066300802299,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,CPU,,FJ_8 vs FJ_16,primary_J_op,,0.006649078921379284,0.07718172302608109,1.0,Cliff's delta,1.0,1.0,not rejected,
+H0-1.1,TOST,mac,CPU,,FJ_8 vs FJ_16,primary_J_op,,,,1.1491524619527183,ratio of medians,1.1388987738672802,1.1551936937778775,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,CPU,,FJ_8 vs FJ_64,primary_J_op,,0.006431810252173424,0.07718172302608109,1.0,Cliff's delta,1.0,1.0,not rejected,
+H0-1.1,TOST,mac,CPU,,FJ_8 vs FJ_64,primary_J_op,,,,1.14858023593574,ratio of medians,1.138699088265928,1.1544090377971956,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,CPU,,FJ_8 vs FJ_256,primary_J_op,,0.24862575883804416,1.0,1.0,Cliff's delta,1.0,1.0,not rejected,
+H0-1.1,TOST,mac,CPU,,FJ_8 vs FJ_256,primary_J_op,,,,1.133366309956125,ratio of medians,1.1230918889472559,1.141592831515312,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,CPU,,FJ_16 vs FJ_64,primary_J_op,,0.9912333725053725,1.0,-0.04,Cliff's delta,-0.58,0.48,not rejected,
+H0-1.1,TOST,mac,CPU,,FJ_16 vs FJ_64,primary_J_op,,,,0.9995020451716166,ratio of medians,0.9971948513093651,1.002845456162191,equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,CPU,,FJ_16 vs FJ_256,primary_J_op,,0.11870473211132282,0.8129193103611485,-0.9,Cliff's delta,-1.0,-0.68,not rejected,
+H0-1.1,TOST,mac,CPU,,FJ_16 vs FJ_256,primary_J_op,,,,0.986262787124201,ratio of medians,0.9827722044225012,0.9921919601869484,equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,CPU,,FJ_64 vs FJ_256,primary_J_op,,0.11613133005159265,0.8129193103611485,-1.0,Cliff's delta,-1.0,-1.0,not rejected,
+H0-1.1,TOST,mac,CPU,,FJ_64 vs FJ_256,primary_J_op,,,,0.9867541461156867,ratio of medians,0.9841397661228206,0.991829451255759,equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,KW across p,mac,CPU,,VT: VT_1 | VT_2 | VT_4 | VT_8 | VT_16 | VT_64 | VT_256,primary_J_op,63.61366833467477,8.27502680544435e-12,4.9650160832666106e-11,0.9219372222416633,epsilon^2,0.912110708963037,0.9498627895215621,reject,"n=10,10,10,10,10,10,10"
+H0-1.1,Dunn,mac,CPU,,VT_1 vs VT_2,primary_J_op,,0.2718745415728092,1.0,1.0,Cliff's delta,1.0,1.0,not rejected,
+H0-1.1,TOST,mac,CPU,,VT_1 vs VT_2,primary_J_op,,,,1.0296956951377099,ratio of medians,1.0273831917892489,1.0344486692015207,equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,CPU,,VT_1 vs VT_4,primary_J_op,,0.02798391106139893,0.2518551995525904,1.0,Cliff's delta,1.0,1.0,not rejected,
+H0-1.1,TOST,mac,CPU,,VT_1 vs VT_4,primary_J_op,,,,1.4467855341620435,ratio of medians,1.4406314358069823,1.4603959705463279,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,CPU,,VT_1 vs VT_8,primary_J_op,,0.0009797857891312232,0.012737215258705902,1.0,Cliff's delta,1.0,1.0,reject,
+H0-1.1,Dunn,mac,CPU,,VT_1 vs VT_16,primary_J_op,,1.9696873192392814e-08,3.9393746384785626e-07,1.0,Cliff's delta,1.0,1.0,reject,
+H0-1.1,Dunn,mac,CPU,,VT_1 vs VT_64,primary_J_op,,4.143905703802364e-09,8.702201977984965e-08,1.0,Cliff's delta,1.0,1.0,reject,
+H0-1.1,Dunn,mac,CPU,,VT_1 vs VT_256,primary_J_op,,6.089656836837315e-07,1.1570347989990898e-05,1.0,Cliff's delta,1.0,1.0,reject,
+H0-1.1,Dunn,mac,CPU,,VT_2 vs VT_4,primary_J_op,,0.2718745415728092,1.0,1.0,Cliff's delta,1.0,1.0,not rejected,
+H0-1.1,TOST,mac,CPU,,VT_2 vs VT_4,primary_J_op,,,,1.40506126323909,ratio of medians,1.3987394791954797,1.4171182032861371,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,CPU,,VT_2 vs VT_8,primary_J_op,,0.02798391106139893,0.2518551995525904,1.0,Cliff's delta,1.0,1.0,not rejected,
+H0-1.1,TOST,mac,CPU,,VT_2 vs VT_8,primary_J_op,,,,2.05620400606585,ratio of medians,2.0486658443160426,2.062674665573648,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,CPU,,VT_2 vs VT_16,primary_J_op,,6.305232585370648e-06,0.00010718895395130101,1.0,Cliff's delta,1.0,1.0,reject,
+H0-1.1,Dunn,mac,CPU,,VT_2 vs VT_64,primary_J_op,,1.7565453625764454e-06,3.161781652637602e-05,1.0,Cliff's delta,1.0,1.0,reject,
+H0-1.1,Dunn,mac,CPU,,VT_2 vs VT_256,primary_J_op,,0.00010041125226990283,0.0016065800363184452,1.0,Cliff's delta,1.0,1.0,reject,
+H0-1.1,Dunn,mac,CPU,,VT_4 vs VT_8,primary_J_op,,0.2718745415728092,1.0,1.0,Cliff's delta,1.0,1.0,not rejected,
+H0-1.1,TOST,mac,CPU,,VT_4 vs VT_8,primary_J_op,,,,1.4634265849203472,ratio of medians,1.45055201448638,1.4707041722823646,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,CPU,,VT_4 vs VT_16,primary_J_op,,0.0006328483661431814,0.008859877126004539,1.0,Cliff's delta,1.0,1.0,reject,
+H0-1.1,Dunn,mac,CPU,,VT_4 vs VT_64,primary_J_op,,0.0002324738266843835,0.003487107400265752,1.0,Cliff's delta,1.0,1.0,reject,
+H0-1.1,Dunn,mac,CPU,,VT_4 vs VT_256,primary_J_op,,0.005257144472804361,0.06308573367365233,1.0,Cliff's delta,1.0,1.0,not rejected,
+H0-1.1,TOST,mac,CPU,,VT_4 vs VT_256,primary_J_op,,,,1.6485132227142578,ratio of medians,1.6345892207688273,1.6556226417331354,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,CPU,,VT_8 vs VT_16,primary_J_op,,0.02042894940335053,0.20428949403350527,1.0,Cliff's delta,1.0,1.0,not rejected,
+H0-1.1,TOST,mac,CPU,,VT_8 vs VT_16,primary_J_op,,,,1.1277986142376397,ratio of medians,1.1246132920844891,1.1321900782266257,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,CPU,,VT_8 vs VT_64,primary_J_op,,0.00982078344398063,0.10802861788378693,1.0,Cliff's delta,1.0,1.0,not rejected,
+H0-1.1,TOST,mac,CPU,,VT_8 vs VT_64,primary_J_op,,,,1.1286929189381143,ratio of medians,1.125323572057607,1.1334622128681877,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,CPU,,VT_8 vs VT_256,primary_J_op,,0.0906299348532837,0.6344095439729859,1.0,Cliff's delta,1.0,1.0,not rejected,
+H0-1.1,TOST,mac,CPU,,VT_8 vs VT_256,primary_J_op,,,,1.1264748363198451,ratio of medians,1.1231192008693471,1.1303973633646456,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,CPU,,VT_16 vs VT_64,primary_J_op,,0.7920099996543973,1.0,0.2,Cliff's delta,-0.34,0.7,not rejected,
+H0-1.1,TOST,mac,CPU,,VT_16 vs VT_64,primary_J_op,,,,1.0007929648868021,ratio of medians,0.9980807165324946,1.0037046272218857,equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,CPU,,VT_16 vs VT_256,primary_J_op,,0.5311241688393769,1.0,-0.42,Cliff's delta,-0.84,0.1,not rejected,
+H0-1.1,TOST,mac,CPU,,VT_16 vs VT_256,primary_J_op,,,,0.9988262284586247,ratio of medians,0.996199170566661,1.0007827927911899,equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,CPU,,VT_64 vs VT_256,primary_J_op,,0.37347002090791326,1.0,-0.5,Cliff's delta,-1.0,0.04,not rejected,
+H0-1.1,TOST,mac,CPU,,VT_64 vs VT_256,primary_J_op,,,,0.9980348218890608,ratio of medians,0.9950617940670603,1.0004089034276773,equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,KW across p,mac,SLEEP,,FP: FP_1 | FP_2 | FP_4 | FP_8 | FP_16 | FP_64 | FP_256,primary_J_op_active,43.56024144869218,9.035077733211405e-08,1.807015546642281e-07,0.6313078470824954,epsilon^2,0.5340735101883503,0.7906366175207733,reject,"n=10,10,10,10,10,10,10"
+H0-1.1,Dunn,mac,SLEEP,,FP_1 vs FP_2,primary_J_op_active,,0.03304238928755499,0.3634662821631049,0.58,Cliff's delta,0.12,0.94,not rejected,
+H0-1.1,TOST,mac,SLEEP,,FP_1 vs FP_2,primary_J_op_active,,,,1.9809658504370458,ratio of medians,1.1414352053829342,13.331581021205254,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,SLEEP,,FP_1 vs FP_4,primary_J_op_active,,0.6055675472142007,1.0,0.42,Cliff's delta,-0.12,0.88,not rejected,
+H0-1.1,TOST,mac,SLEEP,,FP_1 vs FP_4,primary_J_op_active,,,,1.421998095624264,ratio of medians,0.9723293022725826,2.7691609517794062,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,SLEEP,,FP_1 vs FP_8,primary_J_op_active,,0.001440730527340941,0.023051688437455056,0.76,Cliff's delta,0.34,1.0,reject,
+H0-1.1,Dunn,mac,SLEEP,,FP_1 vs FP_16,primary_J_op_active,,0.0004381204521130216,0.007448047685921368,0.8,Cliff's delta,0.4,1.0,reject,
+H0-1.1,Dunn,mac,SLEEP,,FP_1 vs FP_64,primary_J_op_active,,0.027210824253332534,0.3265298910399904,0.78,Cliff's delta,0.38,1.0,not rejected,
+H0-1.1,TOST,mac,SLEEP,,FP_1 vs FP_64,primary_J_op_active,,,,2.20053691881979,ratio of medians,1.5192682963965851,4.184103912603712,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,SLEEP,,FP_1 vs FP_256,primary_J_op_active,,0.07330027735496576,0.7330027735496576,-0.8,Cliff's delta,-1.0,-0.4,not rejected,
+H0-1.1,TOST,mac,SLEEP,,FP_1 vs FP_256,primary_J_op_active,,,,0.10258966579890504,ratio of medians,0.07429980183862844,0.1936035125823229,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,SLEEP,,FP_2 vs FP_4,primary_J_op_active,,0.1062766824066926,0.8502134592535407,-0.3,Cliff's delta,-0.7804999999999956,0.28,not rejected,
+H0-1.1,TOST,mac,SLEEP,,FP_2 vs FP_4,primary_J_op_active,,,,0.7178306962285791,ratio of medians,0.023342450546270564,1.2009915088043996,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,SLEEP,,FP_2 vs FP_8,primary_J_op_active,,0.29151842368253433,1.0,0.16,Cliff's delta,-0.42,0.72,not rejected,
+H0-1.1,TOST,mac,SLEEP,,FP_2 vs FP_8,primary_J_op_active,,,,1.3540804419185086,ratio of medians,0.058617727737471724,2.4422557296258325,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,SLEEP,,FP_2 vs FP_16,primary_J_op_active,,0.16622977991777388,1.0,0.22,Cliff's delta,-0.4,0.8,not rejected,
+H0-1.1,TOST,mac,SLEEP,,FP_2 vs FP_16,primary_J_op_active,,,,1.5958748472336586,ratio of medians,0.05098839572791438,2.64529462579534,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,SLEEP,,FP_2 vs FP_64,primary_J_op_active,,0.9386933587496423,1.0,0.16,Cliff's delta,-0.44,0.76,not rejected,
+H0-1.1,TOST,mac,SLEEP,,FP_2 vs FP_64,primary_J_op_active,,,,1.1108404106685141,ratio of medians,0.034199231194358574,1.8239480940468926,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,SLEEP,,FP_2 vs FP_256,primary_J_op_active,,8.762603859961826e-05,0.0015772686947931286,-1.0,Cliff's delta,-1.0,-1.0,reject,
+H0-1.1,Dunn,mac,SLEEP,,FP_4 vs FP_8,primary_J_op_active,,0.007586174274632554,0.10620643984485575,0.94,Cliff's delta,0.76,1.0,not rejected,
+H0-1.1,TOST,mac,SLEEP,,FP_4 vs FP_8,primary_J_op_active,,,,1.8863507078099766,ratio of medians,1.5358362973135427,2.564649472385692,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,SLEEP,,FP_4 vs FP_16,primary_J_op_active,,0.002703543926015461,0.040553158890231915,0.96,Cliff's delta,0.82,1.0,reject,
+H0-1.1,Dunn,mac,SLEEP,,FP_4 vs FP_64,primary_J_op_active,,0.09063275687459214,0.8156948118713293,0.82,Cliff's delta,0.4,1.0,not rejected,
+H0-1.1,TOST,mac,SLEEP,,FP_4 vs FP_64,primary_J_op_active,,,,1.5474963894756442,ratio of medians,1.4025640232506125,1.7788250979337408,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,SLEEP,,FP_4 vs FP_256,primary_J_op_active,,0.021034354939354967,0.2734466142116146,-1.0,Cliff's delta,-1.0,-1.0,not rejected,
+H0-1.1,TOST,mac,SLEEP,,FP_4 vs FP_256,primary_J_op_active,,,,0.07214472798141666,ratio of medians,0.06534734558991163,0.08352721175795305,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,SLEEP,,FP_8 vs FP_16,primary_J_op_active,,0.7416841659819464,1.0,0.06,Cliff's delta,-0.48,0.6,not rejected,
+H0-1.1,TOST,mac,SLEEP,,FP_8 vs FP_16,primary_J_op_active,,,,1.178567238570086,ratio of medians,0.8201573635956725,1.3861689649730686,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,SLEEP,,FP_8 vs FP_64,primary_J_op_active,,0.3281315911639827,1.0,-0.46,Cliff's delta,-1.0,0.12,not rejected,
+H0-1.1,TOST,mac,SLEEP,,FP_8 vs FP_64,primary_J_op_active,,,,0.8203651542995751,ratio of medians,0.6389330703640103,1.0057660657207388,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,SLEEP,,FP_8 vs FP_256,primary_J_op_active,,6.447042259858117e-07,1.2894084519716233e-05,-1.0,Cliff's delta,-1.0,-1.0,reject,
+H0-1.1,Dunn,mac,SLEEP,,FP_16 vs FP_64,primary_J_op_active,,0.19104020145888467,1.0,-0.82,Cliff's delta,-1.0,-0.44,not rejected,
+H0-1.1,TOST,mac,SLEEP,,FP_16 vs FP_64,primary_J_op_active,,,,0.6960698782827996,ratio of medians,0.6569125594665047,0.8599067966625644,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,SLEEP,,FP_16 vs FP_256,primary_J_op_active,,1.1147798420567957e-07,2.341037668319271e-06,-1.0,Cliff's delta,-1.0,-1.0,reject,
+H0-1.1,Dunn,mac,SLEEP,,FP_64 vs FP_256,primary_J_op_active,,6.349345896076053e-05,0.0012063757202544502,-1.0,Cliff's delta,-1.0,-1.0,reject,
+H0-1.1,KW across p,mac,SLEEP,,FJ: FJ_1 | FJ_2 | FJ_4 | FJ_8 | FJ_16 | FJ_64 | FJ_256,primary_J_op_active,39.36193158953719,6.078424426722913e-07,6.078424426722913e-07,0.5704627766599593,epsilon^2,0.5006950439904249,0.7448956505958887,reject,"below detection limit: FJ_2; n=10,10,10,10,10,10,10"
+H0-1.1,Dunn,mac,SLEEP,,FJ_1 vs FJ_2,primary_J_op_active,,0.04435654599698828,0.5322785519638593,0.54,Cliff's delta,0.08,0.9,not rejected,below detection limit: FJ_2
+H0-1.1,TOST,mac,SLEEP,,FJ_1 vs FJ_2,primary_J_op_active,,,,,ratio of medians,,,skipped,ratio undefined: a cell is below the detection limit
+H0-1.1,Dunn,mac,SLEEP,,FJ_1 vs FJ_4,primary_J_op_active,,0.020430050727181535,0.2860207101805415,0.6,Cliff's delta,0.12,0.98,not rejected,
+H0-1.1,TOST,mac,SLEEP,,FJ_1 vs FJ_4,primary_J_op_active,,,,2.6889353276902828,ratio of medians,1.2910305674803857,7.333057485121517,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,SLEEP,,FJ_1 vs FJ_8,primary_J_op_active,,0.16961781039831325,1.0,0.5,Cliff's delta,0.02,0.88,not rejected,
+H0-1.1,TOST,mac,SLEEP,,FJ_1 vs FJ_8,primary_J_op_active,,,,2.16913263243998,ratio of medians,1.0396955960133551,3.8820798680193747,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,SLEEP,,FJ_1 vs FJ_16,primary_J_op_active,,0.0010593758275645672,0.018009389068597642,0.8,Cliff's delta,0.4,1.0,reject,
+H0-1.1,Dunn,mac,SLEEP,,FJ_1 vs FJ_64,primary_J_op_active,,0.5168165906545383,1.0,0.48,Cliff's delta,-0.08,1.0,not rejected,
+H0-1.1,TOST,mac,SLEEP,,FJ_1 vs FJ_64,primary_J_op_active,,,,2.0411821372187036,ratio of medians,1.0178967772425223,3.5075498334468613,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,SLEEP,,FJ_1 vs FJ_256,primary_J_op_active,,0.024997427536528255,0.3249665579748673,-1.0,Cliff's delta,-1.0,-1.0,not rejected,
+H0-1.1,TOST,mac,SLEEP,,FJ_1 vs FJ_256,primary_J_op_active,,,,0.13317806333834836,ratio of medians,0.06676683176773496,0.22868800490627517,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,SLEEP,,FJ_2 vs FJ_4,primary_J_op_active,,0.7583494552626695,1.0,0.02,Cliff's delta,-0.5004999999999956,0.58,not rejected,below detection limit: FJ_2
+H0-1.1,TOST,mac,SLEEP,,FJ_2 vs FJ_4,primary_J_op_active,,,,,ratio of medians,,,skipped,ratio undefined: a cell is below the detection limit
+H0-1.1,Dunn,mac,SLEEP,,FJ_2 vs FJ_8,primary_J_op_active,,0.5239471248672432,1.0,-0.14,Cliff's delta,-0.66,0.4,not rejected,below detection limit: FJ_2
+H0-1.1,TOST,mac,SLEEP,,FJ_2 vs FJ_8,primary_J_op_active,,,,,ratio of medians,,,skipped,ratio undefined: a cell is below the detection limit
+H0-1.1,Dunn,mac,SLEEP,,FJ_2 vs FJ_16,primary_J_op_active,,0.20638862307725392,1.0,0.32,Cliff's delta,-0.26,0.8,not rejected,below detection limit: FJ_2
+H0-1.1,TOST,mac,SLEEP,,FJ_2 vs FJ_16,primary_J_op_active,,,,,ratio of medians,,,skipped,ratio undefined: a cell is below the detection limit
+H0-1.1,Dunn,mac,SLEEP,,FJ_2 vs FJ_64,primary_J_op_active,,0.17305735529380473,1.0,-0.4,Cliff's delta,-1.0,0.2,not rejected,below detection limit: FJ_2
+H0-1.1,TOST,mac,SLEEP,,FJ_2 vs FJ_64,primary_J_op_active,,,,,ratio of medians,,,skipped,ratio undefined: a cell is below the detection limit
+H0-1.1,Dunn,mac,SLEEP,,FJ_2 vs FJ_256,primary_J_op_active,,2.117296337496063e-05,0.00040228630412425195,-1.0,Cliff's delta,-1.0,-1.0,reject,below detection limit: FJ_2
+H0-1.1,Dunn,mac,SLEEP,,FJ_4 vs FJ_8,primary_J_op_active,,0.3446987860427063,1.0,-0.3,Cliff's delta,-0.78,0.22,not rejected,
+H0-1.1,TOST,mac,SLEEP,,FJ_4 vs FJ_8,primary_J_op_active,,,,0.8066882866622165,ratio of medians,0.3674822231585016,1.1288083251962118,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,SLEEP,,FJ_4 vs FJ_16,primary_J_op_active,,0.339118063816646,1.0,0.2,Cliff's delta,-0.4,0.8,not rejected,
+H0-1.1,TOST,mac,SLEEP,,FJ_4 vs FJ_16,primary_J_op_active,,,,1.3416566884558172,ratio of medians,0.6182982589227026,1.6407855212450406,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,SLEEP,,FJ_4 vs FJ_64,primary_J_op_active,,0.0949006887286162,0.9490068872861621,-0.58,Cliff's delta,-1.0,0.0,not rejected,
+H0-1.1,TOST,mac,SLEEP,,FJ_4 vs FJ_64,primary_J_op_active,,,,0.7591042135520677,ratio of medians,0.35315535290116984,0.9462778193606635,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,SLEEP,,FJ_4 vs FJ_256,primary_J_op_active,,5.120304462637179e-06,0.00010240608925274358,-1.0,Cliff's delta,-1.0,-1.0,reject,
+H0-1.1,Dunn,mac,SLEEP,,FJ_8 vs FJ_16,primary_J_op_active,,0.05732413624447984,0.6305654986892782,0.72,Cliff's delta,0.26,1.0,not rejected,
+H0-1.1,TOST,mac,SLEEP,,FJ_8 vs FJ_16,primary_J_op_active,,,,1.663166195219105,ratio of medians,1.3063508411000857,2.1139835630552906,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,SLEEP,,FJ_8 vs FJ_64,primary_J_op_active,,0.4683461704244718,1.0,-0.24,Cliff's delta,-0.8,0.36,not rejected,
+H0-1.1,TOST,mac,SLEEP,,FJ_8 vs FJ_64,primary_J_op_active,,,,0.9410130605626686,ratio of medians,0.754817120478947,1.1991714512995233,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,SLEEP,,FJ_8 vs FJ_256,primary_J_op_active,,0.00030049214236813656,0.005408858562626458,-1.0,Cliff's delta,-1.0,-1.0,reject,
+H0-1.1,Dunn,mac,SLEEP,,FJ_16 vs FJ_64,primary_J_op_active,,0.008639388118070433,0.1295908217710565,-1.0,Cliff's delta,-1.0,-1.0,not rejected,
+H0-1.1,TOST,mac,SLEEP,,FJ_16 vs FJ_64,primary_J_op_active,,,,0.5657961683370434,ratio of medians,0.5312951732445823,0.6459046769857067,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,SLEEP,,FJ_16 vs FJ_256,primary_J_op_active,,3.4738159734912775e-08,7.295013544331683e-07,-1.0,Cliff's delta,-1.0,-1.0,reject,
+H0-1.1,Dunn,mac,SLEEP,,FJ_64 vs FJ_256,primary_J_op_active,,0.0038560618962271385,0.06169699033963422,-1.0,Cliff's delta,-1.0,-1.0,not rejected,
+H0-1.1,TOST,mac,SLEEP,,FJ_64 vs FJ_256,primary_J_op_active,,,,0.06524555595014936,ratio of medians,0.06313172042146893,0.06907886230688211,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,KW across p,mac,SLEEP,,VT: VT_1 | VT_2 | VT_4 | VT_8 | VT_16 | VT_64 | VT_256,primary_J_op_active,48.56160965794771,9.124545307903353e-09,2.737363592371006e-08,0.7037914443180828,epsilon^2,0.6397579254276018,0.8301387236616067,reject,"n=10,10,10,10,10,10,10"
+H0-1.1,Dunn,mac,SLEEP,,VT_1 vs VT_2,primary_J_op_active,,0.12398876145269597,1.0,0.58,Cliff's delta,0.08,1.0,not rejected,
+H0-1.1,TOST,mac,SLEEP,,VT_1 vs VT_2,primary_J_op_active,,,,1.2578306918962845,ratio of medians,1.1201922808735214,1.324827749101166,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,SLEEP,,VT_1 vs VT_4,primary_J_op_active,,0.06490762619180257,0.6490762619180257,0.62,Cliff's delta,0.18,0.96,not rejected,
+H0-1.1,TOST,mac,SLEEP,,VT_1 vs VT_4,primary_J_op_active,,,,1.2546184529003828,ratio of medians,1.0926476361171664,1.4488168979665315,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,SLEEP,,VT_1 vs VT_8,primary_J_op_active,,0.05732413624447984,0.6305654986892782,0.7,Cliff's delta,0.28,1.0,not rejected,
+H0-1.1,TOST,mac,SLEEP,,VT_1 vs VT_8,primary_J_op_active,,,,1.2436866496771088,ratio of medians,1.129552967663644,1.377329795266574,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,SLEEP,,VT_1 vs VT_16,primary_J_op_active,,0.7416841659819464,1.0,0.18,Cliff's delta,-0.34,0.68,not rejected,
+H0-1.1,TOST,mac,SLEEP,,VT_1 vs VT_16,primary_J_op_active,,,,1.0534254886009689,ratio of medians,0.8841949898720851,1.1924520369753777,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,SLEEP,,VT_1 vs VT_64,primary_J_op_active,,0.03991228074145597,0.4789473688974716,-1.0,Cliff's delta,-1.0,-1.0,not rejected,
+H0-1.1,TOST,mac,SLEEP,,VT_1 vs VT_64,primary_J_op_active,,,,0.689751039659765,ratio of medians,0.6319140674820829,0.7392981597368361,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,SLEEP,,VT_1 vs VT_256,primary_J_op_active,,0.0011447952261572554,0.016027133166201576,-1.0,Cliff's delta,-1.0,-1.0,reject,
+H0-1.1,Dunn,mac,SLEEP,,VT_2 vs VT_4,primary_J_op_active,,0.7583494552626697,1.0,0.12,Cliff's delta,-0.44,0.62,not rejected,
+H0-1.1,TOST,mac,SLEEP,,VT_2 vs VT_4,primary_J_op_active,,,,0.9974462071751017,ratio of medians,0.8843052306093145,1.1749489617328064,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,SLEEP,,VT_2 vs VT_8,primary_J_op_active,,0.7169139582623918,1.0,0.06,Cliff's delta,-0.48,0.58,not rejected,
+H0-1.1,TOST,mac,SLEEP,,VT_2 vs VT_8,primary_J_op_active,,,,0.988755209814564,ratio of medians,0.9281616761207677,1.1130598196077606,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,SLEEP,,VT_2 vs VT_16,primary_J_op_active,,0.22680850606532665,1.0,-0.5,Cliff's delta,-0.92,0.0,not rejected,
+H0-1.1,TOST,mac,SLEEP,,VT_2 vs VT_16,primary_J_op_active,,,,0.8374938657386729,ratio of medians,0.7291785536642686,0.9644537862035167,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,SLEEP,,VT_2 vs VT_64,primary_J_op_active,,0.0003270175533897405,0.005232280854235848,-0.82,Cliff's delta,-1.0,-0.4,reject,
+H0-1.1,Dunn,mac,SLEEP,,VT_2 vs VT_256,primary_J_op_active,,1.6633809508327227e-06,3.160423806582173e-05,-1.0,Cliff's delta,-1.0,-1.0,reject,
+H0-1.1,Dunn,mac,SLEEP,,VT_4 vs VT_8,primary_J_op_active,,0.9561884031572988,1.0,0.02,Cliff's delta,-0.52,0.54,not rejected,
+H0-1.1,TOST,mac,SLEEP,,VT_4 vs VT_8,primary_J_op_active,,,,0.9912867508061897,ratio of medians,0.8595801170195394,1.1361276281877188,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,SLEEP,,VT_4 vs VT_16,primary_J_op_active,,0.12945111637013396,1.0,-0.56,Cliff's delta,-0.92,-0.1,not rejected,
+H0-1.1,TOST,mac,SLEEP,,VT_4 vs VT_16,primary_J_op_active,,,,0.8396381275643579,ratio of medians,0.6923466051804795,0.9894149618820962,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,SLEEP,,VT_4 vs VT_64,primary_J_op_active,,9.597463440182658e-05,0.0016315687848310518,-1.0,Cliff's delta,-1.0,-1.0,reject,
+H0-1.1,Dunn,mac,SLEEP,,VT_4 vs VT_256,primary_J_op_active,,3.4292941012767083e-07,6.858588202553417e-06,-1.0,Cliff's delta,-1.0,-1.0,reject,
+H0-1.1,Dunn,mac,SLEEP,,VT_8 vs VT_16,primary_J_op_active,,0.11613452174101677,1.0,-0.6,Cliff's delta,-0.94,-0.16,not rejected,
+H0-1.1,TOST,mac,SLEEP,,VT_8 vs VT_16,primary_J_op_active,,,,0.8470184100428059,ratio of medians,0.7111944370015411,0.9588042432432374,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,SLEEP,,VT_8 vs VT_64,primary_J_op_active,,7.637898875919048e-05,0.0013748217976654287,-1.0,Cliff's delta,-1.0,-1.0,reject,
+H0-1.1,Dunn,mac,SLEEP,,VT_8 vs VT_256,primary_J_op_active,,2.5618762532311356e-07,5.379940131785385e-06,-1.0,Cliff's delta,-1.0,-1.0,reject,
+H0-1.1,Dunn,mac,SLEEP,,VT_16 vs VT_64,primary_J_op_active,,0.017112599781604138,0.2224637971608538,-1.0,Cliff's delta,-1.0,-1.0,not rejected,
+H0-1.1,TOST,mac,SLEEP,,VT_16 vs VT_64,primary_J_op_active,,,,0.654769651127208,ratio of medians,0.5808277044935897,0.7690071749502924,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,SLEEP,,VT_16 vs VT_256,primary_J_op_active,,0.0003410874155970025,0.005232280854235848,-1.0,Cliff's delta,-1.0,-1.0,reject,
+H0-1.1,Dunn,mac,SLEEP,,VT_64 vs VT_256,primary_J_op_active,,0.2310597356736187,1.0,-1.0,Cliff's delta,-1.0,-1.0,not rejected,
+H0-1.1,TOST,mac,SLEEP,,VT_64 vs VT_256,primary_J_op_active,,,,0.21851441519618242,ratio of medians,0.20706985696905597,0.22698047152319875,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,KW across p,mac,SOCKET,,FP: FP_1 | FP_2 | FP_4 | FP_8 | FP_16 | FP_64 | FP_256,primary_J_op_active,61.68338028169012,2.0465130555130074e-11,8.18605222205203e-11,0.8939620330679727,epsilon^2,0.8728454512548658,0.9297171039883553,reject,"n=10,10,10,10,10,10,10"
+H0-1.1,Dunn,mac,SOCKET,,FP_1 vs FP_2,primary_J_op_active,,0.9212278572693602,1.0,-0.02,Cliff's delta,-0.52,0.52,not rejected,
+H0-1.1,TOST,mac,SOCKET,,FP_1 vs FP_2,primary_J_op_active,,,,1.1056327921116296,ratio of medians,0.7668152017918964,1.3001991726846927,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,SOCKET,,FP_1 vs FP_4,primary_J_op_active,,0.21439033397853724,1.0,0.7,Cliff's delta,0.28,0.98,not rejected,
+H0-1.1,TOST,mac,SOCKET,,FP_1 vs FP_4,primary_J_op_active,,,,1.7479185582417747,ratio of medians,1.2547354938355968,2.0445501851929166,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,SOCKET,,FP_1 vs FP_8,primary_J_op_active,,0.00010507035641228165,0.0015760553461842248,1.0,Cliff's delta,1.0,1.0,reject,
+H0-1.1,Dunn,mac,SOCKET,,FP_1 vs FP_16,primary_J_op_active,,2.7022225202034385e-05,0.00045937782843458457,1.0,Cliff's delta,1.0,1.0,reject,
+H0-1.1,Dunn,mac,SOCKET,,FP_1 vs FP_64,primary_J_op_active,,0.0035949332536806974,0.03954426579048767,1.0,Cliff's delta,1.0,1.0,reject,
+H0-1.1,Dunn,mac,SOCKET,,FP_1 vs FP_256,primary_J_op_active,,0.06816433694015728,0.6134790324614154,-1.0,Cliff's delta,-1.0,-1.0,not rejected,
+H0-1.1,TOST,mac,SOCKET,,FP_1 vs FP_256,primary_J_op_active,,,,0.21651449806551284,ratio of medians,0.16844072695853654,0.24051861580907166,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,SOCKET,,FP_2 vs FP_4,primary_J_op_active,,0.18009242815463267,1.0,0.84,Cliff's delta,0.56,1.0,not rejected,
+H0-1.1,TOST,mac,SOCKET,,FP_2 vs FP_4,primary_J_op_active,,,,1.5809214150599262,ratio of medians,1.2036615555556462,2.0768586208676543,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,SOCKET,,FP_2 vs FP_8,primary_J_op_active,,6.965485119557105e-05,0.0011144776191291368,1.0,Cliff's delta,1.0,1.0,reject,
+H0-1.1,Dunn,mac,SOCKET,,FP_2 vs FP_16,primary_J_op_active,,1.7383069286758415e-05,0.0003128952471616515,1.0,Cliff's delta,1.0,1.0,reject,
+H0-1.1,Dunn,mac,SOCKET,,FP_2 vs FP_64,primary_J_op_active,,0.002607622164997391,0.03389908814496609,1.0,Cliff's delta,1.0,1.0,reject,
+H0-1.1,Dunn,mac,SOCKET,,FP_2 vs FP_256,primary_J_op_active,,0.08452175773982451,0.6761740619185961,-1.0,Cliff's delta,-1.0,-1.0,not rejected,
+H0-1.1,TOST,mac,SOCKET,,FP_2 vs FP_256,primary_J_op_active,,,,0.19582857853916888,ratio of medians,0.17363813119042965,0.26829682330584453,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,SOCKET,,FP_4 vs FP_8,primary_J_op_active,,0.00836450133905678,0.0836450133905678,0.96,Cliff's delta,0.82,1.0,not rejected,
+H0-1.1,TOST,mac,SOCKET,,FP_4 vs FP_8,primary_J_op_active,,,,1.6639535042044464,ratio of medians,1.436486614135407,2.120271017004291,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,SOCKET,,FP_4 vs FP_16,primary_J_op_active,,0.003120336130758025,0.0374440335690963,1.0,Cliff's delta,1.0,1.0,reject,
+H0-1.1,Dunn,mac,SOCKET,,FP_4 vs FP_64,primary_J_op_active,,0.0949006887286162,0.6761740619185961,1.0,Cliff's delta,1.0,1.0,not rejected,
+H0-1.1,TOST,mac,SOCKET,,FP_4 vs FP_64,primary_J_op_active,,,,1.5085053082396138,ratio of medians,1.3461245735722798,1.9456822720818923,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,SOCKET,,FP_4 vs FP_256,primary_J_op_active,,0.002173047688024545,0.03042266763234363,-1.0,Cliff's delta,-1.0,-1.0,reject,
+H0-1.1,Dunn,mac,SOCKET,,FP_8 vs FP_16,primary_J_op_active,,0.7500022244643575,1.0,0.12,Cliff's delta,-0.42,0.64,not rejected,
+H0-1.1,TOST,mac,SOCKET,,FP_8 vs FP_16,primary_J_op_active,,,,1.030946828536172,ratio of medians,0.9398885335869082,1.1758528352108746,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,SOCKET,,FP_8 vs FP_64,primary_J_op_active,,0.3335956486943108,1.0,-0.54,Cliff's delta,-1.0,0.0,not rejected,
+H0-1.1,TOST,mac,SOCKET,,FP_8 vs FP_64,primary_J_op_active,,,,0.9065790026151278,ratio of medians,0.8727093579860956,0.9873863567190275,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,SOCKET,,FP_8 vs FP_256,primary_J_op_active,,1.1806750827019434e-08,2.3613501654038867e-07,-1.0,Cliff's delta,-1.0,-1.0,reject,
+H0-1.1,Dunn,mac,SOCKET,,FP_16 vs FP_64,primary_J_op_active,,0.1986060275396354,1.0,-0.84,Cliff's delta,-1.0,-0.46,not rejected,
+H0-1.1,TOST,mac,SOCKET,,FP_16 vs FP_64,primary_J_op_active,,,,0.8793654313892867,ratio of medians,0.8096100560877921,0.961117234982533,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,SOCKET,,FP_16 vs FP_256,primary_J_op_active,,1.7320379037021667e-09,3.63727959777455e-08,-1.0,Cliff's delta,-1.0,-1.0,reject,
+H0-1.1,Dunn,mac,SOCKET,,FP_64 vs FP_256,primary_J_op_active,,2.184116306880038e-06,4.1498209830720726e-05,-1.0,Cliff's delta,-1.0,-1.0,reject,
+H0-1.1,KW across p,mac,SOCKET,,FJ: FJ_1 | FJ_2 | FJ_4 | FJ_8 | FJ_16 | FJ_64 | FJ_256,primary_J_op_active,63.21995975855128,9.954958116016011e-12,4.9774790580080056e-11,0.9162313008485693,epsilon^2,0.894085950815569,0.9509546073935622,reject,"n=10,10,10,10,10,10,10"
+H0-1.1,Dunn,mac,SOCKET,,FJ_1 vs FJ_2,primary_J_op_active,,0.644458964315344,1.0,0.42,Cliff's delta,-0.08,0.86,not rejected,
+H0-1.1,TOST,mac,SOCKET,,FJ_1 vs FJ_2,primary_J_op_active,,,,1.2863920067126022,ratio of medians,1.0024712804603542,1.4700550628010551,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,SOCKET,,FJ_1 vs FJ_4,primary_J_op_active,,0.05180134490691099,0.46621210416219894,1.0,Cliff's delta,1.0,1.0,not rejected,
+H0-1.1,TOST,mac,SOCKET,,FJ_1 vs FJ_4,primary_J_op_active,,,,2.0729899264288205,ratio of medians,1.6689133033180976,2.4003299509509914,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,SOCKET,,FJ_1 vs FJ_8,primary_J_op_active,,1.573973683727136e-05,0.0002675755262336131,1.0,Cliff's delta,1.0,1.0,reject,
+H0-1.1,Dunn,mac,SOCKET,,FJ_1 vs FJ_16,primary_J_op_active,,4.374228786197659e-06,7.873611815155786e-05,1.0,Cliff's delta,1.0,1.0,reject,
+H0-1.1,Dunn,mac,SOCKET,,FJ_1 vs FJ_64,primary_J_op_active,,0.0011447952261572554,0.014882337940044319,1.0,Cliff's delta,1.0,1.0,reject,
+H0-1.1,Dunn,mac,SOCKET,,FJ_1 vs FJ_256,primary_J_op_active,,0.15637105502304668,0.9659490718114829,-1.0,Cliff's delta,-1.0,-1.0,not rejected,
+H0-1.1,TOST,mac,SOCKET,,FJ_1 vs FJ_256,primary_J_op_active,,,,0.24562672600716545,ratio of medians,0.2009174308130143,0.2683101046712262,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,SOCKET,,FJ_2 vs FJ_4,primary_J_op_active,,0.13799272454449757,0.9659490718114829,1.0,Cliff's delta,1.0,1.0,not rejected,
+H0-1.1,TOST,mac,SOCKET,,FJ_2 vs FJ_4,primary_J_op_active,,,,1.6114760629820637,ratio of medians,1.4290830430672898,1.9317898953259736,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,SOCKET,,FJ_2 vs FJ_8,primary_J_op_active,,0.00011497528185823302,0.0017246292278734953,1.0,Cliff's delta,1.0,1.0,reject,
+H0-1.1,Dunn,mac,SOCKET,,FJ_2 vs FJ_16,primary_J_op_active,,3.607392102173067e-05,0.0005771827363476907,1.0,Cliff's delta,1.0,1.0,reject,
+H0-1.1,Dunn,mac,SOCKET,,FJ_2 vs FJ_64,primary_J_op_active,,0.005257541018841439,0.06309049222609726,1.0,Cliff's delta,1.0,1.0,not rejected,
+H0-1.1,TOST,mac,SOCKET,,FJ_2 vs FJ_64,primary_J_op_active,,,,2.3938489022786458,ratio of medians,2.1983712149142964,2.7284692219367033,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,SOCKET,,FJ_2 vs FJ_256,primary_J_op_active,,0.06026413143920889,0.4821130515136711,-1.0,Cliff's delta,-1.0,-1.0,not rejected,
+H0-1.1,TOST,mac,SOCKET,,FJ_2 vs FJ_256,primary_J_op_active,,,,0.19094236028010542,ratio of medians,0.17645291472334265,0.21870487278901238,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,SOCKET,,FJ_4 vs FJ_8,primary_J_op_active,,0.017630318149013113,0.17630318149013113,0.88,Cliff's delta,0.62,1.0,not rejected,
+H0-1.1,TOST,mac,SOCKET,,FJ_4 vs FJ_8,primary_J_op_active,,,,1.7486296171617541,ratio of medians,1.4780754829127707,1.9179106573632925,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,SOCKET,,FJ_4 vs FJ_16,primary_J_op_active,,0.00809746473345482,0.08907211206800301,1.0,Cliff's delta,1.0,1.0,not rejected,
+H0-1.1,TOST,mac,SOCKET,,FJ_4 vs FJ_16,primary_J_op_active,,,,1.7503067775368286,ratio of medians,1.5469316824849584,1.9037355061017238,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,SOCKET,,FJ_4 vs FJ_64,primary_J_op_active,,0.1910402014588849,0.9659490718114829,1.0,Cliff's delta,1.0,1.0,not rejected,
+H0-1.1,TOST,mac,SOCKET,,FJ_4 vs FJ_64,primary_J_op_active,,,,1.4855007513104403,ratio of medians,1.3079088848971925,1.6136203606987056,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,SOCKET,,FJ_4 vs FJ_256,primary_J_op_active,,0.0007733425735430154,0.010826796029602216,-1.0,Cliff's delta,-1.0,-1.0,reject,
+H0-1.1,Dunn,mac,SOCKET,,FJ_8 vs FJ_16,primary_J_op_active,,0.783557043625008,1.0,0.04,Cliff's delta,-0.5,0.56,not rejected,
+H0-1.1,TOST,mac,SOCKET,,FJ_8 vs FJ_16,primary_J_op_active,,,,1.0009591284275494,ratio of medians,0.9519345462128052,1.0955610963729607,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,SOCKET,,FJ_8 vs FJ_64,primary_J_op_active,,0.2865213297306649,0.9659490718114829,-0.6,Cliff's delta,-1.0,0.0,not rejected,
+H0-1.1,TOST,mac,SOCKET,,FJ_8 vs FJ_64,primary_J_op_active,,,,0.8495228130252048,ratio of medians,0.8069312351947718,0.9283063192696046,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,SOCKET,,FJ_8 vs FJ_256,primary_J_op_active,,9.725047817883016e-09,1.9450095635766033e-07,-1.0,Cliff's delta,-1.0,-1.0,reject,
+H0-1.1,Dunn,mac,SOCKET,,FJ_16 vs FJ_64,primary_J_op_active,,0.18009242815463267,0.9659490718114829,-0.9,Cliff's delta,-1.0,-0.64,not rejected,
+H0-1.1,TOST,mac,SOCKET,,FJ_16 vs FJ_64,primary_J_op_active,,,,0.8487087922958029,ratio of medians,0.8190797867739613,0.8727757046860893,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,SOCKET,,FJ_16 vs FJ_256,primary_J_op_active,,1.8536051715130858e-09,3.89257086017748e-08,-1.0,Cliff's delta,-1.0,-1.0,reject,
+H0-1.1,Dunn,mac,SOCKET,,FJ_64 vs FJ_256,primary_J_op_active,,3.01681270518651e-06,5.731944139854369e-05,-1.0,Cliff's delta,-1.0,-1.0,reject,
+H0-1.1,KW across p,mac,SOCKET,,VT: VT_1 | VT_2 | VT_4 | VT_8 | VT_16 | VT_64 | VT_256,primary_J_op_active,65.45915492957744,3.476149817133511e-12,2.4333048719934575e-11,0.9486834047764846,epsilon^2,0.9381842190348325,0.9641892396704888,reject,"n=10,10,10,10,10,10,10"
+H0-1.1,Dunn,mac,SOCKET,,VT_1 vs VT_2,primary_J_op_active,,0.002607622164997391,0.03389908814496609,1.0,Cliff's delta,1.0,1.0,reject,
+H0-1.1,Dunn,mac,SOCKET,,VT_1 vs VT_4,primary_J_op_active,,4.325456498681634e-11,9.083458647231432e-10,1.0,Cliff's delta,1.0,1.0,reject,
+H0-1.1,Dunn,mac,SOCKET,,VT_1 vs VT_8,primary_J_op_active,,1.1147798420567957e-07,2.1180816999079116e-06,1.0,Cliff's delta,1.0,1.0,reject,
+H0-1.1,Dunn,mac,SOCKET,,VT_1 vs VT_16,primary_J_op_active,,6.306408308376963e-06,0.00011351534955078533,1.0,Cliff's delta,1.0,1.0,reject,
+H0-1.1,Dunn,mac,SOCKET,,VT_1 vs VT_64,primary_J_op_active,,0.010800397562631492,0.1188043731889464,1.0,Cliff's delta,1.0,1.0,not rejected,
+H0-1.1,TOST,mac,SOCKET,,VT_1 vs VT_64,primary_J_op_active,,,,1.6106596157703246,ratio of medians,1.5672997547149845,1.6538148256626557,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,SOCKET,,VT_1 vs VT_256,primary_J_op_active,,0.27187873536673646,0.8156362061002094,1.0,Cliff's delta,1.0,1.0,not rejected,
+H0-1.1,TOST,mac,SOCKET,,VT_1 vs VT_256,primary_J_op_active,,,,1.2067652264378794,ratio of medians,1.1830820938368785,1.2594865177311214,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,SOCKET,,VT_2 vs VT_4,primary_J_op_active,,0.0003410874155970025,0.005116311233955038,1.0,Cliff's delta,1.0,1.0,reject,
+H0-1.1,Dunn,mac,SOCKET,,VT_2 vs VT_8,primary_J_op_active,,0.021654175235628893,0.21654175235628892,1.0,Cliff's delta,1.0,1.0,not rejected,
+H0-1.1,TOST,mac,SOCKET,,VT_2 vs VT_8,primary_J_op_active,,,,1.0884831088137357,ratio of medians,1.0596148566142904,1.1145700891969654,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,SOCKET,,VT_2 vs VT_16,primary_J_op_active,,0.13225147550601668,0.7935088530361001,0.9,Cliff's delta,0.68,1.0,not rejected,
+H0-1.1,TOST,mac,SOCKET,,VT_2 vs VT_16,primary_J_op_active,,,,1.0527601908343778,ratio of medians,1.029824121761518,1.083785399217046,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,SOCKET,,VT_2 vs VT_64,primary_J_op_active,,0.6444589643153447,0.8577743761766865,-0.38,Cliff's delta,-0.82,0.14,not rejected,
+H0-1.1,TOST,mac,SOCKET,,VT_2 vs VT_64,primary_J_op_active,,,,0.9790912285037792,ratio of medians,0.9504127410846552,1.0111043260904933,equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,SOCKET,,VT_2 vs VT_256,primary_J_op_active,,0.05589946713724112,0.3936908709646623,-1.0,Cliff's delta,-1.0,-1.0,not rejected,
+H0-1.1,TOST,mac,SOCKET,,VT_2 vs VT_256,primary_J_op_active,,,,0.7335710391569089,ratio of medians,0.7145000252993191,0.7698963255034914,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,SOCKET,,VT_4 vs VT_8,primary_J_op_active,,0.1986060275396354,0.7944241101585416,-1.0,Cliff's delta,-1.0,-1.0,not rejected,
+H0-1.1,TOST,mac,SOCKET,,VT_4 vs VT_8,primary_J_op_active,,,,0.9319655643503306,ratio of medians,0.9046421984010502,0.9400555307980278,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,SOCKET,,VT_4 vs VT_16,primary_J_op_active,,0.037835672684144186,0.34052105415729766,-1.0,Cliff's delta,-1.0,-1.0,not rejected,
+H0-1.1,TOST,mac,SOCKET,,VT_4 vs VT_16,primary_J_op_active,,,,0.901379394344297,ratio of medians,0.8802647829117102,0.9155199703026219,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,SOCKET,,VT_4 vs VT_64,primary_J_op_active,,5.268468087025974e-05,0.0008429548939241559,-1.0,Cliff's delta,-1.0,-1.0,reject,
+H0-1.1,Dunn,mac,SOCKET,,VT_4 vs VT_256,primary_J_op_active,,3.9352851107051045e-08,7.870570221410209e-07,-1.0,Cliff's delta,-1.0,-1.0,reject,
+H0-1.1,Dunn,mac,SOCKET,,VT_8 vs VT_16,primary_J_op_active,,0.42888718808834325,0.8577743761766865,-0.66,Cliff's delta,-0.98,-0.24,not rejected,
+H0-1.1,TOST,mac,SOCKET,,VT_8 vs VT_16,primary_J_op_active,,,,0.9671810084234657,ratio of medians,0.9607165600682364,0.9875734056483112,equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,SOCKET,,VT_8 vs VT_64,primary_J_op_active,,0.005818231189626987,0.06981877427552384,-1.0,Cliff's delta,-1.0,-1.0,not rejected,
+H0-1.1,TOST,mac,SOCKET,,VT_8 vs VT_64,primary_J_op_active,,,,0.89950061748852,ratio of medians,0.8800830501640183,0.9232874896849249,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,SOCKET,,VT_8 vs VT_256,primary_J_op_active,,2.574148336604117e-05,0.0004376052172226999,-1.0,Cliff's delta,-1.0,-1.0,reject,
+H0-1.1,Dunn,mac,SOCKET,,VT_16 vs VT_64,primary_J_op_active,,0.04921135887058279,0.3936908709646623,-0.98,Cliff's delta,-1.0,-0.88,not rejected,
+H0-1.1,TOST,mac,SOCKET,,VT_16 vs VT_64,primary_J_op_active,,,,0.9300230356618905,ratio of medians,0.9045802478744339,0.9489426460916421,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.1,Dunn,mac,SOCKET,,VT_16 vs VT_256,primary_J_op_active,,0.000632917862198944,0.008860850070785214,-1.0,Cliff's delta,-1.0,-1.0,reject,
+H0-1.1,Dunn,mac,SOCKET,,VT_64 vs VT_256,primary_J_op_active,,0.146962299002995,0.7935088530361001,-1.0,Cliff's delta,-1.0,-1.0,not rejected,
+H0-1.1,TOST,mac,SOCKET,,VT_64 vs VT_256,primary_J_op_active,,,,0.7492366572192996,ratio of medians,0.729524002507457,0.7856592524891436,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-1.2,MW,mac,CPU,16,SEQ vs VT_16,primary_J_op,25.0,0.007936507936507936,0.023809523809523808,1.0,Cliff's delta,1.0,1.0,reject,"selected on forks 1-5 (median 1.7); tested on forks > 5; n=5,5"
+H0-1.2,MW,mac,SLEEP,8,SEQ vs VT_8,primary_J_op_active,25.0,0.007936507936507936,0.023809523809523808,1.0,Cliff's delta,1.0,1.0,reject,"selected on forks 1-5 (median 0.0001284); tested on forks > 5; n=5,5"
+H0-1.2,MW,mac,SOCKET,8,SEQ vs FJ_8,primary_J_op_active,25.0,0.007936507936507936,0.023809523809523808,1.0,Cliff's delta,1.0,1.0,reject,"selected on forks 1-5 (median 0.007298); tested on forks > 5; n=5,5"
+H0-1.3,Spearman,mac,CPU,,cell medians ms_op vs primary_J_op,primary_J_op,0.9871541501976285,3.267570971896328e-18,3.267570971896328e-18,0.9871541501976285,Spearman rho,0.9388941318491909,0.997016409746395,reject,23 cells
+H0-2.1,KW,mac,CPU,1,FP_1 | FJ_1 | VT_1 | PT | SEQ,primary_J_op,31.241030937740184,2.7336368251086523e-06,6.360263486913133e-06,0.6375720599538813,epsilon^2,0.5507389768988347,0.7909003954753793,reject,"n=10,10,10,10,10"
+H0-2.1,Dunn,mac,CPU,1,VT_1 vs FP_1,primary_J_op,,0.8599482209390431,0.8599482209390431,-0.03,Cliff's delta,-0.6,0.52,not rejected,
+H0-2.1,TOST,mac,CPU,1,VT_1 vs FP_1,primary_J_op,,,,0.998943021483703,ratio of medians,0.9974468502970492,1.0035914592147988,equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-2.1,Dunn,mac,CPU,1,VT_1 vs FJ_1,primary_J_op,,0.07142633615307448,0.15964594406762325,0.6,Cliff's delta,0.14,0.92,not rejected,
+H0-2.1,TOST,mac,CPU,1,VT_1 vs FJ_1,primary_J_op,,,,1.003110112803298,ratio of medians,1.0002954500689383,1.0075301204819278,equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-2.1,Dunn,mac,CPU,1,VT_1 vs PT,primary_J_op,,2.295209569426822e-06,9.180838277707288e-06,1.0,Cliff's delta,1.0,1.0,reject,
+H0-2.1,Dunn,mac,CPU,1,VT_1 vs SEQ,primary_J_op,,0.05321531468920775,0.15964594406762325,0.59,Cliff's delta,0.12,0.92,not rejected,
+H0-2.1,TOST,mac,CPU,1,VT_1 vs SEQ,primary_J_op,,,,1.002887320467894,ratio of medians,0.9999261338454719,1.007532166053392,equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-2.1,KW,mac,CPU,2,FP_2 | FJ_2 | VT_2 | PT | SEQ,primary_J_op,38.76160495605821,7.802714365254697e-08,6.731504973030972e-07,0.7910531623685348,epsilon^2,0.7471758476655181,0.8826243819867681,reject,"n=10,10,10,10,10"
+H0-2.1,Dunn,mac,CPU,2,VT_2 vs FP_2,primary_J_op,,0.7589950539359267,0.7589950539359267,0.12,Cliff's delta,-0.4,0.64,not rejected,
+H0-2.1,TOST,mac,CPU,2,VT_2 vs FP_2,primary_J_op,,,,1.0002914676027423,ratio of medians,0.9985817758192778,1.0032100081201787,equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-2.1,Dunn,mac,CPU,2,VT_2 vs FJ_2,primary_J_op,,0.27948695719741523,0.5589739143948305,-0.44,Cliff's delta,-0.8604999999999956,0.06,not rejected,
+H0-2.1,TOST,mac,CPU,2,VT_2 vs FJ_2,primary_J_op,,,,0.99305538082178,ratio of medians,0.9894132109079051,0.9998608810026687,equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-2.1,Dunn,mac,CPU,2,VT_2 vs PT,primary_J_op,,0.004541044908138216,0.013623134724414648,1.0,Cliff's delta,1.0,1.0,reject,
+H0-2.1,Dunn,mac,CPU,2,VT_2 vs SEQ,primary_J_op,,0.0013101933461610812,0.005240773384644325,-0.98,Cliff's delta,-1.0,-0.88,reject,
+H0-2.1,KW,mac,CPU,4,FP_4 | FJ_4 | VT_4 | PT | SEQ,primary_J_op,39.49392469503408,5.507540974908424e-08,6.731504973030972e-07,0.8059984631639608,epsilon^2,0.7776509623908722,0.8778808521081053,reject,"n=10,10,10,10,10"
+H0-2.1,Dunn,mac,CPU,4,VT_4 vs FP_4,primary_J_op,,0.3988246243254805,0.797649248650961,-0.25,Cliff's delta,-0.76,0.3,not rejected,
+H0-2.1,TOST,mac,CPU,4,VT_4 vs FP_4,primary_J_op,,,,0.9967570231641203,ratio of medians,0.9885835303388496,1.0015884304316427,equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-2.1,Dunn,mac,CPU,4,VT_4 vs FJ_4,primary_J_op,,0.6180871672543639,0.797649248650961,0.1,Cliff's delta,-0.46,0.68,not rejected,
+H0-2.1,TOST,mac,CPU,4,VT_4 vs FJ_4,primary_J_op,,,,1.0014161500524867,ratio of medians,0.9937020319396003,1.006561211544561,equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-2.1,Dunn,mac,CPU,4,VT_4 vs PT,primary_J_op,,0.0031467350308111773,0.009440205092433531,1.0,Cliff's delta,1.0,1.0,reject,
+H0-2.1,Dunn,mac,CPU,4,VT_4 vs SEQ,primary_J_op,,0.0014569017810930603,0.005827607124372241,-1.0,Cliff's delta,-1.0,-1.0,reject,
+H0-2.1,KW,mac,CPU,8,FP_8 | FJ_8 | VT_8 | PT | SEQ,primary_J_op,44.94898194391085,4.074260288881471e-09,8.148520577762942e-08,0.9173261621206297,epsilon^2,0.9134807692307687,0.9424430785912354,reject,"n=10,10,10,10,10"
+H0-2.1,Dunn,mac,CPU,8,VT_8 vs FP_8,primary_J_op,,0.6235188361338344,0.6235188361338344,-0.32,Cliff's delta,-0.8,0.2,not rejected,
+H0-2.1,TOST,mac,CPU,8,VT_8 vs FP_8,primary_J_op,,,,0.996902273212083,ratio of medians,0.99382121352478,1.001662255653062,equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-2.1,Dunn,mac,CPU,8,VT_8 vs FJ_8,primary_J_op,,0.010884509936996616,0.032653529810989845,-1.0,Cliff's delta,-1.0,-1.0,reject,
+H0-2.1,Dunn,mac,CPU,8,VT_8 vs PT,primary_J_op,,0.03982923791618566,0.07965847583237132,1.0,Cliff's delta,1.0,1.0,not rejected,
+H0-2.1,TOST,mac,CPU,8,VT_8 vs PT,primary_J_op,,,,1.1087673704452985,ratio of medians,1.1044239510653022,1.1185682675834832,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-2.1,Dunn,mac,CPU,8,VT_8 vs SEQ,primary_J_op,,4.496760930517174e-05,0.00017987043722068695,-1.0,Cliff's delta,-1.0,-1.0,reject,
+H0-2.1,KW,mac,CPU,16,FP_16 | FJ_16 | VT_16 | PT | SEQ,primary_J_op,36.78576642335763,1.9939519885401774e-07,9.969759942700886e-07,0.7507299270072986,epsilon^2,0.7289570431386607,0.8175663058581071,reject,"n=10,10,10,10,10"
+H0-2.1,Dunn,mac,CPU,16,VT_16 vs FP_16,primary_J_op,,0.8419375919839276,1.0,-0.08,Cliff's delta,-0.6,0.44,not rejected,
+H0-2.1,TOST,mac,CPU,16,VT_16 vs FP_16,primary_J_op,,,,0.9989772413977109,ratio of medians,0.9967911966791997,1.0017648002566981,equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-2.1,Dunn,mac,CPU,16,VT_16 vs FJ_16,primary_J_op,,0.6235188361338349,1.0,-0.18,Cliff's delta,-0.66,0.36,not rejected,
+H0-2.1,TOST,mac,CPU,16,VT_16 vs FJ_16,primary_J_op,,,,0.9993060745169211,ratio of medians,0.9956937501664788,1.0021220821370616,equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-2.1,Dunn,mac,CPU,16,VT_16 vs PT,primary_J_op,,0.0014967583877389945,0.0044902751632169835,-1.0,Cliff's delta,-1.0,-1.0,reject,
+H0-2.1,Dunn,mac,CPU,16,VT_16 vs SEQ,primary_J_op,,1.5762621682091276e-06,6.30504867283651e-06,-1.0,Cliff's delta,-1.0,-1.0,reject,
+H0-2.1,KW,mac,CPU,64,FP_64 | FJ_64 | VT_64 | PT | SEQ,primary_J_op,38.6250936509461,8.325912869264641e-08,6.731504973030972e-07,0.7882672173662469,epsilon^2,0.7605828129579918,0.8688353544946149,reject,"n=10,10,10,10,10"
+H0-2.1,Dunn,mac,CPU,64,VT_64 vs FP_64,primary_J_op,,0.27947541150148636,0.5589508230029727,-0.43,Cliff's delta,-0.84,0.07,not rejected,
+H0-2.1,TOST,mac,CPU,64,VT_64 vs FP_64,primary_J_op,,,,0.9971392780675024,ratio of medians,0.9946014100264603,1.0004093582863907,equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-2.1,Dunn,mac,CPU,64,VT_64 vs FJ_64,primary_J_op,,0.36542095070337677,0.5589508230029727,-0.42,Cliff's delta,-0.86,0.1,not rejected,
+H0-2.1,TOST,mac,CPU,64,VT_64 vs FJ_64,primary_J_op,,,,0.998017072736973,ratio of medians,0.9954981182877968,1.0005512091038407,equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-2.1,Dunn,mac,CPU,64,VT_64 vs PT,primary_J_op,,0.0002248124119773257,0.000674437235931977,-1.0,Cliff's delta,-1.0,-1.0,reject,
+H0-2.1,Dunn,mac,CPU,64,VT_64 vs SEQ,primary_J_op,,1.487592342211353e-07,5.950369368845412e-07,-1.0,Cliff's delta,-1.0,-1.0,reject,
+H0-2.1,KW,mac,CPU,256,FP_256 | FJ_256 | VT_256 | PT | SEQ,primary_J_op,42.75499423741833,1.1632752131413442e-08,1.7449128197120164e-07,0.8725509028044557,epsilon^2,0.8434730947535848,0.9136351618099633,reject,"n=10,10,10,10,10"
+H0-2.1,Dunn,mac,CPU,256,VT_256 vs FP_256,primary_J_op,,1.4175435823072236e-05,4.2526307469216705e-05,-1.0,Cliff's delta,-1.0,-1.0,reject,
+H0-2.1,Dunn,mac,CPU,256,VT_256 vs FJ_256,primary_J_op,,0.03982923791618566,0.03982923791618566,-0.98,Cliff's delta,-1.0,-0.88,reject,
+H0-2.1,Dunn,mac,CPU,256,VT_256 vs PT,primary_J_op,,0.008713797974770435,0.01742759594954087,-0.96,Cliff's delta,-1.0,-0.82,reject,
+H0-2.1,Dunn,mac,CPU,256,VT_256 vs SEQ,primary_J_op,,1.1301777890275392e-09,4.520711156110157e-09,-1.0,Cliff's delta,-1.0,-1.0,reject,
+H0-2.1,KW,mac,SLEEP,1,FP_1 | FJ_1 | VT_1 | PT | SEQ,primary_J_op_active,32.60517647058822,1.438755382238824e-06,5.755021528955296e-06,0.665411764705882,epsilon^2,0.5788796787054402,0.7964450255328471,reject,"n=10,10,10,10,10; FP/FJ at p<256 are floor-bound (see Blocking)"
+H0-2.1,Dunn,mac,SLEEP,1,VT_1 vs FP_1,primary_J_op_active,,0.0022692811256166475,0.006807843376849943,-0.8,Cliff's delta,-1.0,-0.4,reject,
+H0-2.1,Dunn,mac,SLEEP,1,VT_1 vs FJ_1,primary_J_op_active,,0.01188147369751575,0.020834465306091256,-0.8,Cliff's delta,-1.0,-0.4,reject,
+H0-2.1,Dunn,mac,SLEEP,1,VT_1 vs PT,primary_J_op_active,,1.382510912567614e-08,5.530043650270456e-08,-1.0,Cliff's delta,-1.0,-1.0,reject,
+H0-2.1,Dunn,mac,SLEEP,1,VT_1 vs SEQ,primary_J_op_active,,0.010417232653045628,0.020834465306091256,-1.0,Cliff's delta,-1.0,-1.0,reject,
+H0-2.1,KW,mac,SLEEP,2,FP_2 | FJ_2 | VT_2 | PT | SEQ,primary_J_op_active,31.213176470588223,2.7696523888653555e-06,6.360263486913133e-06,0.637003601440576,epsilon^2,0.5892005805773617,0.7619656071728168,reject,"below detection limit: FJ_2; n=10,10,10,10,10; FP/FJ at p<256 are floor-bound (see Blocking)"
+H0-2.1,Dunn,mac,SLEEP,2,VT_2 vs FP_2,primary_J_op_active,,0.1327742331077465,0.265548466215493,-0.4,Cliff's delta,-1.0,0.2,not rejected,
+H0-2.1,TOST,mac,SLEEP,2,VT_2 vs FP_2,primary_J_op_active,,,,0.05618965922114423,ratio of medians,0.03420452744424741,0.21042963006868237,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-2.1,Dunn,mac,SLEEP,2,VT_2 vs FJ_2,primary_J_op_active,,0.2084559270566112,0.265548466215493,-0.4,Cliff's delta,-1.0,0.2,not rejected,below detection limit: FJ_2
+H0-2.1,TOST,mac,SLEEP,2,VT_2 vs FJ_2,primary_J_op_active,,,,,ratio of medians,,,skipped,ratio undefined: a cell is below the detection limit
+H0-2.1,Dunn,mac,SLEEP,2,VT_2 vs PT,primary_J_op_active,,1.8345867453234026e-07,7.33834698129361e-07,-1.0,Cliff's delta,-1.0,-1.0,reject,
+H0-2.1,Dunn,mac,SLEEP,2,VT_2 vs SEQ,primary_J_op_active,,0.005761162816017601,0.017283488448052803,-1.0,Cliff's delta,-1.0,-1.0,reject,
+H0-2.1,KW,mac,SLEEP,4,FP_4 | FJ_4 | VT_4 | PT | SEQ,primary_J_op_active,39.483294117647034,5.5354745537005134e-08,6.731504973030972e-07,0.8057815126050415,epsilon^2,0.776234891494116,0.8851146478027044,reject,"n=10,10,10,10,10; FP/FJ at p<256 are floor-bound (see Blocking)"
+H0-2.1,Dunn,mac,SLEEP,4,VT_4 vs FP_4,primary_J_op_active,,0.000526925365573544,0.001580776096720632,-1.0,Cliff's delta,-1.0,-1.0,reject,
+H0-2.1,Dunn,mac,SLEEP,4,VT_4 vs FJ_4,primary_J_op_active,,0.022280266277189705,0.022280266277189705,-1.0,Cliff's delta,-1.0,-1.0,reject,
+H0-2.1,Dunn,mac,SLEEP,4,VT_4 vs PT,primary_J_op_active,,8.477440461174856e-10,3.3909761844699423e-09,-1.0,Cliff's delta,-1.0,-1.0,reject,
+H0-2.1,Dunn,mac,SLEEP,4,VT_4 vs SEQ,primary_J_op_active,,0.000557805318954737,0.001580776096720632,-1.0,Cliff's delta,-1.0,-1.0,reject,
+H0-2.1,KW,mac,SLEEP,8,FP_8 | FJ_8 | VT_8 | PT | SEQ,primary_J_op_active,38.86682352941173,7.421939208710329e-08,6.731504973030972e-07,0.7932004801920761,epsilon^2,0.7725523009666445,0.8969829069894627,reject,"n=10,10,10,10,10; FP/FJ at p<256 are floor-bound (see Blocking)"
+H0-2.1,Dunn,mac,SLEEP,8,VT_8 vs FP_8,primary_J_op_active,,0.01188147369751575,0.01188147369751575,-1.0,Cliff's delta,-1.0,-1.0,reject,
+H0-2.1,Dunn,mac,SLEEP,8,VT_8 vs FJ_8,primary_J_op_active,,0.0021559763036343056,0.004311952607268611,-1.0,Cliff's delta,-1.0,-1.0,reject,
+H0-2.1,Dunn,mac,SLEEP,8,VT_8 vs PT,primary_J_op_active,,8.477440461174856e-10,3.3909761844699423e-09,-1.0,Cliff's delta,-1.0,-1.0,reject,
+H0-2.1,Dunn,mac,SLEEP,8,VT_8 vs SEQ,primary_J_op_active,,0.00029451792300656387,0.0008835537690196916,-1.0,Cliff's delta,-1.0,-1.0,reject,
+H0-2.1,KW,mac,SLEEP,16,FP_16 | FJ_16 | VT_16 | PT | SEQ,primary_J_op_active,39.36470588235292,5.856830720053213e-08,6.731504973030972e-07,0.8033613445378147,epsilon^2,0.7744135353517715,0.9216897898410729,reject,"n=10,10,10,10,10; FP/FJ at p<256 are floor-bound (see Blocking)"
+H0-2.1,Dunn,mac,SLEEP,16,VT_16 vs FP_16,primary_J_op_active,,0.0016633881375488076,0.0033267762750976153,-1.0,Cliff's delta,-1.0,-1.0,reject,
+H0-2.1,Dunn,mac,SLEEP,16,VT_16 vs FJ_16,primary_J_op_active,,0.017426120590185654,0.017426120590185654,-1.0,Cliff's delta,-1.0,-1.0,reject,
+H0-2.1,Dunn,mac,SLEEP,16,VT_16 vs PT,primary_J_op_active,,8.477440461174856e-10,3.3909761844699423e-09,-1.0,Cliff's delta,-1.0,-1.0,reject,
+H0-2.1,Dunn,mac,SLEEP,16,VT_16 vs SEQ,primary_J_op_active,,0.00023192769813331,0.00069578309439993,-1.0,Cliff's delta,-1.0,-1.0,reject,
+H0-2.1,KW,mac,SLEEP,64,FP_64 | FJ_64 | VT_64 | PT | SEQ,primary_J_op_active,39.62352941176468,5.178080748485363e-08,6.731504973030972e-07,0.8086434573829526,epsilon^2,0.7764334434701123,0.9200970637970225,reject,"n=10,10,10,10,10; FP/FJ at p<256 are floor-bound (see Blocking)"
+H0-2.1,Dunn,mac,SLEEP,64,VT_64 vs FP_64,primary_J_op_active,,0.021397568696919046,0.021397568696919046,-1.0,Cliff's delta,-1.0,-1.0,reject,
+H0-2.1,Dunn,mac,SLEEP,64,VT_64 vs FJ_64,primary_J_op_active,,0.0012763144517019165,0.002552628903403833,-1.0,Cliff's delta,-1.0,-1.0,reject,
+H0-2.1,Dunn,mac,SLEEP,64,VT_64 vs PT,primary_J_op_active,,8.477440461174856e-10,3.3909761844699423e-09,-1.0,Cliff's delta,-1.0,-1.0,reject,
+H0-2.1,Dunn,mac,SLEEP,64,VT_64 vs SEQ,primary_J_op_active,,0.00023192769813331,0.00069578309439993,-1.0,Cliff's delta,-1.0,-1.0,reject,
+H0-2.1,KW,mac,SLEEP,256,FP_256 | FJ_256 | VT_256 | PT | SEQ,primary_J_op_active,45.08235294117645,3.822254548453509e-09,8.026734551752369e-08,0.9200480192076828,epsilon^2,0.91332980820074,0.9614933915899009,reject,"n=10,10,10,10,10"
+H0-2.1,Dunn,mac,SLEEP,256,VT_256 vs FP_256,primary_J_op_active,,1.382510912567614e-08,5.530043650270456e-08,-1.0,Cliff's delta,-1.0,-1.0,reject,
+H0-2.1,Dunn,mac,SLEEP,256,VT_256 vs FJ_256,primary_J_op_active,,3.4487498964150424e-05,0.00010346249689245128,-1.0,Cliff's delta,-1.0,-1.0,reject,
+H0-2.1,Dunn,mac,SLEEP,256,VT_256 vs PT,primary_J_op_active,,0.009115787252508306,0.018231574505016612,-1.0,Cliff's delta,-1.0,-1.0,reject,
+H0-2.1,Dunn,mac,SLEEP,256,VT_256 vs SEQ,primary_J_op_active,,0.5394981968180632,0.5394981968180632,-0.4,Cliff's delta,-1.0,0.2,not rejected,
+H0-2.1,TOST,mac,SLEEP,256,VT_256 vs SEQ,primary_J_op_active,,,,0.25766437281529025,ratio of medians,0.15368577718870688,0.5831072711303338,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-2.1,KW,mac,SOCKET,1,FP_1 | FJ_1 | VT_1 | PT | SEQ,primary_J_op_active,37.19435294117645,1.6426399588372745e-07,9.855839753023646e-07,0.7590684273709479,epsilon^2,0.7375215283904257,0.8326326644450777,reject,"n=10,10,10,10,10; FP/FJ at p<256 are floor-bound (see Blocking)"
+H0-2.1,Dunn,mac,SOCKET,1,VT_1 vs FP_1,primary_J_op_active,,0.00017118900383615102,0.0006847560153446041,1.0,Cliff's delta,1.0,1.0,reject,
+H0-2.1,Dunn,mac,SOCKET,1,VT_1 vs FJ_1,primary_J_op_active,,0.002512416030193321,0.006467928910902917,1.0,Cliff's delta,1.0,1.0,reject,
+H0-2.1,Dunn,mac,SOCKET,1,VT_1 vs PT,primary_J_op_active,,0.2694068335207438,0.2694068335207438,-0.72,Cliff's delta,-0.98,-0.32,not rejected,
+H0-2.1,TOST,mac,SOCKET,1,VT_1 vs PT,primary_J_op_active,,,,0.9705920855650111,ratio of medians,0.9532080252385103,0.9919688737572686,equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-2.1,Dunn,mac,SOCKET,1,VT_1 vs SEQ,primary_J_op_active,,0.0021559763036343056,0.006467928910902917,1.0,Cliff's delta,1.0,1.0,reject,
+H0-2.1,KW,mac,SOCKET,2,FP_2 | FJ_2 | VT_2 | PT | SEQ,primary_J_op_active,31.781647058823495,2.1200878289710442e-06,6.360263486913133e-06,0.648605042016806,epsilon^2,0.5758338899536758,0.792262143012452,reject,"n=10,10,10,10,10; FP/FJ at p<256 are floor-bound (see Blocking)"
+H0-2.1,Dunn,mac,SOCKET,2,VT_2 vs FP_2,primary_J_op_active,,0.019723135786463834,0.0591694073593915,0.64,Cliff's delta,0.12,1.0,not rejected,
+H0-2.1,TOST,mac,SOCKET,2,VT_2 vs FP_2,primary_J_op_active,,,,1.6388664075268273,ratio of medians,1.2085500754911973,1.8507100716066651,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-2.1,Dunn,mac,SOCKET,2,VT_2 vs FJ_2,primary_J_op_active,,0.009966126946188644,0.039864507784754574,0.8,Cliff's delta,0.4,1.0,reject,
+H0-2.1,Dunn,mac,SOCKET,2,VT_2 vs PT,primary_J_op_active,,0.03427484123204352,0.06854968246408703,-1.0,Cliff's delta,-1.0,-1.0,not rejected,
+H0-2.1,TOST,mac,SOCKET,2,VT_2 vs PT,primary_J_op_active,,,,0.5900056027526314,ratio of medians,0.5754811101444848,0.6071317722433691,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-2.1,Dunn,mac,SOCKET,2,VT_2 vs SEQ,primary_J_op_active,,0.04959618766277405,0.06854968246408703,0.8,Cliff's delta,0.44,1.0,not rejected,
+H0-2.1,TOST,mac,SOCKET,2,VT_2 vs SEQ,primary_J_op_active,,,,1.373091811632943,ratio of medians,1.2014250661469645,1.6851038216293694,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-2.1,KW,mac,SOCKET,4,FP_4 | FJ_4 | VT_4 | PT | SEQ,primary_J_op_active,42.73599999999999,1.1738771926375312e-08,1.7449128197120164e-07,0.8721632653061222,epsilon^2,0.8522354994137378,0.9141348021348854,reject,"n=10,10,10,10,10; FP/FJ at p<256 are floor-bound (see Blocking)"
+H0-2.1,Dunn,mac,SOCKET,4,VT_4 vs FP_4,primary_J_op_active,,0.0009739366560203621,0.002921809968061086,1.0,Cliff's delta,1.0,1.0,reject,
+H0-2.1,Dunn,mac,SOCKET,4,VT_4 vs FJ_4,primary_J_op_active,,0.00026147225094251455,0.0010458890037700582,1.0,Cliff's delta,1.0,1.0,reject,
+H0-2.1,Dunn,mac,SOCKET,4,VT_4 vs PT,primary_J_op_active,,0.06129041060627353,0.12258082121254706,-1.0,Cliff's delta,-1.0,-1.0,not rejected,
+H0-2.1,TOST,mac,SOCKET,4,VT_4 vs PT,primary_J_op_active,,,,0.5051662263629186,ratio of medians,0.4915716963124373,0.5137859964231887,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-2.1,Dunn,mac,SOCKET,4,VT_4 vs SEQ,primary_J_op_active,,0.36545548746448964,0.36545548746448964,0.56,Cliff's delta,0.0,1.0,not rejected,
+H0-2.1,TOST,mac,SOCKET,4,VT_4 vs SEQ,primary_J_op_active,,,,1.1756491899336354,ratio of medians,1.0254971260782246,1.434338473301146,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-2.1,KW,mac,SOCKET,8,FP_8 | FJ_8 | VT_8 | PT | SEQ,primary_J_op_active,43.41176470588235,8.499501454920432e-09,1.4449152473364733e-07,0.885954381752701,epsilon^2,0.8679572281181832,0.9298134256587798,reject,"n=10,10,10,10,10; FP/FJ at p<256 are floor-bound (see Blocking)"
+H0-2.1,Dunn,mac,SOCKET,8,VT_8 vs FP_8,primary_J_op_active,,0.0009739366560203621,0.002921809968061086,1.0,Cliff's delta,1.0,1.0,reject,
+H0-2.1,Dunn,mac,SOCKET,8,VT_8 vs FJ_8,primary_J_op_active,,0.00017118900383615102,0.0006847560153446041,1.0,Cliff's delta,1.0,1.0,reject,
+H0-2.1,Dunn,mac,SOCKET,8,VT_8 vs PT,primary_J_op_active,,0.06566319190946497,0.13132638381892994,-1.0,Cliff's delta,-1.0,-1.0,not rejected,
+H0-2.1,TOST,mac,SOCKET,8,VT_8 vs PT,primary_J_op_active,,,,0.542043875532105,ratio of medians,0.5348563805781675,0.5541515539499858,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-2.1,Dunn,mac,SOCKET,8,VT_8 vs SEQ,primary_J_op_active,,0.35738571603752656,0.35738571603752656,0.6,Cliff's delta,0.0,1.0,not rejected,
+H0-2.1,TOST,mac,SOCKET,8,VT_8 vs SEQ,primary_J_op_active,,,,1.2614727785067634,ratio of medians,1.1129647728342855,1.546924519466402,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-2.1,KW,mac,SOCKET,16,FP_16 | FJ_16 | VT_16 | PT | SEQ,primary_J_op_active,43.335529411764696,8.814913379435653e-09,1.4449152473364733e-07,0.8843985594237693,epsilon^2,0.8676890302395333,0.9254373894052799,reject,"n=10,10,10,10,10; FP/FJ at p<256 are floor-bound (see Blocking)"
+H0-2.1,Dunn,mac,SOCKET,16,VT_16 vs FP_16,primary_J_op_active,,0.0008258945629108259,0.002477683688732478,1.0,Cliff's delta,1.0,1.0,reject,
+H0-2.1,Dunn,mac,SOCKET,16,VT_16 vs FJ_16,primary_J_op_active,,0.0002055381753196511,0.0008221527012786045,1.0,Cliff's delta,1.0,1.0,reject,
+H0-2.1,Dunn,mac,SOCKET,16,VT_16 vs PT,primary_J_op_active,,0.06566319190946497,0.13132638381892994,-1.0,Cliff's delta,-1.0,-1.0,not rejected,
+H0-2.1,TOST,mac,SOCKET,16,VT_16 vs PT,primary_J_op_active,,,,0.560436847716492,ratio of medians,0.5496331411707316,0.5692814802133531,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-2.1,Dunn,mac,SOCKET,16,VT_16 vs SEQ,primary_J_op_active,,0.35738571603752656,0.35738571603752656,0.6,Cliff's delta,0.0,1.0,not rejected,
+H0-2.1,TOST,mac,SOCKET,16,VT_16 vs SEQ,primary_J_op_active,,,,1.3042778626960452,ratio of medians,1.1435515899165536,1.5994157308650383,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-2.1,KW,mac,SOCKET,64,FP_64 | FJ_64 | VT_64 | PT | SEQ,primary_J_op_active,44.91294117647058,4.1451610290086294e-09,8.148520577762942e-08,0.9165906362545017,epsilon^2,0.8914523329263101,0.948298410722451,reject,"n=10,10,10,10,10; FP/FJ at p<256 are floor-bound (see Blocking)"
+H0-2.1,Dunn,mac,SOCKET,64,VT_64 vs FP_64,primary_J_op_active,,0.0009220573194073136,0.002766171958221941,1.0,Cliff's delta,1.0,1.0,reject,
+H0-2.1,Dunn,mac,SOCKET,64,VT_64 vs FJ_64,primary_J_op_active,,3.015540969428559e-05,0.00012062163877714236,1.0,Cliff's delta,1.0,1.0,reject,
+H0-2.1,Dunn,mac,SOCKET,64,VT_64 vs PT,primary_J_op_active,,0.10395693597466524,0.20791387194933048,-1.0,Cliff's delta,-1.0,-1.0,not rejected,
+H0-2.1,TOST,mac,SOCKET,64,VT_64 vs PT,primary_J_op_active,,,,0.6026053401114235,ratio of medians,0.5876935169535742,0.6203430440651846,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-2.1,Dunn,mac,SOCKET,64,VT_64 vs SEQ,primary_J_op_active,,0.1770614140719423,0.20791387194933048,0.88,Cliff's delta,0.6,1.0,not rejected,
+H0-2.1,TOST,mac,SOCKET,64,VT_64 vs SEQ,primary_J_op_active,,,,1.4024145775785009,ratio of medians,1.2255326983715453,1.7198739211900416,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-2.1,KW,mac,SOCKET,256,FP_256 | FJ_256 | VT_256 | PT | SEQ,primary_J_op_active,44.76611764705882,4.44695143969303e-09,8.148520577762942e-08,0.913594237695078,epsilon^2,0.91332980820074,0.936202051627781,reject,"n=10,10,10,10,10"
+H0-2.1,Dunn,mac,SOCKET,256,VT_256 vs FP_256,primary_J_op_active,,0.0002055381753196511,0.0006166145259589534,-1.0,Cliff's delta,-1.0,-1.0,reject,
+H0-2.1,Dunn,mac,SOCKET,256,VT_256 vs FJ_256,primary_J_op_active,,7.572581796922284e-05,0.00030290327187689137,-1.0,Cliff's delta,-1.0,-1.0,reject,
+H0-2.1,Dunn,mac,SOCKET,256,VT_256 vs PT,primary_J_op_active,,0.1250468801311005,0.250093760262201,-1.0,Cliff's delta,-1.0,-1.0,not rejected,
+H0-2.1,TOST,mac,SOCKET,256,VT_256 vs PT,primary_J_op_active,,,,0.8042923878656975,ratio of medians,0.7711558261782605,0.8228535348822054,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-2.1,Dunn,mac,SOCKET,256,VT_256 vs SEQ,primary_J_op_active,,0.1250468801311005,0.250093760262201,1.0,Cliff's delta,1.0,1.0,not rejected,
+H0-2.1,TOST,mac,SOCKET,256,VT_256 vs SEQ,primary_J_op_active,,,,1.8717911944983998,ratio of medians,1.615576917297264,2.2788620048709585,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-2.2,MW one-sided (IU component),mac,CPU,1,VT_1 < FP_1,primary_J_op,48.5,0.4698488594096404,,-0.03,Cliff's delta,-0.6,0.52,not lower,uncorrected (no correction inside the IU test)
+H0-2.2,MW one-sided (IU component),mac,CPU,1,VT_1 < FJ_1,primary_J_op,80.0,0.989457264482371,,0.6,Cliff's delta,0.14,0.92,not lower,uncorrected (no correction inside the IU test)
+H0-2.2,MW one-sided (IU component),mac,CPU,1,VT_1 < PT,primary_J_op,100.0,0.9999329697399769,,1.0,Cliff's delta,1.0,1.0,not lower,uncorrected (no correction inside the IU test)
+H0-2.2,MW one-sided (IU component),mac,CPU,1,VT_1 < SEQ,primary_J_op,79.5,0.9884067866516011,,0.59,Cliff's delta,0.12,0.92,not lower,uncorrected (no correction inside the IU test)
+H0-2.2,IU,mac,CPU,1,VT_1 < every alternative,primary_J_op,,0.9999329697399769,1.0,1.0,Cliff's delta (weakest alternative),1.0,1.0,not rejected,weakest vs PT
+H0-2.2,MW one-sided (IU component),mac,CPU,2,VT_2 < FP_2,primary_J_op,56.0,0.6884118880589414,,0.12,Cliff's delta,-0.4,0.64,not lower,uncorrected (no correction inside the IU test)
+H0-2.2,MW one-sided (IU component),mac,CPU,2,VT_2 < FJ_2,primary_J_op,28.0,0.05205494483011341,,-0.44,Cliff's delta,-0.8604999999999956,0.06,not lower,uncorrected (no correction inside the IU test)
+H0-2.2,MW one-sided (IU component),mac,CPU,2,VT_2 < PT,primary_J_op,100.0,0.9999325785388228,,1.0,Cliff's delta,1.0,1.0,not lower,uncorrected (no correction inside the IU test)
+H0-2.2,MW one-sided (IU component),mac,CPU,2,VT_2 < SEQ,primary_J_op,1.0,0.00012240241226222747,,-0.98,Cliff's delta,-1.0,-0.88,VT lower,uncorrected (no correction inside the IU test)
+H0-2.2,IU,mac,CPU,2,VT_2 < every alternative,primary_J_op,,0.9999325785388228,1.0,1.0,Cliff's delta (weakest alternative),1.0,1.0,not rejected,weakest vs PT
+H0-2.2,MW one-sided (IU component),mac,CPU,4,VT_4 < FP_4,primary_J_op,37.5,0.18208286732008583,,-0.25,Cliff's delta,-0.76,0.3,not lower,uncorrected (no correction inside the IU test)
+H0-2.2,MW one-sided (IU component),mac,CPU,4,VT_4 < FJ_4,primary_J_op,55.0,0.6612647436135539,,0.1,Cliff's delta,-0.46,0.68,not lower,uncorrected (no correction inside the IU test)
+H0-2.2,MW one-sided (IU component),mac,CPU,4,VT_4 < PT,primary_J_op,100.0,0.9999325785388228,,1.0,Cliff's delta,1.0,1.0,not lower,uncorrected (no correction inside the IU test)
+H0-2.2,MW one-sided (IU component),mac,CPU,4,VT_4 < SEQ,primary_J_op,0.0,9.082557304573249e-05,,-1.0,Cliff's delta,-1.0,-1.0,VT lower,uncorrected (no correction inside the IU test)
+H0-2.2,IU,mac,CPU,4,VT_4 < every alternative,primary_J_op,,0.9999325785388228,1.0,1.0,Cliff's delta (weakest alternative),1.0,1.0,not rejected,weakest vs PT
+H0-2.2,MW one-sided (IU component),mac,CPU,8,VT_8 < FP_8,primary_J_op,34.0,0.12066079650859002,,-0.32,Cliff's delta,-0.8,0.2,not lower,uncorrected (no correction inside the IU test)
+H0-2.2,MW one-sided (IU component),mac,CPU,8,VT_8 < FJ_8,primary_J_op,0.0,9.133589555477501e-05,,-1.0,Cliff's delta,-1.0,-1.0,VT lower,uncorrected (no correction inside the IU test)
+H0-2.2,MW one-sided (IU component),mac,CPU,8,VT_8 < PT,primary_J_op,100.0,0.9999325785388228,,1.0,Cliff's delta,1.0,1.0,not lower,uncorrected (no correction inside the IU test)
+H0-2.2,MW one-sided (IU component),mac,CPU,8,VT_8 < SEQ,primary_J_op,0.0,9.082557304573249e-05,,-1.0,Cliff's delta,-1.0,-1.0,VT lower,uncorrected (no correction inside the IU test)
+H0-2.2,IU,mac,CPU,8,VT_8 < every alternative,primary_J_op,,0.9999325785388228,1.0,1.0,Cliff's delta (weakest alternative),1.0,1.0,not rejected,weakest vs PT
+H0-2.2,MW one-sided (IU component),mac,CPU,16,VT_16 < FP_16,primary_J_op,46.0,0.3956683900503302,,-0.08,Cliff's delta,-0.6,0.44,not lower,uncorrected (no correction inside the IU test)
+H0-2.2,MW one-sided (IU component),mac,CPU,16,VT_16 < FJ_16,primary_J_op,41.0,0.26026144163788634,,-0.18,Cliff's delta,-0.66,0.36,not lower,uncorrected (no correction inside the IU test)
+H0-2.2,MW one-sided (IU component),mac,CPU,16,VT_16 < PT,primary_J_op,0.0,9.133589555477501e-05,,-1.0,Cliff's delta,-1.0,-1.0,VT lower,uncorrected (no correction inside the IU test)
+H0-2.2,MW one-sided (IU component),mac,CPU,16,VT_16 < SEQ,primary_J_op,0.0,9.082557304573249e-05,,-1.0,Cliff's delta,-1.0,-1.0,VT lower,uncorrected (no correction inside the IU test)
+H0-2.2,IU,mac,CPU,16,VT_16 < every alternative,primary_J_op,,0.3956683900503302,1.0,-0.08,Cliff's delta (weakest alternative),-0.6,0.44,not rejected,weakest vs FP_16
+H0-2.2,MW one-sided (IU component),mac,CPU,64,VT_64 < FP_64,primary_J_op,28.5,0.05613775299027845,,-0.43,Cliff's delta,-0.84,0.07,not lower,uncorrected (no correction inside the IU test)
+H0-2.2,MW one-sided (IU component),mac,CPU,64,VT_64 < FJ_64,primary_J_op,29.0,0.06061225150645831,,-0.42,Cliff's delta,-0.86,0.1,not lower,uncorrected (no correction inside the IU test)
+H0-2.2,MW one-sided (IU component),mac,CPU,64,VT_64 < PT,primary_J_op,0.0,9.133589555477501e-05,,-1.0,Cliff's delta,-1.0,-1.0,VT lower,uncorrected (no correction inside the IU test)
+H0-2.2,MW one-sided (IU component),mac,CPU,64,VT_64 < SEQ,primary_J_op,0.0,9.082557304573249e-05,,-1.0,Cliff's delta,-1.0,-1.0,VT lower,uncorrected (no correction inside the IU test)
+H0-2.2,IU,mac,CPU,64,VT_64 < every alternative,primary_J_op,,0.06061225150645831,0.36367350903874984,-0.42,Cliff's delta (weakest alternative),-0.86,0.1,not rejected,weakest vs FJ_64
+H0-2.2,MW one-sided (IU component),mac,CPU,256,VT_256 < FP_256,primary_J_op,0.0,9.133589555477501e-05,,-1.0,Cliff's delta,-1.0,-1.0,VT lower,uncorrected (no correction inside the IU test)
+H0-2.2,MW one-sided (IU component),mac,CPU,256,VT_256 < FJ_256,primary_J_op,1.0,0.00012306406395261486,,-0.98,Cliff's delta,-1.0,-0.88,VT lower,uncorrected (no correction inside the IU test)
+H0-2.2,MW one-sided (IU component),mac,CPU,256,VT_256 < PT,primary_J_op,2.0,0.00016491926038899677,,-0.96,Cliff's delta,-1.0,-0.82,VT lower,uncorrected (no correction inside the IU test)
+H0-2.2,MW one-sided (IU component),mac,CPU,256,VT_256 < SEQ,primary_J_op,0.0,9.082557304573249e-05,,-1.0,Cliff's delta,-1.0,-1.0,VT lower,uncorrected (no correction inside the IU test)
+H0-2.2,IU,mac,CPU,256,VT_256 < every alternative,primary_J_op,,0.00016491926038899677,0.0011544348227229774,-0.96,Cliff's delta (weakest alternative),-1.0,-0.82,reject,weakest vs PT
+H0-2.2,MW one-sided (IU component),mac,SLEEP,256,VT_256 < FP_256,primary_J_op_active,0.0,9.133589555477501e-05,,-1.0,Cliff's delta,-1.0,-1.0,VT lower,uncorrected (no correction inside the IU test)
+H0-2.2,MW one-sided (IU component),mac,SLEEP,256,VT_256 < FJ_256,primary_J_op_active,0.0,9.133589555477501e-05,,-1.0,Cliff's delta,-1.0,-1.0,VT lower,uncorrected (no correction inside the IU test)
+H0-2.2,MW one-sided (IU component),mac,SLEEP,256,VT_256 < PT,primary_J_op_active,0.0,9.133589555477501e-05,,-1.0,Cliff's delta,-1.0,-1.0,VT lower,uncorrected (no correction inside the IU test)
+H0-2.2,MW one-sided (IU component),mac,SLEEP,256,VT_256 < SEQ,primary_J_op_active,30.0,0.07023252407917747,,-0.4,Cliff's delta,-1.0,0.2,not lower,uncorrected (no correction inside the IU test)
+H0-2.2,IU,mac,SLEEP,256,VT_256 < every alternative,primary_J_op_active,,0.07023252407917747,0.07023252407917747,-0.4,Cliff's delta (weakest alternative),-1.0,0.2,not rejected,weakest vs SEQ
+H0-2.2,MW one-sided (IU component),mac,SOCKET,256,VT_256 < FP_256,primary_J_op_active,0.0,9.133589555477501e-05,,-1.0,Cliff's delta,-1.0,-1.0,VT lower,uncorrected (no correction inside the IU test)
+H0-2.2,MW one-sided (IU component),mac,SOCKET,256,VT_256 < FJ_256,primary_J_op_active,0.0,9.133589555477501e-05,,-1.0,Cliff's delta,-1.0,-1.0,VT lower,uncorrected (no correction inside the IU test)
+H0-2.2,MW one-sided (IU component),mac,SOCKET,256,VT_256 < PT,primary_J_op_active,0.0,9.133589555477501e-05,,-1.0,Cliff's delta,-1.0,-1.0,VT lower,uncorrected (no correction inside the IU test)
+H0-2.2,MW one-sided (IU component),mac,SOCKET,256,VT_256 < SEQ,primary_J_op_active,100.0,0.9999325785388228,,1.0,Cliff's delta,1.0,1.0,not lower,uncorrected (no correction inside the IU test)
+H0-2.2,IU,mac,SOCKET,256,VT_256 < every alternative,primary_J_op_active,,0.9999325785388228,0.9999325785388228,1.0,Cliff's delta (weakest alternative),1.0,1.0,not rejected,weakest vs SEQ
+H0-2.2,IU smallest p,mac,CPU,256,VT_256 < every alternative,primary_J_op,,0.00016491926038899677,0.0011544348227229774,-0.96,Cliff's delta (weakest alternative),-1.0,-0.82,reject,rejecting p levels: 256
+H0-2.2,IU smallest p,mac,SLEEP,,VT vs every alternative,primary_J_op_active,,,,,,,,not rejected,no p level rejects
+H0-2.2,IU smallest p,mac,SOCKET,,VT vs every alternative,primary_J_op_active,,,,,,,,not rejected,no p level rejects
+Blocking,detection limit,mac,SLEEP,1,FP_1,primary_J_op_active,,,,0.004546201875651253,median,0.002898991614081005,0.010184423312159997,detected,95% bootstrap CI of the median; n=10
+Blocking,detection limit,mac,SLEEP,1,FP_1,mem_J_op_active,,,,0.003473873772689512,median,-0.04356864492755748,0.008277770645500004,below detection limit,95% bootstrap CI of the median; n=10
+Blocking,floor ratio,mac,SLEEP,1,FP_1,ms_op / (ceil(256/p) d),,,,0.9697166567256112,floor ratio,0.9687425983969561,0.9700943029955713,descriptive,floor = 256 x 15.03 ms
+Blocking,detection limit,mac,SLEEP,2,FP_2,primary_J_op_active,,,,0.0022949420731550006,median,6.732928714399747e-05,0.003749968067745,detected,95% bootstrap CI of the median; n=10
+Blocking,detection limit,mac,SLEEP,2,FP_2,mem_J_op_active,,,,0.00031006910099518753,median,-0.006909351215635164,0.0031555263272916717,below detection limit,95% bootstrap CI of the median; n=10
+Blocking,floor ratio,mac,SLEEP,2,FP_2,ms_op / (ceil(256/p) d),,,,0.9671272218583666,floor ratio,0.9648089165419161,0.9686722835578843,descriptive,floor = 128 x 15.03 ms
+Blocking,detection limit,mac,SLEEP,4,FP_4,primary_J_op_active,,,,0.0031970520140925003,median,0.0028844138283825003,0.0038585324932395833,detected,95% bootstrap CI of the median; n=10
+Blocking,detection limit,mac,SLEEP,4,FP_4,mem_J_op_active,,,,0.002585784658869248,median,0.0017643985539121734,0.0065237722454865865,detected,95% bootstrap CI of the median; n=10
+Blocking,floor ratio,mac,SLEEP,4,FP_4,ms_op / (ceil(256/p) d),,,,0.9661432235355678,floor ratio,0.9639601439482147,0.9671394948817642,descriptive,floor = 64 x 15.03 ms
+Blocking,detection limit,mac,SLEEP,8,FP_8,primary_J_op_active,,,,0.0016948343703299092,median,0.0011800101938086362,0.0021380388863636354,detected,95% bootstrap CI of the median; n=10
+Blocking,detection limit,mac,SLEEP,8,FP_8,mem_J_op_active,,,,0.0016266662502272735,median,0.0007384227021859542,0.0031065062613704515,detected,95% bootstrap CI of the median; n=10
+Blocking,floor ratio,mac,SLEEP,8,FP_8,ms_op / (ceil(256/p) d),,,,0.9662357459323778,floor ratio,0.9657029691563843,0.9675582231370593,descriptive,floor = 32 x 15.03 ms
+Blocking,detection limit,mac,SLEEP,16,FP_16,primary_J_op_active,,,,0.0014380463963907496,median,0.0013204825565268181,0.0017961580696989547,detected,95% bootstrap CI of the median; n=10
+Blocking,detection limit,mac,SLEEP,16,FP_16,mem_J_op_active,,,,0.0018428190136445003,median,0.0013712719673490917,0.001991069046629478,detected,95% bootstrap CI of the median; n=10
+Blocking,floor ratio,mac,SLEEP,16,FP_16,ms_op / (ceil(256/p) d),,,,0.9666529473250469,floor ratio,0.9642434434161979,0.967896766504869,descriptive,floor = 16 x 15.03 ms
+Blocking,detection limit,mac,SLEEP,64,FP_64,primary_J_op_active,,,,0.002065951194351926,median,0.001990019677395062,0.0021691979324073704,detected,95% bootstrap CI of the median; n=10
+Blocking,detection limit,mac,SLEEP,64,FP_64,mem_J_op_active,,,,0.0016840583978055556,median,0.0015907897175987651,0.0018811729699475307,detected,95% bootstrap CI of the median; n=10
+Blocking,floor ratio,mac,SLEEP,64,FP_64,ms_op / (ceil(256/p) d),,,,1.0318840028790155,floor ratio,1.0295486531053122,1.0333759907140454,descriptive,floor = 4 x 15.03 ms
+Blocking,detection limit,mac,SLEEP,256,FP_256,primary_J_op_active,,,,0.044314423292524024,median,0.043986313185155924,0.04463860738779204,detected,95% bootstrap CI of the median; n=10
+Blocking,detection limit,mac,SLEEP,256,FP_256,mem_J_op_active,,,,0.010265833324958576,median,0.010022699703575881,0.010332665772763944,detected,95% bootstrap CI of the median; n=10
+Blocking,floor ratio,mac,SLEEP,256,FP_256,ms_op / (ceil(256/p) d),,,,1.3328603913023889,floor ratio,1.3318063571179024,1.334731799901936,descriptive,floor = 1 x 15.03 ms
+Blocking,detection limit,mac,SLEEP,1,FJ_1,primary_J_op_active,,,,0.004458755802987501,median,0.0021582497872500023,0.007827176138272503,detected,95% bootstrap CI of the median; n=10
+Blocking,detection limit,mac,SLEEP,1,FJ_1,mem_J_op_active,,,,0.0013555203503865104,median,-0.0013489457257759851,0.008024000766698486,below detection limit,95% bootstrap CI of the median; n=10
+Blocking,floor ratio,mac,SLEEP,1,FJ_1,ms_op / (ceil(256/p) d),,,,0.9695365372770085,floor ratio,0.9678382357680473,0.9706720809032976,descriptive,floor = 256 x 15.03 ms
+Blocking,detection limit,mac,SLEEP,2,FJ_2,primary_J_op_active,,,,0.0020153732217683355,median,-9.234104749999972e-05,0.0034266545642766717,below detection limit,95% bootstrap CI of the median; n=10
+Blocking,detection limit,mac,SLEEP,2,FJ_2,mem_J_op_active,,,,0.0015614082421176734,median,-0.0006723907408599794,0.004211723093429667,below detection limit,95% bootstrap CI of the median; n=10
+Blocking,floor ratio,mac,SLEEP,2,FJ_2,ms_op / (ceil(256/p) d),,,,0.967049639089876,floor ratio,0.9657782705422489,0.9683059625540587,descriptive,floor = 128 x 15.03 ms
+Blocking,detection limit,mac,SLEEP,4,FJ_4,primary_J_op_active,,,,0.0016581863301329165,median,0.0007337362655336667,0.0027653763137083336,detected,95% bootstrap CI of the median; n=10
+Blocking,detection limit,mac,SLEEP,4,FJ_4,mem_J_op_active,,,,0.0021129100230313294,median,0.0011549015457237542,0.0036791679011250016,detected,95% bootstrap CI of the median; n=10
+Blocking,floor ratio,mac,SLEEP,4,FJ_4,ms_op / (ceil(256/p) d),,,,0.9734206319998892,floor ratio,0.9716349202636394,0.9753450166507264,descriptive,floor = 64 x 15.03 ms
+Blocking,detection limit,mac,SLEEP,8,FJ_8,primary_J_op_active,,,,0.002055547796527318,median,0.0015947465576704547,0.0028932308065833636,detected,95% bootstrap CI of the median; n=10
+Blocking,detection limit,mac,SLEEP,8,FJ_8,mem_J_op_active,,,,0.0020759972179462734,median,0.0015887768511623646,0.0030030465156501394,detected,95% bootstrap CI of the median; n=10
+Blocking,floor ratio,mac,SLEEP,8,FJ_8,ms_op / (ceil(256/p) d),,,,0.9967266737358617,floor ratio,0.9953799313305207,1.0034806254914415,descriptive,floor = 32 x 15.03 ms
+Blocking,detection limit,mac,SLEEP,16,FJ_16,primary_J_op_active,,,,0.0012359244689052382,median,0.0011743215471739046,0.0014379998641050004,detected,95% bootstrap CI of the median; n=10
+Blocking,detection limit,mac,SLEEP,16,FJ_16,mem_J_op_active,,,,0.0011505880671620712,median,0.0007802832740709765,0.0017337461363706444,detected,95% bootstrap CI of the median; n=10
+Blocking,floor ratio,mac,SLEEP,16,FJ_16,ms_op / (ceil(256/p) d),,,,1.0363834005599912,floor ratio,1.0350746011944365,1.0408306979295379,descriptive,floor = 16 x 15.03 ms
+Blocking,detection limit,mac,SLEEP,64,FJ_64,primary_J_op_active,,,,0.002184398796014824,median,0.0021081228445747795,0.0023361336571178556,detected,95% bootstrap CI of the median; n=10
+Blocking,detection limit,mac,SLEEP,64,FJ_64,mem_J_op_active,,,,0.001868589176570393,median,0.0017736888975441103,0.0020394618745122797,detected,95% bootstrap CI of the median; n=10
+Blocking,floor ratio,mac,SLEEP,64,FJ_64,ms_op / (ceil(256/p) d),,,,1.2270769837775428,floor ratio,1.2261981448866972,1.229447711929083,descriptive,floor = 4 x 15.03 ms
+Blocking,detection limit,mac,SLEEP,256,FJ_256,primary_J_op_active,,,,0.03347965641803721,median,0.033083310398275195,0.03392119266711075,detected,95% bootstrap CI of the median; n=10
+Blocking,detection limit,mac,SLEEP,256,FJ_256,mem_J_op_active,,,,0.010775935251948459,median,0.010724232364732706,0.010891964006983569,detected,95% bootstrap CI of the median; n=10
+Blocking,floor ratio,mac,SLEEP,256,FJ_256,ms_op / (ceil(256/p) d),,,,1.5614627766274305,floor ratio,1.5384784208596012,1.5644660261096284,descriptive,floor = 1 x 15.03 ms
+Blocking,detection limit,mac,SLEEP,,PT,primary_J_op_active,,,,0.018496291114155853,median,0.018334916974267118,0.01862348783319121,detected,95% bootstrap CI of the median; n=10
+Blocking,detection limit,mac,SLEEP,,PT,mem_J_op_active,,,,0.0024589891358621644,median,0.002397330568823623,0.0025231447927129163,detected,95% bootstrap CI of the median; n=10
+Blocking,detection limit,mac,SLEEP,,SEQ,primary_J_op_active,,,,0.004176605776395757,median,0.0008786563040000042,0.007781148172180008,detected,95% bootstrap CI of the median; n=10
+Blocking,detection limit,mac,SLEEP,,SEQ,mem_J_op_active,,,,0.006257456744687501,median,-0.0003991993091250201,0.009893362310887499,below detection limit,95% bootstrap CI of the median; n=10
+Blocking,floor ratio,mac,SLEEP,,SEQ,ms_op / (ceil(256/p) d),,,,0.9689348949236943,floor ratio,0.9659359990955589,0.9703452470059881,descriptive,floor = 256 x 15.03 ms
+Blocking,detection limit,mac,SLEEP,1,VT_1,primary_J_op_active,,,,0.00016219979976194474,median,0.00014437088124145736,0.00018226372061736374,detected,95% bootstrap CI of the median; n=10
+Blocking,detection limit,mac,SLEEP,1,VT_1,mem_J_op_active,,,,0.00013813237298841447,median,0.00012086053339629239,0.00017916323732795295,detected,95% bootstrap CI of the median; n=10
+Blocking,detection limit,mac,SLEEP,2,VT_2,primary_J_op_active,,,,0.00012895201302284574,median,0.00012216342558123914,0.0001420722001851216,detected,95% bootstrap CI of the median; n=10
+Blocking,detection limit,mac,SLEEP,2,VT_2,mem_J_op_active,,,,0.00010819462279615242,median,8.941710831160253e-05,0.00012924006495129703,detected,95% bootstrap CI of the median; n=10
+Blocking,detection limit,mac,SLEEP,4,VT_4,primary_J_op_active,,,,0.0001292821729084065,median,0.00011146727939157518,0.00014741935675266203,detected,95% bootstrap CI of the median; n=10
+Blocking,detection limit,mac,SLEEP,4,VT_4,mem_J_op_active,,,,8.874547252413299e-05,median,7.168884295576984e-05,0.00013608977479734026,detected,95% bootstrap CI of the median; n=10
+Blocking,detection limit,mac,SLEEP,8,VT_8,primary_J_op_active,,,,0.0001304185421657905,median,0.00011879755893343192,0.0001415227256967612,detected,95% bootstrap CI of the median; n=10
+Blocking,detection limit,mac,SLEEP,8,VT_8,mem_J_op_active,,,,0.00010624575419236295,median,7.294237641376322e-05,0.00013886656312801353,detected,95% bootstrap CI of the median; n=10
+Blocking,detection limit,mac,SLEEP,16,VT_16,primary_J_op_active,,,,0.00015397368064195855,median,0.00013602207445874312,0.0001855291457618343,detected,95% bootstrap CI of the median; n=10
+Blocking,detection limit,mac,SLEEP,16,VT_16,mem_J_op_active,,,,0.0001337526402325226,median,9.267539287956185e-05,0.00018792223575000988,detected,95% bootstrap CI of the median; n=10
+Blocking,detection limit,mac,SLEEP,64,VT_64,primary_J_op_active,,,,0.00023515702106364838,median,0.00022284081658045994,0.0002545802983184648,detected,95% bootstrap CI of the median; n=10
+Blocking,detection limit,mac,SLEEP,64,VT_64,mem_J_op_active,,,,0.0001762390039260547,median,0.00015224727083253337,0.00019780948826595145,detected,95% bootstrap CI of the median; n=10
+Blocking,detection limit,mac,SLEEP,256,VT_256,primary_J_op_active,,,,0.001076162507871731,median,0.0010534572191878738,0.0011103524719623735,detected,95% bootstrap CI of the median; n=10
+Blocking,detection limit,mac,SLEEP,256,VT_256,mem_J_op_active,,,,0.000645904342039406,median,0.0006062460983514064,0.0006990325753873312,detected,95% bootstrap CI of the median; n=10
+Blocking,detection limit,mac,SOCKET,1,FP_1,primary_J_op_active,,,,0.024238206321545004,median,0.018811408727031246,0.028044884747817002,detected,95% bootstrap CI of the median; n=10
+Blocking,detection limit,mac,SOCKET,1,FP_1,mem_J_op_active,,,,0.02259935548990498,median,0.020263099804817983,0.030766537754134488,detected,95% bootstrap CI of the median; n=10
+Blocking,floor ratio,mac,SOCKET,1,FP_1,ms_op / (ceil(256/p) d),,,,0.987567122211178,floor ratio,0.987178831702036,0.9884979034770056,descriptive,floor = 256 x 12.34 ms
+Blocking,detection limit,mac,SOCKET,2,FP_2,primary_J_op_active,,,,0.021922474165453124,median,0.018641917969765498,0.03027592337882925,detected,95% bootstrap CI of the median; n=10
+Blocking,detection limit,mac,SOCKET,2,FP_2,mem_J_op_active,,,,0.021402582634406246,median,0.016694367668481994,0.024385225912786995,detected,95% bootstrap CI of the median; n=10
+Blocking,floor ratio,mac,SOCKET,2,FP_2,ms_op / (ceil(256/p) d),,,,0.9955885167645867,floor ratio,0.9949327432542798,0.9960796305206645,descriptive,floor = 128 x 12.34 ms
+Blocking,detection limit,mac,SOCKET,4,FP_4,primary_J_op_active,,,,0.013866896834098572,median,0.012272990916458214,0.01898961047521429,detected,95% bootstrap CI of the median; n=10
+Blocking,detection limit,mac,SOCKET,4,FP_4,mem_J_op_active,,,,0.009895031767173431,median,0.008532371806071502,0.01138561779339986,detected,95% bootstrap CI of the median; n=10
+Blocking,floor ratio,mac,SOCKET,4,FP_4,ms_op / (ceil(256/p) d),,,,1.0025435205451205,floor ratio,1.001486648204156,1.003954184996527,descriptive,floor = 64 x 12.34 ms
+Blocking,detection limit,mac,SOCKET,8,FP_8,primary_J_op_active,,,,0.00833370451701923,median,0.007654458766727269,0.00950505866346231,detected,95% bootstrap CI of the median; n=10
+Blocking,detection limit,mac,SOCKET,8,FP_8,mem_J_op_active,,,,0.008550876735548074,median,0.00699790530769746,0.0093076677790625,detected,95% bootstrap CI of the median; n=10
+Blocking,floor ratio,mac,SOCKET,8,FP_8,ms_op / (ceil(256/p) d),,,,1.0249626347049934,floor ratio,1.024033185641597,1.0257083538523875,descriptive,floor = 32 x 12.34 ms
+Blocking,detection limit,mac,SOCKET,16,FP_16,primary_J_op_active,,,,0.008083544452871686,median,0.007336591119159792,0.008866694527291668,detected,95% bootstrap CI of the median; n=10
+Blocking,detection limit,mac,SOCKET,16,FP_16,mem_J_op_active,,,,0.006061930559434895,median,0.005596684501316583,0.006536873308123501,detected,95% bootstrap CI of the median; n=10
+Blocking,floor ratio,mac,SOCKET,16,FP_16,ms_op / (ceil(256/p) d),,,,1.0620938287158967,floor ratio,1.0614341215474743,1.0623569581265195,descriptive,floor = 16 x 12.34 ms
+Blocking,detection limit,mac,SOCKET,64,FP_64,primary_J_op_active,,,,0.00919247466903572,median,0.009092934222510538,0.00949288853755324,detected,95% bootstrap CI of the median; n=10
+Blocking,detection limit,mac,SOCKET,64,FP_64,mem_J_op_active,,,,0.005556760435534795,median,0.005375921710867786,0.005693025579068181,detected,95% bootstrap CI of the median; n=10
+Blocking,floor ratio,mac,SOCKET,64,FP_64,ms_op / (ceil(256/p) d),,,,1.1600116145756594,floor ratio,1.15819224724197,1.1628079522432593,descriptive,floor = 4 x 12.34 ms
+Blocking,detection limit,mac,SOCKET,256,FP_256,primary_J_op_active,,,,0.11194726698722512,median,0.11156542970079326,0.11221459950332413,detected,95% bootstrap CI of the median; n=10
+Blocking,detection limit,mac,SOCKET,256,FP_256,mem_J_op_active,,,,0.015883735001622667,median,0.015774643514006294,0.016048473890309615,detected,95% bootstrap CI of the median; n=10
+Blocking,floor ratio,mac,SOCKET,256,FP_256,ms_op / (ceil(256/p) d),,,,1.7197971895993525,floor ratio,1.716379702384616,1.7235253443287935,descriptive,floor = 1 x 12.34 ms
+Blocking,detection limit,mac,SOCKET,1,FJ_1,primary_J_op_active,,,,0.027550112459107504,median,0.022289142096676248,0.030557441931191996,detected,95% bootstrap CI of the median; n=10
+Blocking,detection limit,mac,SOCKET,1,FJ_1,mem_J_op_active,,,,0.024640217742705486,median,0.020172299789454992,0.031007192376473217,detected,95% bootstrap CI of the median; n=10
+Blocking,floor ratio,mac,SOCKET,1,FJ_1,ms_op / (ceil(256/p) d),,,,0.9873212998252634,floor ratio,0.9869707648526135,0.9875362122670178,descriptive,floor = 256 x 12.34 ms
+Blocking,detection limit,mac,SOCKET,2,FJ_2,primary_J_op_active,,,,0.0214165762188715,median,0.019663917689529003,0.024830514317559,detected,95% bootstrap CI of the median; n=10
+Blocking,detection limit,mac,SOCKET,2,FJ_2,mem_J_op_active,,,,0.01856614899033699,median,0.016448184066919502,0.02090071457906012,detected,95% bootstrap CI of the median; n=10
+Blocking,floor ratio,mac,SOCKET,2,FJ_2,ms_op / (ceil(256/p) d),,,,0.9951537723485616,floor ratio,0.9944664162213838,0.9957650569476802,descriptive,floor = 128 x 12.34 ms
+Blocking,detection limit,mac,SOCKET,4,FJ_4,primary_J_op_active,,,,0.01329003682452457,median,0.011278826186204287,0.014576616461454145,detected,95% bootstrap CI of the median; n=10
+Blocking,detection limit,mac,SOCKET,4,FJ_4,mem_J_op_active,,,,0.010137518611453424,median,0.00937250312675001,0.011673052414557003,detected,95% bootstrap CI of the median; n=10
+Blocking,floor ratio,mac,SOCKET,4,FJ_4,ms_op / (ceil(256/p) d),,,,1.0127331819612468,floor ratio,1.0106620470595045,1.015414477996932,descriptive,floor = 64 x 12.34 ms
+Blocking,detection limit,mac,SOCKET,8,FJ_8,primary_J_op_active,,,,0.007600258336065457,median,0.007159794692903959,0.009074611706729165,detected,95% bootstrap CI of the median; n=10
+Blocking,detection limit,mac,SOCKET,8,FJ_8,mem_J_op_active,,,,0.007161551620555333,median,0.006173441768135415,0.008132692219241162,detected,95% bootstrap CI of the median; n=10
+Blocking,floor ratio,mac,SOCKET,8,FJ_8,ms_op / (ceil(256/p) d),,,,1.0662893940353189,floor ratio,1.064803187360717,1.0688846357332187,descriptive,floor = 32 x 12.34 ms
+Blocking,detection limit,mac,SOCKET,16,FJ_16,primary_J_op_active,,,,0.007592975697224558,median,0.007341588451298719,0.007782583122533868,detected,95% bootstrap CI of the median; n=10
+Blocking,detection limit,mac,SOCKET,16,FJ_16,mem_J_op_active,,,,0.006405160672560501,median,0.00568151326415311,0.007169094662770985,detected,95% bootstrap CI of the median; n=10
+Blocking,floor ratio,mac,SOCKET,16,FJ_16,ms_op / (ceil(256/p) d),,,,1.1542724693617834,floor ratio,1.151380450637728,1.1578128644375276,descriptive,floor = 16 x 12.34 ms
+Blocking,detection limit,mac,SOCKET,64,FJ_64,primary_J_op_active,,,,0.008946502930275001,median,0.008683716549906666,0.009157617097736047,detected,95% bootstrap CI of the median; n=10
+Blocking,detection limit,mac,SOCKET,64,FJ_64,mem_J_op_active,,,,0.005838234445038688,median,0.005738723374949747,0.005946462714229167,detected,95% bootstrap CI of the median; n=10
+Blocking,floor ratio,mac,SOCKET,64,FJ_64,ms_op / (ceil(256/p) d),,,,1.360331847514857,floor ratio,1.3590960967044838,1.362537913019989,descriptive,floor = 4 x 12.34 ms
+Blocking,detection limit,mac,SOCKET,256,FJ_256,primary_J_op_active,,,,0.11216251955539971,median,0.11153020955027804,0.11232596671349351,detected,95% bootstrap CI of the median; n=10
+Blocking,detection limit,mac,SOCKET,256,FJ_256,mem_J_op_active,,,,0.01565549820889348,median,0.015440233803031509,0.015756384513421626,detected,95% bootstrap CI of the median; n=10
+Blocking,floor ratio,mac,SOCKET,256,FJ_256,ms_op / (ceil(256/p) d),,,,1.666152870014879,floor ratio,1.6642973507398549,1.6691133117012515,descriptive,floor = 1 x 12.34 ms
+Blocking,detection limit,mac,SOCKET,,PT,primary_J_op_active,,,,0.06089434797231781,median,0.0599261555910707,0.062005356120191556,detected,95% bootstrap CI of the median; n=10
+Blocking,detection limit,mac,SOCKET,,PT,mem_J_op_active,,,,0.014470578508797958,median,0.014251978716746983,0.014562426542464804,detected,95% bootstrap CI of the median; n=10
+Blocking,detection limit,mac,SOCKET,,SEQ,primary_J_op_active,,,,0.02616577141837925,median,0.020678394021709998,0.032413366046554246,detected,95% bootstrap CI of the median; n=10
+Blocking,detection limit,mac,SOCKET,,SEQ,mem_J_op_active,,,,0.032763789654084996,median,0.02249022413146748,0.039913451218219986,detected,95% bootstrap CI of the median; n=10
+Blocking,floor ratio,mac,SOCKET,,SEQ,ms_op / (ceil(256/p) d),,,,0.9871693747942414,floor ratio,0.9869072566349271,0.9876259150723006,descriptive,floor = 256 x 12.34 ms
+Blocking,detection limit,mac,SOCKET,1,VT_1,primary_J_op_active,,,,0.05910357219757345,median,0.05855934223422539,0.060009898433186985,detected,95% bootstrap CI of the median; n=10
+Blocking,detection limit,mac,SOCKET,1,VT_1,mem_J_op_active,,,,0.011316957273234358,median,0.011264253705720687,0.011480014682712229,detected,95% bootstrap CI of the median; n=10
+Blocking,detection limit,mac,SOCKET,2,VT_2,primary_J_op_active,,,,0.03592800647963584,median,0.03497193754551637,0.03694779528911318,detected,95% bootstrap CI of the median; n=10
+Blocking,detection limit,mac,SOCKET,2,VT_2,mem_J_op_active,,,,0.009633984081884525,median,0.009439235231832849,0.009872057990335038,detected,95% bootstrap CI of the median; n=10
+Blocking,detection limit,mac,SOCKET,4,VT_4,primary_J_op_active,,,,0.030761767972006235,median,0.029963084009563636,0.031022908353382957,detected,95% bootstrap CI of the median; n=10
+Blocking,detection limit,mac,SOCKET,4,VT_4,mem_J_op_active,,,,0.0059298010937559546,median,0.005588945829734452,0.006282178039550883,detected,95% bootstrap CI of the median; n=10
+Blocking,detection limit,mac,SOCKET,8,VT_8,primary_J_op_active,,,,0.03300740837291573,median,0.032814181836291784,0.03363974164511957,detected,95% bootstrap CI of the median; n=10
+Blocking,detection limit,mac,SOCKET,8,VT_8,mem_J_op_active,,,,0.007353551325121409,median,0.007103058676050485,0.007511052457130839,detected,95% bootstrap CI of the median; n=10
+Blocking,detection limit,mac,SOCKET,16,VT_16,primary_J_op_active,,,,0.03412743642135695,median,0.03352889032978138,0.0344881403212986,detected,95% bootstrap CI of the median; n=10
+Blocking,detection limit,mac,SOCKET,16,VT_16,mem_J_op_active,,,,0.008072699525274035,median,0.007837362662359522,0.008671218860249928,detected,95% bootstrap CI of the median; n=10
+Blocking,detection limit,mac,SOCKET,64,VT_64,primary_J_op_active,,,,0.036695259270721946,median,0.03585443163260079,0.03779829150462448,detected,95% bootstrap CI of the median; n=10
+Blocking,detection limit,mac,SOCKET,64,VT_64,mem_J_op_active,,,,0.009675925371841407,median,0.009392900530585679,0.010048322036878585,detected,95% bootstrap CI of the median; n=10
+Blocking,detection limit,mac,SOCKET,256,VT_256,primary_J_op_active,,,,0.048976860538180185,median,0.04692672082274011,0.05004880011491951,detected,95% bootstrap CI of the median; n=10
+Blocking,detection limit,mac,SOCKET,256,VT_256,mem_J_op_active,,,,0.01159889080405556,median,0.01150837005829056,0.011826084401307436,detected,95% bootstrap CI of the median; n=10
+H0-3.1,MW,mac,CPU,4,FP_4 BACKGROUND vs DEFAULT,primary_J_op,0.0,0.00018165114609146497,0.004310940119776995,-1.0,Cliff's delta,-1.0,-1.0,reject,"n=10,10"
+H0-3.1,time penalty,mac,CPU,4,FP_4 BACKGROUND vs DEFAULT,ms_op,,,,322.1573542939884,time penalty %,321.6583390137721,322.47719032305105,descriptive,median time/op ratio - 1; 95% bootstrap CI
+H0-3.1,MW,mac,CPU,16,FP_16 BACKGROUND vs DEFAULT,primary_J_op,0.0,0.00018267179110955002,0.004310940119776995,-1.0,Cliff's delta,-1.0,-1.0,reject,"n=10,10"
+H0-3.1,time penalty,mac,CPU,16,FP_16 BACKGROUND vs DEFAULT,ms_op,,,,447.86280583380886,time penalty %,446.9835226784285,448.8156731164465,descriptive,median time/op ratio - 1; 95% bootstrap CI
+H0-3.1,MW,mac,CPU,4,FJ_4 BACKGROUND vs DEFAULT,primary_J_op,0.0,0.0001796225049907081,0.004310940119776995,-1.0,Cliff's delta,-1.0,-1.0,reject,"n=10,10"
+H0-3.1,time penalty,mac,CPU,4,FJ_4 BACKGROUND vs DEFAULT,ms_op,,,,323.37891562137474,time penalty %,322.0594110042703,325.6587713163621,descriptive,median time/op ratio - 1; 95% bootstrap CI
+H0-3.1,MW,mac,CPU,16,FJ_16 BACKGROUND vs DEFAULT,primary_J_op,0.0,0.00018267179110955002,0.004310940119776995,-1.0,Cliff's delta,-1.0,-1.0,reject,"n=10,10"
+H0-3.1,time penalty,mac,CPU,16,FJ_16 BACKGROUND vs DEFAULT,ms_op,,,,448.9523908473089,time penalty %,448.09760164605717,450.24338900077714,descriptive,median time/op ratio - 1; 95% bootstrap CI
+H0-3.1,MW,mac,CPU,,PT BACKGROUND vs DEFAULT,primary_J_op,0.0,0.00018165114609146497,0.004310940119776995,-1.0,Cliff's delta,-1.0,-1.0,reject,"n=10,10"
+H0-3.1,time penalty,mac,CPU,,PT BACKGROUND vs DEFAULT,ms_op,,,,445.61843669976315,time penalty %,444.4649977930939,446.66223592377287,descriptive,median time/op ratio - 1; 95% bootstrap CI
+H0-3.1,MW,mac,CPU,,SEQ BACKGROUND vs DEFAULT,primary_J_op,0.0,0.0001806347208075351,0.004310940119776995,-1.0,Cliff's delta,-1.0,-1.0,reject,"n=10,10"
+H0-3.1,time penalty,mac,CPU,,SEQ BACKGROUND vs DEFAULT,ms_op,,,,378.99348058468763,time penalty %,378.829831191427,379.138658024719,descriptive,median time/op ratio - 1; 95% bootstrap CI
+H0-3.1,MW,mac,CPU,4,VT_4 BACKGROUND vs DEFAULT,primary_J_op,0.0,0.00018165114609146497,0.004310940119776995,-1.0,Cliff's delta,-1.0,-1.0,reject,"n=10,10"
+H0-3.1,time penalty,mac,CPU,4,VT_4 BACKGROUND vs DEFAULT,ms_op,,,,322.516447148356,time penalty %,322.2943871241466,322.98259253556284,descriptive,median time/op ratio - 1; 95% bootstrap CI
+H0-3.1,MW,mac,CPU,16,VT_16 BACKGROUND vs DEFAULT,primary_J_op,0.0,0.00018267179110955002,0.004310940119776995,-1.0,Cliff's delta,-1.0,-1.0,reject,"n=10,10"
+H0-3.1,time penalty,mac,CPU,16,VT_16 BACKGROUND vs DEFAULT,ms_op,,,,450.2057256857656,time penalty %,449.36669400187645,451.8120018143125,descriptive,median time/op ratio - 1; 95% bootstrap CI
+H0-3.1,MW,mac,SLEEP,4,FP_4 BACKGROUND vs DEFAULT,primary_J_op_active,67.0,0.21229383619233155,0.8491753447693262,0.34,Cliff's delta,-0.24,0.84,not rejected,"below detection limit: FP_4; n=10,10"
+H0-3.1,TOST,mac,SLEEP,4,FP_4 BACKGROUND vs DEFAULT,primary_J_op_active,,,,,ratio of medians,,,skipped,ratio undefined: a cell is below the detection limit
+H0-3.1,time penalty,mac,SLEEP,4,FP_4 BACKGROUND vs DEFAULT,ms_op,,,,999.76910779917,time penalty %,988.0086663481634,1018.9285016034763,descriptive,median time/op ratio - 1; 95% bootstrap CI
+H0-3.1,MW,mac,SLEEP,16,FP_16 BACKGROUND vs DEFAULT,primary_J_op_active,50.0,1.0,1.0,0.0,Cliff's delta,-0.6,0.6,not rejected,"below detection limit: FP_16; n=10,10"
+H0-3.1,TOST,mac,SLEEP,16,FP_16 BACKGROUND vs DEFAULT,primary_J_op_active,,,,,ratio of medians,,,skipped,ratio undefined: a cell is below the detection limit
+H0-3.1,time penalty,mac,SLEEP,16,FP_16 BACKGROUND vs DEFAULT,ms_op,,,,970.4243287411044,time penalty %,954.1382290335484,992.3693824354592,descriptive,median time/op ratio - 1; 95% bootstrap CI
+H0-3.1,MW,mac,SLEEP,4,FJ_4 BACKGROUND vs DEFAULT,primary_J_op_active,41.0,0.5205228832757727,1.0,-0.18,Cliff's delta,-0.76,0.4,not rejected,"below detection limit: FJ_4; n=10,10"
+H0-3.1,TOST,mac,SLEEP,4,FJ_4 BACKGROUND vs DEFAULT,primary_J_op_active,,,,,ratio of medians,,,skipped,ratio undefined: a cell is below the detection limit
+H0-3.1,time penalty,mac,SLEEP,4,FJ_4 BACKGROUND vs DEFAULT,ms_op,,,,1026.2278399301144,time penalty %,1014.4393666480236,1031.680044741983,descriptive,median time/op ratio - 1; 95% bootstrap CI
+H0-3.1,MW,mac,SLEEP,16,FJ_16 BACKGROUND vs DEFAULT,primary_J_op_active,90.0,0.0028272720911168077,0.031099993002284883,0.8,Cliff's delta,0.4,1.0,reject,"n=10,10"
+H0-3.1,time penalty,mac,SLEEP,16,FJ_16 BACKGROUND vs DEFAULT,ms_op,,,,975.8359367065806,time penalty %,950.7898817300545,987.2429690853298,descriptive,median time/op ratio - 1; 95% bootstrap CI
+H0-3.1,MW,mac,SLEEP,,PT BACKGROUND vs DEFAULT,primary_J_op_active,0.0,0.00018267179110955002,0.004310940119776995,-1.0,Cliff's delta,-1.0,-1.0,reject,"n=10,10"
+H0-3.1,time penalty,mac,SLEEP,,PT BACKGROUND vs DEFAULT,ms_op,,,,923.7664608910655,time penalty %,918.3517057957049,929.6763056977397,descriptive,median time/op ratio - 1; 95% bootstrap CI
+H0-3.1,MW,mac,SLEEP,,SEQ BACKGROUND vs DEFAULT,primary_J_op_active,86.0,0.00728455700947966,0.0728455700947966,0.72,Cliff's delta,0.32,0.96,not rejected,"n=10,10"
+H0-3.1,TOST,mac,SLEEP,,SEQ BACKGROUND vs DEFAULT,primary_J_op_active,,,,3.3593371472299536,ratio of medians,1.3931843826320947,12.94030081265606,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-3.1,time penalty,mac,SLEEP,,SEQ BACKGROUND vs DEFAULT,ms_op,,,,1009.753648722277,time penalty %,998.6889570374482,1016.424915235199,descriptive,median time/op ratio - 1; 95% bootstrap CI
+H0-3.1,MW,mac,SLEEP,4,VT_4 BACKGROUND vs DEFAULT,primary_J_op_active,100.0,0.00018267179110955002,0.004310940119776995,1.0,Cliff's delta,1.0,1.0,reject,"n=10,10"
+H0-3.1,time penalty,mac,SLEEP,4,VT_4 BACKGROUND vs DEFAULT,ms_op,,,,1039.0875301937142,time penalty %,995.7387603942316,1083.525660726079,descriptive,median time/op ratio - 1; 95% bootstrap CI
+H0-3.1,MW,mac,SLEEP,16,VT_16 BACKGROUND vs DEFAULT,primary_J_op_active,81.0,0.0211339281291611,0.14793749690412772,0.62,Cliff's delta,0.16,1.0,not rejected,"n=10,10"
+H0-3.1,TOST,mac,SLEEP,16,VT_16 BACKGROUND vs DEFAULT,primary_J_op_active,,,,2.8024134482278633,ratio of medians,1.2598733920885947,3.4944261132040815,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-3.1,time penalty,mac,SLEEP,16,VT_16 BACKGROUND vs DEFAULT,ms_op,,,,1055.562260475869,time penalty %,1001.6360819748727,1090.6508712932305,descriptive,median time/op ratio - 1; 95% bootstrap CI
+H0-3.1,MW,mac,SOCKET,4,FP_4 BACKGROUND vs DEFAULT,primary_J_op_active,15.0,0.009108496398030965,0.08197646758227868,-0.7,Cliff's delta,-0.98,-0.3,not rejected,"n=10,10"
+H0-3.1,TOST,mac,SOCKET,4,FP_4 BACKGROUND vs DEFAULT,primary_J_op_active,,,,0.8054388376744857,ratio of medians,0.6092203038651599,0.9164444382739635,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-3.1,time penalty,mac,SOCKET,4,FP_4 BACKGROUND vs DEFAULT,ms_op,,,,0.21039505706821338,time penalty %,0.0681459987770916,0.315968759437979,descriptive,median time/op ratio - 1; 95% bootstrap CI
+H0-3.1,MW,mac,SOCKET,16,FP_16 BACKGROUND vs DEFAULT,primary_J_op_active,26.0,0.07566157214388704,0.45396943286332225,-0.48,Cliff's delta,-0.88,0.02,not rejected,"n=10,10"
+H0-3.1,TOST,mac,SOCKET,16,FP_16 BACKGROUND vs DEFAULT,primary_J_op_active,,,,0.9178337614195752,ratio of medians,0.8375719398076236,1.007229866102242,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-3.1,time penalty,mac,SOCKET,16,FP_16 BACKGROUND vs DEFAULT,ms_op,,,,0.2551203883816022,time penalty %,0.16712177081066315,0.3368333077550023,descriptive,median time/op ratio - 1; 95% bootstrap CI
+H0-3.1,MW,mac,SOCKET,4,FJ_4 BACKGROUND vs DEFAULT,primary_J_op_active,28.0,0.10410988966022681,0.520549448301134,-0.44,Cliff's delta,-0.86,0.08,not rejected,"n=10,10"
+H0-3.1,TOST,mac,SOCKET,4,FJ_4 BACKGROUND vs DEFAULT,primary_J_op_active,,,,0.8828082543281871,ratio of medians,0.7742911327507188,1.0196931133050193,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-3.1,time penalty,mac,SOCKET,4,FJ_4 BACKGROUND vs DEFAULT,ms_op,,,,0.0665383531977426,time penalty %,-0.2840959215046568,0.38943522591603497,descriptive,median time/op ratio - 1; 95% bootstrap CI
+H0-3.1,MW,mac,SOCKET,16,FJ_16 BACKGROUND vs DEFAULT,primary_J_op_active,45.0,0.7337299956962472,1.0,-0.1,Cliff's delta,-0.64,0.42,not rejected,"n=10,10"
+H0-3.1,TOST,mac,SOCKET,16,FJ_16 BACKGROUND vs DEFAULT,primary_J_op_active,,,,0.9567590673653382,ratio of medians,0.9387477775309514,1.031903157050143,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-3.1,time penalty,mac,SOCKET,16,FJ_16 BACKGROUND vs DEFAULT,ms_op,,,,0.2887458628927364,time penalty %,-0.04868488617137956,0.723454882401553,descriptive,median time/op ratio - 1; 95% bootstrap CI
+H0-3.1,MW,mac,SOCKET,,PT BACKGROUND vs DEFAULT,primary_J_op_active,100.0,0.00018267179110955002,0.004310940119776995,1.0,Cliff's delta,1.0,1.0,reject,"n=10,10"
+H0-3.1,time penalty,mac,SOCKET,,PT BACKGROUND vs DEFAULT,ms_op,,,,82.55674697264882,time penalty %,82.18077616875279,82.79584684565684,descriptive,median time/op ratio - 1; 95% bootstrap CI
+H0-3.1,MW,mac,SOCKET,,SEQ BACKGROUND vs DEFAULT,primary_J_op_active,17.0,0.014019277113959953,0.11215421691167962,-0.66,Cliff's delta,-0.94,-0.24,not rejected,"n=10,10"
+H0-3.1,TOST,mac,SOCKET,,SEQ BACKGROUND vs DEFAULT,primary_J_op_active,,,,0.6973318129413553,ratio of medians,0.5846927222339791,0.9707569887885045,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+H0-3.1,time penalty,mac,SOCKET,,SEQ BACKGROUND vs DEFAULT,ms_op,,,,0.03882332281679446,time penalty %,-0.028411877165746002,0.08250604162753916,descriptive,median time/op ratio - 1; 95% bootstrap CI
+H0-3.1,MW,mac,SOCKET,4,VT_4 BACKGROUND vs DEFAULT,primary_J_op_active,100.0,0.00018267179110955002,0.004310940119776995,1.0,Cliff's delta,1.0,1.0,reject,"n=10,10"
+H0-3.1,time penalty,mac,SOCKET,4,VT_4 BACKGROUND vs DEFAULT,ms_op,,,,5.6966878077783,time penalty %,5.463564080391148,5.975191166657523,descriptive,median time/op ratio - 1; 95% bootstrap CI
+H0-3.1,MW,mac,SOCKET,16,VT_16 BACKGROUND vs DEFAULT,primary_J_op_active,0.0,0.00018267179110955002,0.004310940119776995,-1.0,Cliff's delta,-1.0,-1.0,reject,"n=10,10"
+H0-3.1,time penalty,mac,SOCKET,16,VT_16 BACKGROUND vs DEFAULT,ms_op,,,,4.9654128386590335,time penalty %,3.797547461054873,5.721410894289081,descriptive,median time/op ratio - 1; 95% bootstrap CI
+H0-3.2,KW,mac,CPU,4,SEQ | PT | FP_4 | FJ_4 | VT_4,ecpu_share,44.5035294117647,5.042400011741616e-09,3.02544000704497e-08,0.908235294117647,epsilon^2,0.8819824235605213,0.9486817906080846,reject,"n=10,10,10,10,10; SEQ, PT shared across p (not independent)"
+H0-3.2,KW,mac,CPU,16,SEQ | PT | FP_16 | FJ_16 | VT_16,ecpu_share,35.85505882352939,3.0993229490483223e-07,9.297968847144967e-07,0.7317358943577427,epsilon^2,0.6366759464836906,0.9267454324170719,reject,"n=10,10,10,10,10; SEQ, PT shared across p (not independent)"
+H0-3.2,KW,mac,SLEEP,4,SEQ | PT | FP_4 | FJ_4 | VT_4,ecpu_share,35.21629904352915,4.193542156812896e-07,9.297968847144967e-07,0.7186999804801867,epsilon^2,0.6675869169827318,0.8477896016739657,reject,"n=10,10,10,10,10; SEQ, PT shared across p (not independent)"
+H0-3.2,KW,mac,SLEEP,16,SEQ | PT | FP_16 | FJ_16 | VT_16,ecpu_share,29.538211814795076,6.076673072220033e-06,6.076673072220033e-06,0.6028206492815321,epsilon^2,0.5500711805809106,0.7456364220245922,reject,"n=10,10,10,10,10; SEQ, PT shared across p (not independent)"
+H0-3.2,KW,mac,SOCKET,4,SEQ | PT | FP_4 | FJ_4 | VT_4,ecpu_share,39.682823529411735,5.0339800661656235e-08,2.0135920264662494e-07,0.8098535414165661,epsilon^2,0.7794088491633094,0.876226904003366,reject,"n=10,10,10,10,10; SEQ, PT shared across p (not independent)"
+H0-3.2,KW,mac,SOCKET,16,SEQ | PT | FP_16 | FJ_16 | VT_16,ecpu_share,40.49347752944005,3.421726995037159e-08,1.7108634975185797e-07,0.8263975006008173,epsilon^2,0.7840340104291328,0.9058906915587919,reject,"n=10,10,10,10,10; SEQ, PT shared across p (not independent)"
+Memory,H0-1.1 KW across p,mac,SLEEP,,FP: FP_1 | FP_2 | FP_4 | FP_8 | FP_16 | FP_64 | FP_256,mem_J_op_active,26.886760563380278,0.00015205429239347515,0.0009123257543608509,0.3896631965707287,epsilon^2,0.3186966083610687,0.6202398010226703,reject,"below detection limit: FP_1, FP_2; n=10,10,10,10,10,10,10"
+Memory,H0-1.1 Dunn,mac,SLEEP,,FP_1 vs FP_2,mem_J_op_active,,0.17305735529380495,1.0,0.24,Cliff's delta,-0.3,0.76,not rejected,"below detection limit: FP_1, FP_2"
+Memory,TOST,mac,SLEEP,,FP_1 vs FP_2,mem_J_op_active,,,,,ratio of medians,,,skipped,ratio undefined: a cell is below the detection limit
+Memory,H0-1.1 Dunn,mac,SLEEP,,FP_1 vs FP_4,mem_J_op_active,,0.5168165906545383,1.0,-0.1,Cliff's delta,-0.64,0.46,not rejected,below detection limit: FP_1
+Memory,TOST,mac,SLEEP,,FP_1 vs FP_4,mem_J_op_active,,,,,ratio of medians,,,skipped,ratio undefined: a cell is below the detection limit
+Memory,H0-1.1 Dunn,mac,SLEEP,,FP_1 vs FP_8,mem_J_op_active,,0.4957305775889991,1.0,0.18,Cliff's delta,-0.4,0.74,not rejected,below detection limit: FP_1
+Memory,TOST,mac,SLEEP,,FP_1 vs FP_8,mem_J_op_active,,,,,ratio of medians,,,skipped,ratio undefined: a cell is below the detection limit
+Memory,H0-1.1 Dunn,mac,SLEEP,,FP_1 vs FP_16,mem_J_op_active,,0.5311277618679953,1.0,0.18,Cliff's delta,-0.42,0.8,not rejected,below detection limit: FP_1
+Memory,TOST,mac,SLEEP,,FP_1 vs FP_16,mem_J_op_active,,,,,ratio of medians,,,skipped,ratio undefined: a cell is below the detection limit
+Memory,H0-1.1 Dunn,mac,SLEEP,,FP_1 vs FP_64,mem_J_op_active,,0.4683461704244718,1.0,0.2,Cliff's delta,-0.4,0.8,not rejected,below detection limit: FP_1
+Memory,TOST,mac,SLEEP,,FP_1 vs FP_64,mem_J_op_active,,,,,ratio of medians,,,skipped,ratio undefined: a cell is below the detection limit
+Memory,H0-1.1 Dunn,mac,SLEEP,,FP_1 vs FP_256,mem_J_op_active,,0.0017395903218884775,0.029573035472104117,-0.8,Cliff's delta,-1.0,-0.4,reject,below detection limit: FP_1
+Memory,H0-1.1 Dunn,mac,SLEEP,,FP_2 vs FP_4,mem_J_op_active,,0.04435654599698831,0.6653481899548246,-0.52,Cliff's delta,-0.92,-0.02,not rejected,below detection limit: FP_2
+Memory,TOST,mac,SLEEP,,FP_2 vs FP_4,mem_J_op_active,,,,,ratio of medians,,,skipped,ratio undefined: a cell is below the detection limit
+Memory,H0-1.1 Dunn,mac,SLEEP,,FP_2 vs FP_8,mem_J_op_active,,0.4957305775889991,1.0,-0.28,Cliff's delta,-0.8,0.24,not rejected,below detection limit: FP_2
+Memory,TOST,mac,SLEEP,,FP_2 vs FP_8,mem_J_op_active,,,,,ratio of medians,,,skipped,ratio undefined: a cell is below the detection limit
+Memory,H0-1.1 Dunn,mac,SLEEP,,FP_2 vs FP_16,mem_J_op_active,,0.46163331377549843,1.0,-0.34,Cliff's delta,-0.84,0.22,not rejected,below detection limit: FP_2
+Memory,TOST,mac,SLEEP,,FP_2 vs FP_16,mem_J_op_active,,,,,ratio of medians,,,skipped,ratio undefined: a cell is below the detection limit
+Memory,H0-1.1 Dunn,mac,SLEEP,,FP_2 vs FP_64,mem_J_op_active,,0.5239471248672434,1.0,-0.4,Cliff's delta,-1.0,0.2,not rejected,below detection limit: FP_2
+Memory,TOST,mac,SLEEP,,FP_2 vs FP_64,mem_J_op_active,,,,,ratio of medians,,,skipped,ratio undefined: a cell is below the detection limit
+Memory,H0-1.1 Dunn,mac,SLEEP,,FP_2 vs FP_256,mem_J_op_active,,6.99395391925502e-06,0.00014687303230435543,-0.8,Cliff's delta,-1.0,-0.4,reject,below detection limit: FP_2
+Memory,H0-1.1 Dunn,mac,SLEEP,,FP_4 vs FP_8,mem_J_op_active,,0.18368865788791955,1.0,0.38,Cliff's delta,-0.14,0.8,not rejected,
+Memory,TOST,mac,SLEEP,,FP_4 vs FP_8,mem_J_op_active,,,,1.5896221234736807,ratio of medians,0.8130664652534171,4.316617566347846,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-1.1 Dunn,mac,SLEEP,,FP_4 vs FP_16,mem_J_op_active,,0.2024700791138686,1.0,0.54,Cliff's delta,0.02,1.0,not rejected,
+Memory,TOST,mac,SLEEP,,FP_4 vs FP_16,mem_J_op_active,,,,1.4031679941023627,ratio of medians,1.031303051920001,3.4121236138444995,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-1.1 Dunn,mac,SLEEP,,FP_4 vs FP_64,mem_J_op_active,,0.16961781039831325,1.0,0.54,Cliff's delta,0.0,1.0,not rejected,
+Memory,TOST,mac,SLEEP,,FP_4 vs FP_64,mem_J_op_active,,,,1.5354483325748702,ratio of medians,1.111491969884474,3.6323462646395095,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-1.1 Dunn,mac,SLEEP,,FP_4 vs FP_256,mem_J_op_active,,0.013022014425386303,0.20835223080618084,-1.0,Cliff's delta,-1.0,-1.0,not rejected,
+Memory,TOST,mac,SLEEP,,FP_4 vs FP_256,mem_J_op_active,,,,0.2518825873183249,ratio of medians,0.18050638531874924,0.5966328409116197,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-1.1 Dunn,mac,SLEEP,,FP_8 vs FP_16,mem_J_op_active,,0.9561884031572988,1.0,-0.02,Cliff's delta,-0.6,0.52,not rejected,
+Memory,TOST,mac,SLEEP,,FP_8 vs FP_16,mem_J_op_active,,,,0.8827053759393623,ratio of medians,0.56463917934793,1.6484129226901285,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-1.1 Dunn,mac,SLEEP,,FP_8 vs FP_64,mem_J_op_active,,0.9649443770939699,1.0,-0.04,Cliff's delta,-0.6,0.56,not rejected,
+Memory,TOST,mac,SLEEP,,FP_8 vs FP_64,mem_J_op_active,,,,0.9659203340851671,ratio of medians,0.6025283378747731,1.754134622832681,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-1.1 Dunn,mac,SLEEP,,FP_8 vs FP_256,mem_J_op_active,,0.00013748490175318368,0.0026122131333104898,-1.0,Cliff's delta,-1.0,-1.0,reject,
+Memory,H0-1.1 Dunn,mac,SLEEP,,FP_16 vs FP_64,mem_J_op_active,,0.92122785726936,1.0,0.12,Cliff's delta,-0.44,0.66,not rejected,
+Memory,TOST,mac,SLEEP,,FP_16 vs FP_64,mem_J_op_active,,,,1.094272630952597,ratio of medians,0.8332215321867583,1.1956275294871574,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-1.1 Dunn,mac,SLEEP,,FP_16 vs FP_256,mem_J_op_active,,0.0001714738065385515,0.003086528517693927,-1.0,Cliff's delta,-1.0,-1.0,reject,
+Memory,H0-1.1 Dunn,mac,SLEEP,,FP_64 vs FP_256,mem_J_op_active,,0.00011497528185823268,0.002299505637164654,-1.0,Cliff's delta,-1.0,-1.0,reject,
+Memory,H0-1.1 KW across p,mac,SLEEP,,FJ: FJ_1 | FJ_2 | FJ_4 | FJ_8 | FJ_16 | FJ_64 | FJ_256,mem_J_op_active,27.62221327967808,0.00011067075325656251,0.0007746952727959376,0.4003219315895374,epsilon^2,0.3680396768220835,0.5689363217984095,reject,"below detection limit: FJ_1, FJ_2; n=10,10,10,10,10,10,10"
+Memory,H0-1.1 Dunn,mac,SLEEP,,FJ_1 vs FJ_2,mem_J_op_active,,0.7500022244643574,1.0,0.1,Cliff's delta,-0.46,0.6004999999999927,not rejected,"below detection limit: FJ_1, FJ_2"
+Memory,TOST,mac,SLEEP,,FJ_1 vs FJ_2,mem_J_op_active,,,,,ratio of medians,,,skipped,ratio undefined: a cell is below the detection limit
+Memory,H0-1.1 Dunn,mac,SLEEP,,FJ_1 vs FJ_4,mem_J_op_active,,0.725139150106473,1.0,-0.12,Cliff's delta,-0.66,0.44,not rejected,below detection limit: FJ_1
+Memory,TOST,mac,SLEEP,,FJ_1 vs FJ_4,mem_J_op_active,,,,,ratio of medians,,,skipped,ratio undefined: a cell is below the detection limit
+Memory,H0-1.1 Dunn,mac,SLEEP,,FJ_1 vs FJ_8,mem_J_op_active,,0.6287774051237673,1.0,-0.1,Cliff's delta,-0.68,0.5,not rejected,below detection limit: FJ_1
+Memory,TOST,mac,SLEEP,,FJ_1 vs FJ_8,mem_J_op_active,,,,,ratio of medians,,,skipped,ratio undefined: a cell is below the detection limit
+Memory,H0-1.1 Dunn,mac,SLEEP,,FJ_1 vs FJ_16,mem_J_op_active,,0.22680850606532665,1.0,0.1,Cliff's delta,-0.5004999999999956,0.64,not rejected,below detection limit: FJ_1
+Memory,TOST,mac,SLEEP,,FJ_1 vs FJ_16,mem_J_op_active,,,,,ratio of medians,,,skipped,ratio undefined: a cell is below the detection limit
+Memory,H0-1.1 Dunn,mac,SLEEP,,FJ_1 vs FJ_64,mem_J_op_active,,0.7835570436250082,1.0,-0.02,Cliff's delta,-0.6,0.58,not rejected,below detection limit: FJ_1
+Memory,TOST,mac,SLEEP,,FJ_1 vs FJ_64,mem_J_op_active,,,,,ratio of medians,,,skipped,ratio undefined: a cell is below the detection limit
+Memory,H0-1.1 Dunn,mac,SLEEP,,FJ_1 vs FJ_256,mem_J_op_active,,0.00026445653680658843,0.00502467419932518,-0.8,Cliff's delta,-1.0,-0.4,reject,below detection limit: FJ_1
+Memory,H0-1.1 Dunn,mac,SLEEP,,FJ_2 vs FJ_4,mem_J_op_active,,0.502707835516894,1.0,-0.14,Cliff's delta,-0.64,0.42,not rejected,below detection limit: FJ_2
+Memory,TOST,mac,SLEEP,,FJ_2 vs FJ_4,mem_J_op_active,,,,,ratio of medians,,,skipped,ratio undefined: a cell is below the detection limit
+Memory,H0-1.1 Dunn,mac,SLEEP,,FJ_2 vs FJ_8,mem_J_op_active,,0.42250390187870357,1.0,-0.16,Cliff's delta,-0.74,0.42,not rejected,below detection limit: FJ_2
+Memory,TOST,mac,SLEEP,,FJ_2 vs FJ_8,mem_J_op_active,,,,,ratio of medians,,,skipped,ratio undefined: a cell is below the detection limit
+Memory,H0-1.1 Dunn,mac,SLEEP,,FJ_2 vs FJ_16,mem_J_op_active,,0.37347420158030953,1.0,0.12,Cliff's delta,-0.44,0.64,not rejected,below detection limit: FJ_2
+Memory,TOST,mac,SLEEP,,FJ_2 vs FJ_16,mem_J_op_active,,,,,ratio of medians,,,skipped,ratio undefined: a cell is below the detection limit
+Memory,H0-1.1 Dunn,mac,SLEEP,,FJ_2 vs FJ_64,mem_J_op_active,,0.5529650030493114,1.0,-0.14,Cliff's delta,-0.74,0.44,not rejected,below detection limit: FJ_2
+Memory,TOST,mac,SLEEP,,FJ_2 vs FJ_64,mem_J_op_active,,,,,ratio of medians,,,skipped,ratio undefined: a cell is below the detection limit
+Memory,H0-1.1 Dunn,mac,SLEEP,,FJ_2 vs FJ_256,mem_J_op_active,,7.294367032596244e-05,0.0014588734065192489,-1.0,Cliff's delta,-1.0,-1.0,reject,below detection limit: FJ_2
+Memory,H0-1.1 Dunn,mac,SLEEP,,FJ_4 vs FJ_8,mem_J_op_active,,0.8951032874023995,1.0,-0.02,Cliff's delta,-0.54,0.5,not rejected,
+Memory,TOST,mac,SLEEP,,FJ_4 vs FJ_8,mem_J_op_active,,,,1.0177807584547598,ratio of medians,0.6048764042764851,1.5891599284414613,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-1.1 Dunn,mac,SLEEP,,FJ_4 vs FJ_16,mem_J_op_active,,0.11870795647678106,1.0,0.46,Cliff's delta,-0.04,0.88,not rejected,
+Memory,TOST,mac,SLEEP,,FJ_4 vs FJ_16,mem_J_op_active,,,,1.8363740102422825,ratio of medians,0.9638645845181246,2.537437793647599,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-1.1 Dunn,mac,SLEEP,,FJ_4 vs FJ_64,mem_J_op_active,,0.938693358749642,1.0,0.1,Cliff's delta,-0.48,0.64,not rejected,
+Memory,TOST,mac,SLEEP,,FJ_4 vs FJ_64,mem_J_op_active,,,,1.1307515046776428,ratio of medians,0.7742055594290111,1.4784528643016637,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-1.1 Dunn,mac,SLEEP,,FJ_4 vs FJ_256,mem_J_op_active,,0.0009798863695179671,0.01665806828180544,-1.0,Cliff's delta,-1.0,-1.0,reject,
+Memory,H0-1.1 Dunn,mac,SLEEP,,FJ_8 vs FJ_16,mem_J_op_active,,0.09063275687459214,1.0,0.66,Cliff's delta,0.24,0.94,not rejected,
+Memory,TOST,mac,SLEEP,,FJ_8 vs FJ_16,mem_J_op_active,,,,1.8042923242431383,ratio of medians,1.0206468531843476,2.3886555393298106,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-1.1 Dunn,mac,SLEEP,,FJ_8 vs FJ_64,mem_J_op_active,,0.834634193811117,1.0,0.1,Cliff's delta,-0.44,0.64,not rejected,
+Memory,TOST,mac,SLEEP,,FJ_8 vs FJ_64,mem_J_op_active,,,,1.1109971330116324,ratio of medians,0.8648273515412602,1.4127845293918575,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-1.1 Dunn,mac,SLEEP,,FJ_8 vs FJ_256,mem_J_op_active,,0.0015540872524532007,0.02486539603925121,-1.0,Cliff's delta,-1.0,-1.0,reject,
+Memory,H0-1.1 Dunn,mac,SLEEP,,FJ_16 vs FJ_64,mem_J_op_active,,0.13799272454449768,1.0,-0.7,Cliff's delta,-1.0,-0.28,not rejected,
+Memory,TOST,mac,SLEEP,,FJ_16 vs FJ_64,mem_J_op_active,,,,0.6157522914019333,ratio of medians,0.5490082785297058,0.9127331386733218,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-1.1 Dunn,mac,SLEEP,,FJ_16 vs FJ_256,mem_J_op_active,,1.195036896181338e-06,2.5095774819808095e-05,-1.0,Cliff's delta,-1.0,-1.0,reject,
+Memory,H0-1.1 Dunn,mac,SLEEP,,FJ_64 vs FJ_256,mem_J_op_active,,0.000743131380067007,0.013376364841206126,-1.0,Cliff's delta,-1.0,-1.0,reject,
+Memory,H0-1.1 KW across p,mac,SLEEP,,VT: VT_1 | VT_2 | VT_4 | VT_8 | VT_16 | VT_64 | VT_256,mem_J_op_active,38.470985915492946,9.086328900436006e-07,9.994961790479607e-06,0.5575505205143905,epsilon^2,0.49626218339197375,0.7085759572239799,reject,"n=10,10,10,10,10,10,10"
+Memory,H0-1.1 Dunn,mac,SLEEP,,VT_1 vs VT_2,mem_J_op_active,,0.19479617053349274,1.0,0.5,Cliff's delta,-0.02,0.98,not rejected,
+Memory,TOST,mac,SLEEP,,VT_1 vs VT_2,mem_J_op_active,,,,1.276702754892609,ratio of medians,1.1006825125891295,1.6456387849675063,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-1.1 Dunn,mac,SLEEP,,VT_1 vs VT_4,mem_J_op_active,,0.0993281577375909,1.0,0.5,Cliff's delta,0.04,0.9,not rejected,
+Memory,TOST,mac,SLEEP,,VT_1 vs VT_4,mem_J_op_active,,,,1.5565005071199713,ratio of medians,1.0211687003081555,2.00464992936142,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-1.1 Dunn,mac,SLEEP,,VT_1 vs VT_8,mem_J_op_active,,0.14093446885834893,1.0,0.42,Cliff's delta,-0.08,0.86,not rejected,
+Memory,TOST,mac,SLEEP,,VT_1 vs VT_8,mem_J_op_active,,,,1.3001213463864099,ratio of medians,0.9937852639604919,1.9701995058687127,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-1.1 Dunn,mac,SLEEP,,VT_1 vs VT_16,mem_J_op_active,,0.7751277884283035,1.0,0.04,Cliff's delta,-0.48,0.56,not rejected,
+Memory,TOST,mac,SLEEP,,VT_1 vs VT_16,mem_J_op_active,,,,1.0327450190760938,ratio of medians,0.7811919624422415,1.3551351907830431,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-1.1 Dunn,mac,SLEEP,,VT_1 vs VT_64,mem_J_op_active,,0.18009242815463267,1.0,-0.44,Cliff's delta,-0.88,0.08,not rejected,
+Memory,TOST,mac,SLEEP,,VT_1 vs VT_64,mem_J_op_active,,,,0.7837786750450043,ratio of medians,0.6875477383248584,0.9861364583278813,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-1.1 Dunn,mac,SLEEP,,VT_1 vs VT_256,mem_J_op_active,,0.0010189138592474054,0.017321535607205892,-1.0,Cliff's delta,-1.0,-1.0,reject,
+Memory,H0-1.1 Dunn,mac,SLEEP,,VT_2 vs VT_4,mem_J_op_active,,0.725139150106473,1.0,0.2,Cliff's delta,-0.34,0.7,not rejected,
+Memory,TOST,mac,SLEEP,,VT_2 vs VT_4,mem_J_op_active,,,,1.2191565351880969,ratio of medians,0.7950238947582341,1.5092254015440827,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-1.1 Dunn,mac,SLEEP,,VT_2 vs VT_8,mem_J_op_active,,0.8604515330828272,1.0,0.06,Cliff's delta,-0.48,0.58,not rejected,
+Memory,TOST,mac,SLEEP,,VT_2 vs VT_8,mem_J_op_active,,,,1.0183430257388069,ratio of medians,0.768956758005122,1.518724444797174,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-1.1 Dunn,mac,SLEEP,,VT_2 vs VT_16,mem_J_op_active,,0.3120898516363436,1.0,-0.34,Cliff's delta,-0.82,0.2,not rejected,
+Memory,TOST,mac,SLEEP,,VT_2 vs VT_16,mem_J_op_active,,,,0.8089157911803552,ratio of medians,0.6008667637753742,0.9755029823210944,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-1.1 Dunn,mac,SLEEP,,VT_2 vs VT_64,mem_J_op_active,,0.00836450133905679,0.11710301874679505,-0.76,Cliff's delta,-1.0,-0.34,not rejected,
+Memory,TOST,mac,SLEEP,,VT_2 vs VT_64,mem_J_op_active,,,,0.6139085014435741,ratio of medians,0.5240634805012546,0.7088021953804886,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-1.1 Dunn,mac,SLEEP,,VT_2 vs VT_256,mem_J_op_active,,4.610521395283796e-06,8.759990651039211e-05,-1.0,Cliff's delta,-1.0,-1.0,reject,
+Memory,H0-1.1 Dunn,mac,SLEEP,,VT_4 vs VT_8,mem_J_op_active,,0.8604515330828275,1.0,-0.08,Cliff's delta,-0.6,0.44,not rejected,
+Memory,TOST,mac,SLEEP,,VT_4 vs VT_8,mem_J_op_active,,,,0.8352848845465873,ratio of medians,0.6111057978903258,1.4547613952725775,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-1.1 Dunn,mac,SLEEP,,VT_4 vs VT_16,mem_J_op_active,,0.17305735529380495,1.0,-0.34,Cliff's delta,-0.8004999999999957,0.18,not rejected,
+Memory,TOST,mac,SLEEP,,VT_4 vs VT_16,mem_J_op_active,,,,0.6635044539670634,ratio of medians,0.48401542587498714,1.0174735583593315,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-1.1 Dunn,mac,SLEEP,,VT_4 vs VT_64,mem_J_op_active,,0.002802679692046184,0.044842875072738944,-0.86,Cliff's delta,-1.0,-0.58,reject,
+Memory,H0-1.1 Dunn,mac,SLEEP,,VT_4 vs VT_256,mem_J_op_active,,8.082245063973296e-07,1.6972714634343922e-05,-1.0,Cliff's delta,-1.0,-1.0,reject,
+Memory,H0-1.1 Dunn,mac,SLEEP,,VT_8 vs VT_16,mem_J_op_active,,0.23536727613247221,1.0,-0.36,Cliff's delta,-0.82,0.16,not rejected,
+Memory,TOST,mac,SLEEP,,VT_8 vs VT_16,mem_J_op_active,,,,0.794345098591398,ratio of medians,0.4943468003648655,1.0475690344489004,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-1.1 Dunn,mac,SLEEP,,VT_8 vs VT_64,mem_J_op_active,,0.004911362866309708,0.07367044299464562,-0.9,Cliff's delta,-1.0,-0.68,not rejected,
+Memory,TOST,mac,SLEEP,,VT_8 vs VT_64,mem_J_op_active,,,,0.602850401020996,ratio of medians,0.408190426488795,0.7813205404504676,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-1.1 Dunn,mac,SLEEP,,VT_8 vs VT_256,mem_J_op_active,,1.9593583076202614e-06,3.9187166152405225e-05,-1.0,Cliff's delta,-1.0,-1.0,reject,
+Memory,H0-1.1 Dunn,mac,SLEEP,,VT_16 vs VT_64,mem_J_op_active,,0.10391891016154338,1.0,-0.5,Cliff's delta,-0.92,0.0,not rejected,
+Memory,TOST,mac,SLEEP,,VT_16 vs VT_64,mem_J_op_active,,,,0.7589275770569024,ratio of medians,0.6439098764534352,0.9798373172182598,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-1.1 Dunn,mac,SLEEP,,VT_16 vs VT_256,mem_J_op_active,,0.0003557220482405552,0.006402996868329994,-1.0,Cliff's delta,-1.0,-1.0,reject,
+Memory,H0-1.1 Dunn,mac,SLEEP,,VT_64 vs VT_256,mem_J_op_active,,0.05180134490691099,0.6734174837898429,-1.0,Cliff's delta,-1.0,-1.0,not rejected,
+Memory,TOST,mac,SLEEP,,VT_64 vs VT_256,mem_J_op_active,,,,0.2728561993709318,ratio of medians,0.24700774756882962,0.2987243471965014,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-1.1 KW across p,mac,SOCKET,,FP: FP_1 | FP_2 | FP_4 | FP_8 | FP_16 | FP_64 | FP_256,mem_J_op_active,52.39484909456735,1.5531570436583457e-09,3.1063140873166915e-08,0.7593456390517007,epsilon^2,0.58733225102341,0.9296068752793581,reject,"n=10,10,10,10,10,10,10"
+Memory,H0-1.1 Dunn,mac,SOCKET,,FP_1 vs FP_2,mem_J_op_active,,0.9038002662605114,1.0,0.26,Cliff's delta,-0.28,0.74,not rejected,
+Memory,TOST,mac,SOCKET,,FP_1 vs FP_2,mem_J_op_active,,,,1.0559172169051614,ratio of medians,0.9189094387307736,1.396523464121182,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-1.1 Dunn,mac,SOCKET,,FP_1 vs FP_4,mem_J_op_active,,0.009821426269443823,0.10803568896388205,0.8,Cliff's delta,0.4,1.0,not rejected,
+Memory,TOST,mac,SOCKET,,FP_1 vs FP_4,mem_J_op_active,,,,2.283909341744398,ratio of medians,1.9849037531371923,2.9621972377804213,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-1.1 Dunn,mac,SOCKET,,FP_1 vs FP_8,mem_J_op_active,,0.0014407305273409464,0.02017022738277325,0.8,Cliff's delta,0.4,1.0,reject,
+Memory,H0-1.1 Dunn,mac,SOCKET,,FP_1 vs FP_16,mem_J_op_active,,1.0531021927074217e-05,0.00018955839468733592,0.8,Cliff's delta,0.4,1.0,reject,
+Memory,H0-1.1 Dunn,mac,SOCKET,,FP_1 vs FP_64,mem_J_op_active,,2.0245407609948066e-07,4.049081521989613e-06,0.8,Cliff's delta,0.4,1.0,reject,
+Memory,H0-1.1 Dunn,mac,SOCKET,,FP_1 vs FP_256,mem_J_op_active,,0.2577569215837189,1.0,0.8,Cliff's delta,0.4,1.0,not rejected,
+Memory,TOST,mac,SOCKET,,FP_1 vs FP_256,mem_J_op_active,,,,1.4227985727284074,ratio of medians,1.2805277493201452,1.7324545595852832,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-1.1 Dunn,mac,SOCKET,,FP_2 vs FP_4,mem_J_op_active,,0.006873412857522343,0.08935436714779045,0.94,Cliff's delta,0.76,1.0,not rejected,
+Memory,TOST,mac,SOCKET,,FP_2 vs FP_4,mem_J_op_active,,,,2.16296249855497,ratio of medians,1.752003821442525,2.5282650328283336,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-1.1 Dunn,mac,SOCKET,,FP_2 vs FP_8,mem_J_op_active,,0.0009422470467120845,0.015075952747393352,1.0,Cliff's delta,1.0,1.0,reject,
+Memory,H0-1.1 Dunn,mac,SOCKET,,FP_2 vs FP_16,mem_J_op_active,,5.987370590286087e-06,0.00011376004121543565,1.0,Cliff's delta,1.0,1.0,reject,
+Memory,H0-1.1 Dunn,mac,SOCKET,,FP_2 vs FP_64,mem_J_op_active,,1.0495318595140698e-07,2.2040169049795465e-06,1.0,Cliff's delta,1.0,1.0,reject,
+Memory,H0-1.1 Dunn,mac,SOCKET,,FP_2 vs FP_256,mem_J_op_active,,0.21036194820188814,1.0,0.8,Cliff's delta,0.4,1.0,not rejected,
+Memory,TOST,mac,SOCKET,,FP_2 vs FP_256,mem_J_op_active,,,,1.3474527642408904,ratio of medians,1.1440151984001927,1.5081501307729037,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-1.1 Dunn,mac,SOCKET,,FP_4 vs FP_8,mem_J_op_active,,0.5456372451871895,1.0,0.5,Cliff's delta,0.0,0.9,not rejected,
+Memory,TOST,mac,SOCKET,,FP_4 vs FP_8,mem_J_op_active,,,,1.1571949956941114,ratio of medians,1.018635627833477,1.3913785307295008,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-1.1 Dunn,mac,SOCKET,,FP_4 vs FP_16,mem_J_op_active,,0.06816433694015732,0.5453146955212586,0.8,Cliff's delta,0.4,1.0,not rejected,
+Memory,TOST,mac,SOCKET,,FP_4 vs FP_16,mem_J_op_active,,,,1.6323235098384012,ratio of medians,1.423432965902659,1.8234862737802064,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-1.1 Dunn,mac,SOCKET,,FP_4 vs FP_64,mem_J_op_active,,0.008922321686245615,0.10706786023494738,0.8,Cliff's delta,0.4,1.0,not rejected,
+Memory,TOST,mac,SOCKET,,FP_4 vs FP_64,mem_J_op_active,,,,1.7807195184978515,ratio of medians,1.5697011812740793,1.962732002969805,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-1.1 Dunn,mac,SOCKET,,FP_4 vs FP_256,mem_J_op_active,,0.146962299002995,1.0,-0.8,Cliff's delta,-1.0,-0.4,not rejected,
+Memory,TOST,mac,SOCKET,,FP_4 vs FP_256,mem_J_op_active,,,,0.622966309004939,ratio of medians,0.5512023039393901,0.6865498364109125,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-1.1 Dunn,mac,SOCKET,,FP_8 vs FP_16,mem_J_op_active,,0.22261335765912527,1.0,0.78,Cliff's delta,0.42,1.0,not rejected,
+Memory,TOST,mac,SOCKET,,FP_8 vs FP_16,mem_J_op_active,,,,1.410586388562195,ratio of medians,1.1811868131949026,1.5172049466298285,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-1.1 Dunn,mac,SOCKET,,FP_8 vs FP_64,mem_J_op_active,,0.04435654599698828,0.39920891397289454,0.98,Cliff's delta,0.88,1.0,not rejected,
+Memory,TOST,mac,SOCKET,,FP_8 vs FP_64,mem_J_op_active,,,,1.5388240747012012,ratio of medians,1.2954082292905327,1.6260843031034466,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-1.1 Dunn,mac,SOCKET,,FP_8 vs FP_256,mem_J_op_active,,0.03991228074145603,0.3991228074145603,-1.0,Cliff's delta,-1.0,-1.0,not rejected,
+Memory,TOST,mac,SOCKET,,FP_8 vs FP_256,mem_J_op_active,,,,0.5383416894499011,ratio of medians,0.45137272852542476,0.5618495135791792,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-1.1 Dunn,mac,SOCKET,,FP_16 vs FP_64,mem_J_op_active,,0.42888718808834325,1.0,0.62,Cliff's delta,0.16,1.0,not rejected,
+Memory,TOST,mac,SOCKET,,FP_16 vs FP_64,mem_J_op_active,,,,1.090910905690589,ratio of medians,1.0251650637154242,1.1665794062327894,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-1.1 Dunn,mac,SOCKET,,FP_16 vs FP_256,mem_J_op_active,,0.0010593758275645672,0.01589063741346851,-1.0,Cliff's delta,-1.0,-1.0,reject,
+Memory,H0-1.1 Dunn,mac,SOCKET,,FP_64 vs FP_256,mem_J_op_active,,4.7958096755946554e-05,0.0008152876448510914,-1.0,Cliff's delta,-1.0,-1.0,reject,
+Memory,H0-1.1 KW across p,mac,SOCKET,,FJ: FJ_1 | FJ_2 | FJ_4 | FJ_8 | FJ_16 | FJ_64 | FJ_256,mem_J_op_active,53.06173038229372,1.1401814748396435e-09,2.3943810971632514e-08,0.7690105852506336,epsilon^2,0.6335850111785281,0.92541445684524,reject,"n=10,10,10,10,10,10,10"
+Memory,H0-1.1 Dunn,mac,SOCKET,,FJ_1 vs FJ_2,mem_J_op_active,,0.23973134644696759,1.0,0.58,Cliff's delta,0.14,0.94,not rejected,
+Memory,TOST,mac,SOCKET,,FJ_1 vs FJ_2,mem_J_op_active,,,,1.3271582467387195,ratio of medians,1.0401854466714338,1.6754460328366347,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-1.1 Dunn,mac,SOCKET,,FJ_1 vs FJ_4,mem_J_op_active,,0.0013350392462240814,0.01869054944713714,1.0,Cliff's delta,1.0,1.0,reject,
+Memory,H0-1.1 Dunn,mac,SOCKET,,FJ_1 vs FJ_8,mem_J_op_active,,1.9189095197191508e-05,0.00034540371354944716,1.0,Cliff's delta,1.0,1.0,reject,
+Memory,H0-1.1 Dunn,mac,SOCKET,,FJ_1 vs FJ_16,mem_J_op_active,,7.639504166500214e-07,1.5279008333000428e-05,1.0,Cliff's delta,1.0,1.0,reject,
+Memory,H0-1.1 Dunn,mac,SOCKET,,FJ_1 vs FJ_64,mem_J_op_active,,2.236700939358469e-08,4.697071972652785e-07,1.0,Cliff's delta,1.0,1.0,reject,
+Memory,H0-1.1 Dunn,mac,SOCKET,,FJ_1 vs FJ_256,mem_J_op_active,,0.11613452174101677,0.8129416521871173,0.82,Cliff's delta,0.4,1.0,not rejected,
+Memory,TOST,mac,SOCKET,,FJ_1 vs FJ_256,mem_J_op_active,,,,1.5739018595210226,ratio of medians,1.3215529663135348,1.9694183286757048,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-1.1 Dunn,mac,SOCKET,,FJ_2 vs FJ_4,mem_J_op_active,,0.04208479449637481,0.4208479449637481,0.8,Cliff's delta,0.4,1.0,not rejected,
+Memory,TOST,mac,SOCKET,,FJ_2 vs FJ_4,mem_J_op_active,,,,1.8314293370924966,ratio of medians,1.5643092066563558,2.0639586251479694,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-1.1 Dunn,mac,SOCKET,,FJ_2 vs FJ_8,mem_J_op_active,,0.0019452620615040444,0.025288406799552576,0.8,Cliff's delta,0.4,1.0,reject,
+Memory,H0-1.1 Dunn,mac,SOCKET,,FJ_2 vs FJ_16,mem_J_op_active,,0.00016410006773827037,0.002625601083812326,0.8,Cliff's delta,0.4,1.0,reject,
+Memory,H0-1.1 Dunn,mac,SOCKET,,FJ_2 vs FJ_64,mem_J_op_active,,1.000986621727609e-05,0.0001901874581282457,0.8,Cliff's delta,0.4,1.0,reject,
+Memory,H0-1.1 Dunn,mac,SOCKET,,FJ_2 vs FJ_256,mem_J_op_active,,0.6924380083000459,1.0,0.64,Cliff's delta,0.16,1.0,not rejected,
+Memory,TOST,mac,SOCKET,,FJ_2 vs FJ_256,mem_J_op_active,,,,1.1859187579089656,ratio of medians,1.0591622598092252,1.329544215525189,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-1.1 Dunn,mac,SOCKET,,FJ_4 vs FJ_8,mem_J_op_active,,0.286521329730665,1.0,0.76,Cliff's delta,0.34,1.0,not rejected,
+Memory,TOST,mac,SOCKET,,FJ_4 vs FJ_8,mem_J_op_active,,,,1.4155477958654055,ratio of medians,1.2909754346670257,1.7068008366882867,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-1.1 Dunn,mac,SOCKET,,FJ_4 vs FJ_16,mem_J_op_active,,0.08256044417740267,0.7430439975966241,0.8,Cliff's delta,0.4,1.0,not rejected,
+Memory,TOST,mac,SOCKET,,FJ_4 vs FJ_16,mem_J_op_active,,,,1.582711055927484,ratio of medians,1.4183743667276678,1.8457294259689219,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-1.1 Dunn,mac,SOCKET,,FJ_4 vs FJ_64,mem_J_op_active,,0.017112599781604166,0.18823859759764583,0.8,Cliff's delta,0.4,1.0,not rejected,
+Memory,TOST,mac,SOCKET,,FJ_4 vs FJ_64,mem_J_op_active,,,,1.7364014252747686,ratio of medians,1.6422868699988376,1.9648224112039132,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-1.1 Dunn,mac,SOCKET,,FJ_4 vs FJ_256,mem_J_op_active,,0.10160289018335841,0.8128231214668673,-1.0,Cliff's delta,-1.0,-1.0,not rejected,
+Memory,TOST,mac,SOCKET,,FJ_4 vs FJ_256,mem_J_op_active,,,,0.6475372726046217,ratio of medians,0.6159819950989318,0.7347743779633418,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-1.1 Dunn,mac,SOCKET,,FJ_8 vs FJ_16,mem_J_op_active,,0.502707835516894,1.0,0.38,Cliff's delta,-0.14,0.82,not rejected,
+Memory,TOST,mac,SOCKET,,FJ_8 vs FJ_16,mem_J_op_active,,,,1.1180908624564543,ratio of medians,0.9345143527435206,1.2778927306028354,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-1.1 Dunn,mac,SOCKET,,FJ_8 vs FJ_64,mem_J_op_active,,0.1873378050981852,1.0,0.8,Cliff's delta,0.4,1.0,not rejected,
+Memory,TOST,mac,SOCKET,,FJ_8 vs FJ_64,mem_J_op_active,,,,1.2266639320456196,ratio of medians,1.0629396495104555,1.3338898458187007,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-1.1 Dunn,mac,SOCKET,,FJ_8 vs FJ_256,mem_J_op_active,,0.006873412857522343,0.08248095429026811,-1.0,Cliff's delta,-1.0,-1.0,not rejected,
+Memory,TOST,mac,SOCKET,,FJ_8 vs FJ_256,mem_J_op_active,,,,0.4574464207397145,ratio of medians,0.395624600036042,0.4967826580810215,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-1.1 Dunn,mac,SOCKET,,FJ_16 vs FJ_64,mem_J_op_active,,0.5168165906545381,1.0,0.38,Cliff's delta,-0.2,0.88,not rejected,
+Memory,TOST,mac,SOCKET,,FJ_16 vs FJ_64,mem_J_op_active,,,,1.0971057659398358,ratio of medians,0.9814557826988064,1.2141690039224464,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-1.1 Dunn,mac,SOCKET,,FJ_16 vs FJ_256,mem_J_op_active,,0.000743131380067007,0.011146970701005105,-1.0,Cliff's delta,-1.0,-1.0,reject,
+Memory,H0-1.1 Dunn,mac,SOCKET,,FJ_64 vs FJ_256,mem_J_op_active,,5.785044125625177e-05,0.0009834575013562801,-1.0,Cliff's delta,-1.0,-1.0,reject,
+Memory,H0-1.1 KW across p,mac,SOCKET,,VT: VT_1 | VT_2 | VT_4 | VT_8 | VT_16 | VT_64 | VT_256,mem_J_op_active,65.6262374245473,3.2133923654415803e-12,7.069463203971477e-11,0.9511048902108304,epsilon^2,0.9435217284728789,0.9637071998235444,reject,"n=10,10,10,10,10,10,10"
+Memory,H0-1.1 Dunn,mac,SOCKET,,VT_1 vs VT_2,mem_J_op_active,,0.06984239993288821,0.5587391994631057,1.0,Cliff's delta,1.0,1.0,not rejected,
+Memory,TOST,mac,SOCKET,,VT_1 vs VT_2,mem_J_op_active,,,,1.1746912987446645,ratio of medians,1.1508418571440993,1.200815062741248,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-1.1 Dunn,mac,SOCKET,,VT_1 vs VT_4,mem_J_op_active,,1.8488449187999635e-08,3.697689837599927e-07,1.0,Cliff's delta,1.0,1.0,reject,
+Memory,H0-1.1 Dunn,mac,SOCKET,,VT_1 vs VT_8,mem_J_op_active,,5.3950192367217855e-06,9.711034626099214e-05,1.0,Cliff's delta,1.0,1.0,reject,
+Memory,H0-1.1 Dunn,mac,SOCKET,,VT_1 vs VT_16,mem_J_op_active,,0.0005165225446662066,0.007231315625326893,1.0,Cliff's delta,1.0,1.0,reject,
+Memory,H0-1.1 Dunn,mac,SOCKET,,VT_1 vs VT_64,mem_J_op_active,,0.07330027735496576,0.5587391994631057,1.0,Cliff's delta,1.0,1.0,not rejected,
+Memory,TOST,mac,SOCKET,,VT_1 vs VT_64,mem_J_op_active,,,,1.1695994789468545,ratio of medians,1.1445539807470941,1.2064550216023178,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-1.1 Dunn,mac,SOCKET,,VT_1 vs VT_256,mem_J_op_active,,0.4288871880883436,1.0,-0.72,Cliff's delta,-1.0,-0.28,not rejected,
+Memory,TOST,mac,SOCKET,,VT_1 vs VT_256,mem_J_op_active,,,,0.9756930610362653,ratio of medians,0.9603980598447304,0.9891778459026983,equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-1.1 Dunn,mac,SOCKET,,VT_2 vs VT_4,mem_J_op_active,,0.00013748490175318392,0.0020622735262977587,1.0,Cliff's delta,1.0,1.0,reject,
+Memory,H0-1.1 Dunn,mac,SOCKET,,VT_2 vs VT_8,mem_J_op_active,,0.006221402632595174,0.07563700546515074,1.0,Cliff's delta,1.0,1.0,not rejected,
+Memory,TOST,mac,SOCKET,,VT_2 vs VT_8,mem_J_op_active,,,,1.3101131216658048,ratio of medians,1.2748670193406668,1.357371953609091,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-1.1 Dunn,mac,SOCKET,,VT_2 vs VT_16,mem_J_op_active,,0.09709424649521659,0.5587391994631057,1.0,Cliff's delta,1.0,1.0,not rejected,
+Memory,TOST,mac,SOCKET,,VT_2 vs VT_16,mem_J_op_active,,,,1.1934030310086998,ratio of medians,1.1118958922728375,1.2360046254218664,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-1.1 Dunn,mac,SOCKET,,VT_2 vs VT_64,mem_J_op_active,,0.9824679566502171,1.0,-0.02,Cliff's delta,-0.54,0.5,not rejected,
+Memory,TOST,mac,SOCKET,,VT_2 vs VT_64,mem_J_op_active,,,,0.9956653975361428,ratio of medians,0.96025298714377,1.031844980158665,equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-1.1 Dunn,mac,SOCKET,,VT_2 vs VT_256,mem_J_op_active,,0.00921350244370028,0.10134852688070307,-1.0,Cliff's delta,-1.0,-1.0,not rejected,
+Memory,TOST,mac,SOCKET,,VT_2 vs VT_256,mem_J_op_active,,,,0.8305952909321291,ratio of medians,0.8097164509678042,0.8486129932395808,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-1.1 Dunn,mac,SOCKET,,VT_4 vs VT_8,mem_J_op_active,,0.2815824111814078,1.0,-0.96,Cliff's delta,-1.0,-0.82,not rejected,
+Memory,TOST,mac,SOCKET,,VT_4 vs VT_8,mem_J_op_active,,,,0.8063860346630616,ratio of medians,0.7663827254246601,0.8491924998703156,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-1.1 Dunn,mac,SOCKET,,VT_4 vs VT_16,mem_J_op_active,,0.03127604621790394,0.28148441596113544,-1.0,Cliff's delta,-1.0,-1.0,not rejected,
+Memory,TOST,mac,SOCKET,,VT_4 vs VT_16,mem_J_op_active,,,,0.7345499575688298,ratio of medians,0.67876342209973,0.7730441641795144,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-1.1 Dunn,mac,SOCKET,,VT_4 vs VT_64,mem_J_op_active,,0.00012575619462586423,0.0020120991140138277,-1.0,Cliff's delta,-1.0,-1.0,reject,
+Memory,H0-1.1 Dunn,mac,SOCKET,,VT_4 vs VT_256,mem_J_op_active,,1.392796514754866e-10,2.9248726809852184e-09,-1.0,Cliff's delta,-1.0,-1.0,reject,
+Memory,H0-1.1 Dunn,mac,SOCKET,,VT_8 vs VT_16,mem_J_op_active,,0.2815824111814078,1.0,-0.96,Cliff's delta,-1.0,-0.82,not rejected,
+Memory,TOST,mac,SOCKET,,VT_8 vs VT_16,mem_J_op_active,,,,0.9109160203595941,ratio of medians,0.8468755483320801,0.9425206934028122,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-1.1 Dunn,mac,SOCKET,,VT_8 vs VT_64,mem_J_op_active,,0.00581823118962698,0.07563700546515074,-1.0,Cliff's delta,-1.0,-1.0,not rejected,
+Memory,TOST,mac,SOCKET,,VT_8 vs VT_64,mem_J_op_active,,,,0.7599842953028035,ratio of medians,0.7283097531092151,0.7870692254428343,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-1.1 Dunn,mac,SOCKET,,VT_8 vs VT_256,mem_J_op_active,,9.299423153383285e-08,1.7668903991428241e-06,-1.0,Cliff's delta,-1.0,-1.0,reject,
+Memory,H0-1.1 Dunn,mac,SOCKET,,VT_16 vs VT_64,mem_J_op_active,,0.09274701550461184,0.5587391994631057,-1.0,Cliff's delta,-1.0,-1.0,not rejected,
+Memory,TOST,mac,SOCKET,,VT_16 vs VT_64,mem_J_op_active,,,,0.8343077499095816,ratio of medians,0.7994139580968946,0.8981229096655866,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-1.1 Dunn,mac,SOCKET,,VT_16 vs VT_256,mem_J_op_active,,2.015780215111974e-05,0.00034268263656903557,-1.0,Cliff's delta,-1.0,-1.0,reject,
+Memory,H0-1.1 Dunn,mac,SOCKET,,VT_64 vs VT_256,mem_J_op_active,,0.00982142626944385,0.10134852688070307,-1.0,Cliff's delta,-1.0,-1.0,not rejected,
+Memory,TOST,mac,SOCKET,,VT_64 vs VT_256,mem_J_op_active,,,,0.834211265137371,ratio of medians,0.8066067829962019,0.8553383477091238,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-2.1 KW,mac,SLEEP,1,FP_1 | FJ_1 | VT_1 | PT | SEQ,mem_J_op_active,7.122823529411733,0.12953818304008746,0.14046504815835495,0.14536374549819864,epsilon^2,0.09631398963208854,0.4515131696741475,not rejected,"below detection limit: FP_1, FJ_1, SEQ; n=10,10,10,10,10; FP/FJ at p<256 are floor-bound (see Blocking)"
+Memory,H0-2.1 Dunn,mac,SLEEP,1,VT_1 vs FP_1,mem_J_op_active,,0.0751809607754162,0.1503619215508324,-0.4,Cliff's delta,-1.0,0.2,not rejected,below detection limit: FP_1; parent test not rejected
+Memory,TOST,mac,SLEEP,1,VT_1 vs FP_1,mem_J_op_active,,,,,ratio of medians,,,skipped,ratio undefined: a cell is below the detection limit
+Memory,H0-2.1 Dunn,mac,SLEEP,1,VT_1 vs FJ_1,mem_J_op_active,,0.1770614140719421,0.1770614140719421,-0.2,Cliff's delta,-0.8,0.4,not rejected,below detection limit: FJ_1; parent test not rejected
+Memory,TOST,mac,SLEEP,1,VT_1 vs FJ_1,mem_J_op_active,,,,,ratio of medians,,,skipped,ratio undefined: a cell is below the detection limit
+Memory,H0-2.1 Dunn,mac,SLEEP,1,VT_1 vs PT,mem_J_op_active,,0.03175334062189679,0.09526002186569037,-1.0,Cliff's delta,-1.0,-1.0,not rejected,parent test not rejected
+Memory,TOST,mac,SLEEP,1,VT_1 vs PT,mem_J_op_active,,,,0.05617445436170374,ratio of medians,0.05055086820996289,0.07004363461478952,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-2.1 Dunn,mac,SLEEP,1,VT_1 vs SEQ,mem_J_op_active,,0.016714394769157266,0.06685757907662906,-0.4,Cliff's delta,-1.0,0.2,not rejected,below detection limit: SEQ; parent test not rejected
+Memory,TOST,mac,SLEEP,1,VT_1 vs SEQ,mem_J_op_active,,,,,ratio of medians,,,skipped,ratio undefined: a cell is below the detection limit
+Memory,H0-2.1 KW,mac,SLEEP,2,FP_2 | FJ_2 | VT_2 | PT | SEQ,mem_J_op_active,9.817411764705867,0.04361827584273967,0.130854827528219,0.2003553421368544,epsilon^2,0.11422732725538728,0.5515775403653453,not rejected,"below detection limit: FP_2, FJ_2, SEQ; n=10,10,10,10,10; FP/FJ at p<256 are floor-bound (see Blocking)"
+Memory,H0-2.1 Dunn,mac,SLEEP,2,VT_2 vs FP_2,mem_J_op_active,,0.5496846810584154,0.5496846810584154,0.0,Cliff's delta,-0.6,0.6,not rejected,below detection limit: FP_2; parent test not rejected
+Memory,TOST,mac,SLEEP,2,VT_2 vs FP_2,mem_J_op_active,,,,,ratio of medians,,,skipped,ratio undefined: a cell is below the detection limit
+Memory,H0-2.1 Dunn,mac,SLEEP,2,VT_2 vs FJ_2,mem_J_op_active,,0.1674213718028198,0.3348427436056396,-0.4,Cliff's delta,-1.0,0.2,not rejected,below detection limit: FJ_2; parent test not rejected
+Memory,TOST,mac,SLEEP,2,VT_2 vs FJ_2,mem_J_op_active,,,,,ratio of medians,,,skipped,ratio undefined: a cell is below the detection limit
+Memory,H0-2.1 Dunn,mac,SLEEP,2,VT_2 vs PT,mem_J_op_active,,0.021397568696919046,0.06419270609075714,-1.0,Cliff's delta,-1.0,-1.0,not rejected,parent test not rejected
+Memory,TOST,mac,SLEEP,2,VT_2 vs PT,mem_J_op_active,,,,0.04399963432868828,ratio of medians,0.038403395901146296,0.0480063348653382,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-2.1 Dunn,mac,SLEEP,2,VT_2 vs SEQ,mem_J_op_active,,0.008715408925875474,0.0348616357035019,-0.4,Cliff's delta,-1.0,0.2,not rejected,below detection limit: SEQ; parent test not rejected
+Memory,TOST,mac,SLEEP,2,VT_2 vs SEQ,mem_J_op_active,,,,,ratio of medians,,,skipped,ratio undefined: a cell is below the detection limit
+Memory,H0-2.1 KW,mac,SLEEP,4,FP_4 | FJ_4 | VT_4 | PT | SEQ,mem_J_op_active,16.18729411764707,0.0027778694930207406,0.011111477972082963,0.33035294117647085,epsilon^2,0.25197891770858327,0.6653884666493036,reject,"below detection limit: SEQ; n=10,10,10,10,10; FP/FJ at p<256 are floor-bound (see Blocking)"
+Memory,H0-2.1 Dunn,mac,SLEEP,4,VT_4 vs FP_4,mem_J_op_active,,0.000872748742509961,0.002618246227529883,-1.0,Cliff's delta,-1.0,-1.0,reject,
+Memory,H0-2.1 Dunn,mac,SLEEP,4,VT_4 vs FJ_4,mem_J_op_active,,0.011374288677305567,0.011374288677305567,-0.8,Cliff's delta,-1.0,-0.4,reject,
+Memory,H0-2.1 Dunn,mac,SLEEP,4,VT_4 vs PT,mem_J_op_active,,0.0035629652396472955,0.007125930479294591,-1.0,Cliff's delta,-1.0,-1.0,reject,
+Memory,H0-2.1 Dunn,mac,SLEEP,4,VT_4 vs SEQ,mem_J_op_active,,0.0004698866558641139,0.0018795466234564557,-0.4,Cliff's delta,-1.0,0.2,reject,below detection limit: SEQ
+Memory,H0-2.1 KW,mac,SLEEP,8,FP_8 | FJ_8 | VT_8 | PT | SEQ,mem_J_op_active,16.783999999999992,0.002128917303063416,0.01064458651531708,0.3425306122448978,epsilon^2,0.24432095211881075,0.7266053453205696,reject,"below detection limit: SEQ; n=10,10,10,10,10; FP/FJ at p<256 are floor-bound (see Blocking)"
+Memory,H0-2.1 Dunn,mac,SLEEP,8,VT_8 vs FP_8,mem_J_op_active,,0.014730060616900945,0.014730060616900945,-0.8,Cliff's delta,-1.0,-0.4,reject,
+Memory,H0-2.1 Dunn,mac,SLEEP,8,VT_8 vs FJ_8,mem_J_op_active,,0.0037420250367864684,0.007484050073572937,-1.0,Cliff's delta,-1.0,-1.0,reject,
+Memory,H0-2.1 Dunn,mac,SLEEP,8,VT_8 vs PT,mem_J_op_active,,0.0012763144517019165,0.0038289433551057495,-1.0,Cliff's delta,-1.0,-1.0,reject,
+Memory,H0-2.1 Dunn,mac,SLEEP,8,VT_8 vs SEQ,mem_J_op_active,,0.0002055381753196511,0.0008221527012786045,-0.4,Cliff's delta,-1.0,0.2,reject,below detection limit: SEQ
+Memory,H0-2.1 KW,mac,SLEEP,16,FP_16 | FJ_16 | VT_16 | PT | SEQ,mem_J_op_active,24.76423529411764,5.610989748180486e-05,0.0005610989748180485,0.5053925570228089,epsilon^2,0.4132250543201154,0.8919269723816325,reject,"below detection limit: SEQ; n=10,10,10,10,10; FP/FJ at p<256 are floor-bound (see Blocking)"
+Memory,H0-2.1 Dunn,mac,SLEEP,16,VT_16 vs FP_16,mem_J_op_active,,0.010886416665672766,0.021772833331345533,-1.0,Cliff's delta,-1.0,-1.0,reject,
+Memory,H0-2.1 Dunn,mac,SLEEP,16,VT_16 vs FJ_16,mem_J_op_active,,0.11767471649926556,0.11767471649926556,-0.8,Cliff's delta,-1.0,-0.4,not rejected,
+Memory,TOST,mac,SLEEP,16,VT_16 vs FJ_16,mem_J_op_active,,,,0.11624719919303864,ratio of medians,0.07561472570779394,0.15612043315319665,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-2.1 Dunn,mac,SLEEP,16,VT_16 vs PT,mem_J_op_active,,8.651354363384342e-06,3.4605417453537367e-05,-1.0,Cliff's delta,-1.0,-1.0,reject,
+Memory,H0-2.1 Dunn,mac,SLEEP,16,VT_16 vs SEQ,mem_J_op_active,,0.0002055381753196511,0.0006166145259589534,-0.4,Cliff's delta,-1.0,0.2,reject,below detection limit: SEQ
+Memory,H0-2.1 KW,mac,SLEEP,64,FP_64 | FJ_64 | VT_64 | PT | SEQ,mem_J_op_active,23.904941176470572,8.345658184296489e-05,0.000751109236586684,0.48785594237695046,epsilon^2,0.3807833845088578,0.8615000019414746,reject,"below detection limit: SEQ; n=10,10,10,10,10; FP/FJ at p<256 are floor-bound (see Blocking)"
+Memory,H0-2.1 Dunn,mac,SLEEP,64,VT_64 vs FP_64,mem_J_op_active,,0.07270181760303797,0.07270181760303797,-1.0,Cliff's delta,-1.0,-1.0,not rejected,
+Memory,TOST,mac,SLEEP,64,VT_64 vs FP_64,mem_J_op_active,,,,0.1046513613516647,ratio of medians,0.09156516628160868,0.11512623890777532,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-2.1 Dunn,mac,SLEEP,64,VT_64 vs FJ_64,mem_J_op_active,,0.018929681042140073,0.037859362084280146,-0.8,Cliff's delta,-1.0,-0.4,reject,
+Memory,H0-2.1 Dunn,mac,SLEEP,64,VT_64 vs PT,mem_J_op_active,,8.651354363384342e-06,3.4605417453537367e-05,-1.0,Cliff's delta,-1.0,-1.0,reject,
+Memory,H0-2.1 Dunn,mac,SLEEP,64,VT_64 vs SEQ,mem_J_op_active,,0.00023192769813331,0.00069578309439993,-0.4,Cliff's delta,-1.0,0.2,reject,below detection limit: SEQ
+Memory,H0-2.1 KW,mac,SLEEP,256,FP_256 | FJ_256 | VT_256 | PT | SEQ,mem_J_op_active,34.168470588235294,6.881942397830178e-07,8.258330877396213e-06,0.6973157262905162,epsilon^2,0.5808250793345511,0.864395660515156,reject,"below detection limit: SEQ; n=10,10,10,10,10"
+Memory,H0-2.1 Dunn,mac,SLEEP,256,VT_256 vs FP_256,mem_J_op_active,,0.00014229404272953365,0.00042688212818860097,-1.0,Cliff's delta,-1.0,-1.0,reject,
+Memory,H0-2.1 Dunn,mac,SLEEP,256,VT_256 vs FJ_256,mem_J_op_active,,7.928206825908434e-08,3.1712827303633736e-07,-1.0,Cliff's delta,-1.0,-1.0,reject,
+Memory,H0-2.1 Dunn,mac,SLEEP,256,VT_256 vs PT,mem_J_op_active,,0.1250468801311005,0.1250468801311005,-1.0,Cliff's delta,-1.0,-1.0,not rejected,
+Memory,TOST,mac,SLEEP,256,VT_256 vs PT,mem_J_op_active,,,,0.26267067740132194,ratio of medians,0.2509310961399994,0.28025883088775394,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-2.1 Dunn,mac,SLEEP,256,VT_256 vs SEQ,mem_J_op_active,,0.019723135786463834,0.03944627157292767,-0.4,Cliff's delta,-1.0,0.2,reject,below detection limit: SEQ
+Memory,H0-2.1 KW,mac,SOCKET,1,FP_1 | FJ_1 | VT_1 | PT | SEQ,mem_J_op_active,34.876235294117606,4.925363785340662e-07,6.402972920942861e-06,0.7117599039615838,epsilon^2,0.6023732172698663,0.8503341185519924,reject,"n=10,10,10,10,10; FP/FJ at p<256 are floor-bound (see Blocking)"
+Memory,H0-2.1 Dunn,mac,SOCKET,1,VT_1 vs FP_1,mem_J_op_active,,0.00018198893303818388,0.00036397786607636777,-0.8,Cliff's delta,-1.0,-0.4,reject,
+Memory,H0-2.1 Dunn,mac,SOCKET,1,VT_1 vs FJ_1,mem_J_op_active,,2.2993203334548683e-05,6.897961000364606e-05,-1.0,Cliff's delta,-1.0,-1.0,reject,
+Memory,H0-2.1 Dunn,mac,SOCKET,1,VT_1 vs PT,mem_J_op_active,,0.1250468801311005,0.1250468801311005,-1.0,Cliff's delta,-1.0,-1.0,not rejected,
+Memory,TOST,mac,SOCKET,1,VT_1 vs PT,mem_J_op_active,,,,0.7820666786993877,ratio of medians,0.7771340332762203,0.7943796858568181,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-2.1 Dunn,mac,SOCKET,1,VT_1 vs SEQ,mem_J_op_active,,4.1494866771688223e-07,1.659794670867529e-06,-1.0,Cliff's delta,-1.0,-1.0,reject,
+Memory,H0-2.1 KW,mac,SOCKET,2,FP_2 | FJ_2 | VT_2 | PT | SEQ,mem_J_op_active,37.48988235294118,1.4276814860606516e-07,1.998754080484912e-06,0.7650996398559424,epsilon^2,0.6615238830308716,0.895507642074533,reject,"n=10,10,10,10,10; FP/FJ at p<256 are floor-bound (see Blocking)"
+Memory,H0-2.1 Dunn,mac,SOCKET,2,VT_2 vs FP_2,mem_J_op_active,,5.1310701044004445e-05,0.00015393210313201334,-1.0,Cliff's delta,-1.0,-1.0,reject,
+Memory,H0-2.1 Dunn,mac,SOCKET,2,VT_2 vs FJ_2,mem_J_op_active,,0.0010285079403205965,0.002057015880641193,-0.8,Cliff's delta,-1.0,-0.4,reject,
+Memory,H0-2.1 Dunn,mac,SOCKET,2,VT_2 vs PT,mem_J_op_active,,0.10073410292258463,0.10073410292258463,-1.0,Cliff's delta,-1.0,-1.0,not rejected,
+Memory,TOST,mac,SOCKET,2,VT_2 vs PT,mem_J_op_active,,,,0.6657635751070466,ratio of medians,0.6523053121956316,0.6819014437345955,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-2.1 Dunn,mac,SOCKET,2,VT_2 vs SEQ,mem_J_op_active,,2.157853425066865e-08,8.63141370026746e-08,-1.0,Cliff's delta,-1.0,-1.0,reject,
+Memory,H0-2.1 KW,mac,SOCKET,4,FP_4 | FJ_4 | VT_4 | PT | SEQ,mem_J_op_active,40.74447058823526,3.035991662528203e-08,4.857586660045125e-07,0.8315198079231686,epsilon^2,0.7630784354255569,0.922463222166378,reject,"n=10,10,10,10,10; FP/FJ at p<256 are floor-bound (see Blocking)"
+Memory,H0-2.1 Dunn,mac,SOCKET,4,VT_4 vs FP_4,mem_J_op_active,,0.06344568005620746,0.09568388929201985,-0.8,Cliff's delta,-1.0,-0.4,not rejected,
+Memory,TOST,mac,SOCKET,4,VT_4 vs FP_4,mem_J_op_active,,,,0.5992705463996538,ratio of medians,0.5360877090369122,0.6804267621420984,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-2.1 Dunn,mac,SOCKET,4,VT_4 vs FJ_4,mem_J_op_active,,0.047841944646009923,0.09568388929201985,-0.8,Cliff's delta,-1.0,-0.4,not rejected,
+Memory,TOST,mac,SOCKET,4,VT_4 vs FJ_4,mem_J_op_active,,,,0.584936148680056,ratio of medians,0.5134981473726389,0.6272956928135106,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-2.1 Dunn,mac,SOCKET,4,VT_4 vs PT,mem_J_op_active,,3.4487498964150424e-05,0.00010346249689245128,-1.0,Cliff's delta,-1.0,-1.0,reject,
+Memory,H0-2.1 Dunn,mac,SOCKET,4,VT_4 vs SEQ,mem_J_op_active,,5.578258670069189e-09,2.2313034680276757e-08,-1.0,Cliff's delta,-1.0,-1.0,reject,
+Memory,H0-2.1 KW,mac,SOCKET,8,FP_8 | FJ_8 | VT_8 | PT | SEQ,mem_J_op_active,38.92611764705882,7.215584295530265e-08,1.0823376443295398e-06,0.7944105642256901,epsilon^2,0.7707598053040259,0.8803419354565234,reject,"n=10,10,10,10,10; FP/FJ at p<256 are floor-bound (see Blocking)"
+Memory,H0-2.1 Dunn,mac,SOCKET,8,VT_8 vs FP_8,mem_J_op_active,,0.3819330744699152,0.7638661489398304,-0.44,Cliff's delta,-0.94,0.12,not rejected,
+Memory,TOST,mac,SOCKET,8,VT_8 vs FP_8,mem_J_op_active,,,,0.8599762986350753,ratio of medians,0.8134659876299997,1.0137935576194748,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-2.1 Dunn,mac,SOCKET,8,VT_8 vs FJ_8,mem_J_op_active,,0.8539572877898913,0.8539572877898913,0.14,Cliff's delta,-0.42,0.68,not rejected,
+Memory,TOST,mac,SOCKET,8,VT_8 vs FJ_8,mem_J_op_active,,,,1.0268097913327876,ratio of medians,0.9411118816190088,1.1869250066372745,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-2.1 Dunn,mac,SOCKET,8,VT_8 vs PT,mem_J_op_active,,0.0009739366560203621,0.002921809968061086,-1.0,Cliff's delta,-1.0,-1.0,reject,
+Memory,H0-2.1 Dunn,mac,SOCKET,8,VT_8 vs SEQ,mem_J_op_active,,1.3525015898515287e-06,5.410006359406115e-06,-1.0,Cliff's delta,-1.0,-1.0,reject,
+Memory,H0-2.1 KW,mac,SOCKET,16,FP_16 | FJ_16 | VT_16 | PT | SEQ,mem_J_op_active,44.79999999999998,4.375417130198851e-09,7.438209121338047e-08,0.9142857142857139,epsilon^2,0.9133272456384868,0.9367057239981675,reject,"n=10,10,10,10,10; FP/FJ at p<256 are floor-bound (see Blocking)"
+Memory,H0-2.1 Dunn,mac,SOCKET,16,VT_16 vs FP_16,mem_J_op_active,,0.014116388749862405,0.04234916624958722,1.0,Cliff's delta,1.0,1.0,reject,
+Memory,H0-2.1 Dunn,mac,SOCKET,16,VT_16 vs FJ_16,mem_J_op_active,,0.03175334062189679,0.06350668124379358,1.0,Cliff's delta,1.0,1.0,not rejected,
+Memory,TOST,mac,SOCKET,16,VT_16 vs FJ_16,mem_J_op_active,,,,1.260343016820361,ratio of medians,1.1406882001268042,1.4294604441768628,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-2.1 Dunn,mac,SOCKET,16,VT_16 vs PT,mem_J_op_active,,0.1250468801311005,0.1250468801311005,-1.0,Cliff's delta,-1.0,-1.0,not rejected,
+Memory,TOST,mac,SOCKET,16,VT_16 vs PT,mem_J_op_active,,,,0.557869854364559,ratio of medians,0.5429031911699542,0.5968537666122026,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-2.1 Dunn,mac,SOCKET,16,VT_16 vs SEQ,mem_J_op_active,,0.0021559763036343056,0.008623905214537222,-1.0,Cliff's delta,-1.0,-1.0,reject,
+Memory,H0-2.1 KW,mac,SOCKET,64,FP_64 | FJ_64 | VT_64 | PT | SEQ,mem_J_op_active,45.9256470588235,2.55217495024362e-09,4.5939149104385154e-08,0.9372581032412959,epsilon^2,0.9187542055176392,0.9618621651517332,reject,"n=10,10,10,10,10; FP/FJ at p<256 are floor-bound (see Blocking)"
+Memory,H0-2.1 Dunn,mac,SOCKET,64,VT_64 vs FP_64,mem_J_op_active,,0.004329366552189841,0.012988099656569524,1.0,Cliff's delta,1.0,1.0,reject,
+Memory,H0-2.1 Dunn,mac,SOCKET,64,VT_64 vs FJ_64,mem_J_op_active,,0.08034631886972009,0.16069263773944018,1.0,Cliff's delta,1.0,1.0,not rejected,
+Memory,TOST,mac,SOCKET,64,VT_64 vs FJ_64,mem_J_op_active,,,,1.6573375843212286,ratio of medians,1.6079162326999263,1.708830170543568,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-2.1 Dunn,mac,SOCKET,64,VT_64 vs PT,mem_J_op_active,,0.1250468801311005,0.16069263773944018,-1.0,Cliff's delta,-1.0,-1.0,not rejected,
+Memory,TOST,mac,SOCKET,64,VT_64 vs PT,mem_J_op_active,,,,0.668661958881502,ratio of medians,0.6513230651620325,0.6862864816129473,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-2.1 Dunn,mac,SOCKET,64,VT_64 vs SEQ,mem_J_op_active,,0.0021559763036343056,0.008623905214537222,-1.0,Cliff's delta,-1.0,-1.0,reject,
+Memory,H0-2.1 KW,mac,SOCKET,256,FP_256 | FJ_256 | VT_256 | PT | SEQ,mem_J_op_active,46.21176470588233,2.225183481366608e-09,4.2278486145965554e-08,0.9430972388955577,epsilon^2,0.92453735036777,0.9616309260505812,reject,"n=10,10,10,10,10"
+Memory,H0-2.1 Dunn,mac,SOCKET,256,VT_256 vs FP_256,mem_J_op_active,,8.651354363384342e-06,2.5954063090153025e-05,-1.0,Cliff's delta,-1.0,-1.0,reject,
+Memory,H0-2.1 Dunn,mac,SOCKET,256,VT_256 vs FJ_256,mem_J_op_active,,0.0012763144517019165,0.002552628903403833,-1.0,Cliff's delta,-1.0,-1.0,reject,
+Memory,H0-2.1 Dunn,mac,SOCKET,256,VT_256 vs PT,mem_J_op_active,,0.1250468801311005,0.1250468801311005,-1.0,Cliff's delta,-1.0,-1.0,not rejected,
+Memory,TOST,mac,SOCKET,256,VT_256 vs PT,mem_J_op_active,,,,0.8015499032746727,ratio of medians,0.7945746674036365,0.8165713181973969,not equivalent,"90% bootstrap CI vs [0.95, 1.05]"
+Memory,H0-2.1 Dunn,mac,SOCKET,256,VT_256 vs SEQ,mem_J_op_active,,8.477440461174856e-10,3.3909761844699423e-09,-1.0,Cliff's delta,-1.0,-1.0,reject,
+Memory,H0-2.2 MW one-sided (IU component),mac,SLEEP,256,VT_256 < FP_256,mem_J_op_active,0.0,9.133589555477501e-05,,-1.0,Cliff's delta,-1.0,-1.0,VT lower,uncorrected (no correction inside the IU test)
+Memory,H0-2.2 MW one-sided (IU component),mac,SLEEP,256,VT_256 < FJ_256,mem_J_op_active,0.0,9.133589555477501e-05,,-1.0,Cliff's delta,-1.0,-1.0,VT lower,uncorrected (no correction inside the IU test)
+Memory,H0-2.2 MW one-sided (IU component),mac,SLEEP,256,VT_256 < PT,mem_J_op_active,0.0,9.133589555477501e-05,,-1.0,Cliff's delta,-1.0,-1.0,VT lower,uncorrected (no correction inside the IU test)
+Memory,H0-2.2 MW one-sided (IU component),mac,SLEEP,256,VT_256 < SEQ,mem_J_op_active,30.0,0.07023252407917747,,-0.4,Cliff's delta,-1.0,0.2,not lower,uncorrected (no correction inside the IU test)
+Memory,H0-2.2 IU,mac,SLEEP,256,VT_256 < every alternative,mem_J_op_active,,0.07023252407917747,0.14046504815835495,-0.4,Cliff's delta (weakest alternative),-1.0,0.2,not rejected,weakest vs SEQ; below detection limit: SEQ
+Memory,H0-2.2 MW one-sided (IU component),mac,SOCKET,256,VT_256 < FP_256,mem_J_op_active,0.0,9.133589555477501e-05,,-1.0,Cliff's delta,-1.0,-1.0,VT lower,uncorrected (no correction inside the IU test)
+Memory,H0-2.2 MW one-sided (IU component),mac,SOCKET,256,VT_256 < FJ_256,mem_J_op_active,0.0,9.133589555477501e-05,,-1.0,Cliff's delta,-1.0,-1.0,VT lower,uncorrected (no correction inside the IU test)
+Memory,H0-2.2 MW one-sided (IU component),mac,SOCKET,256,VT_256 < PT,mem_J_op_active,0.0,9.133589555477501e-05,,-1.0,Cliff's delta,-1.0,-1.0,VT lower,uncorrected (no correction inside the IU test)
+Memory,H0-2.2 MW one-sided (IU component),mac,SOCKET,256,VT_256 < SEQ,mem_J_op_active,0.0,9.133589555477501e-05,,-1.0,Cliff's delta,-1.0,-1.0,VT lower,uncorrected (no correction inside the IU test)
+Memory,H0-2.2 IU,mac,SOCKET,256,VT_256 < every alternative,mem_J_op_active,,9.133589555477501e-05,0.000751109236586684,-1.0,Cliff's delta (weakest alternative),-1.0,-1.0,reject,weakest vs FP_256
+Memory,H0-2.2 IU smallest p,mac,SLEEP,,VT vs every alternative,mem_J_op_active,,,,,,,,not rejected,
+Memory,H0-2.2 IU smallest p,mac,SOCKET,256,VT vs every alternative,mem_J_op_active,,,,,,,,reject,
+AX7,Spearman,mac,all,,within-cell residual (value / cell median) vs run order,primary_J_op,0.19972305432925233,8.018921035578758e-10,3.2075684142315033e-09,0.19972305432925233,Spearman rho,,,reject,n=930 runs
+AX7,Spearman,mac,CPU,,within-cell residual (value / cell median) vs run order,primary_J_op,0.06150396533290613,0.2803485219291727,0.2803485219291727,0.06150396533290613,Spearman rho,,,not rejected,n=310 runs
+AX7,Spearman,mac,SLEEP,,within-cell residual (value / cell median) vs run order,primary_J_op,0.2952049237249398,1.1895599692486144e-07,3.568679907745843e-07,0.2952049237249398,Spearman rho,,,reject,n=310 runs
+AX7,Spearman,mac,SOCKET,,within-cell residual (value / cell median) vs run order,primary_J_op,0.19629284554543708,0.0005089385806039356,0.0010178771612078712,0.19629284554543708,Spearman rho,,,reject,n=310 runs
