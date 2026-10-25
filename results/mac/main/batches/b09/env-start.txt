@@ -1,0 +1,56 @@
+# date (UTC)
+2026-10-25T10:42:24Z
+# git
+50cae5a743ff8886c65d78c14a2c45a85ac5f003
+?? results/ancillary/
+?? results/mac/
+# os
+ProductName:		macOS
+ProductVersion:		27.2
+BuildVersion:		26B118
+Darwin macmini 27.2.0 Darwin Kernel Version 27.2.0: Wed Oct 14 23:47:07 PDT 2026; root:xnu-13432.41.4~25/RELEASE_ARM64_T8132 arm64
+# hardware
+hw.model: Mac16,10
+machdep.cpu.brand_string: Apple M4
+hw.memsize: 17179869184
+hw.ncpu: 10
+hw.perflevel0.physicalcpu: 4
+hw.perflevel1.physicalcpu: 6
+# power
+System-wide power settings:
+Currently in use:
+ standby              0
+ Sleep On Power Button 1
+ autorestartatconnect 0
+ autorestart          0
+ powernap             1
+ networkoversleep     0
+ disksleep            10
+ sleep                1 (sleep prevented by caffeinate, caffeinate)
+ ttyskeepawake        1
+ displaysleep         10
+ tcpkeepalive         1
+ lowpowermode         0
+ womp                 1
+Now drawing from 'AC Power'
+Note: No thermal warning level has been recorded
+Note: No performance warning level has been recorded
+Note: No CPU power status has been recorded
+# java
+openjdk version "25.0.4.1" 2026-08-18
+OpenJDK Runtime Environment Homebrew (build 25.0.4.1)
+OpenJDK 64-Bit Server VM Homebrew (build 25.0.4.1, mixed mode, sharing)
+# uptime/load
+11:42  up 10:42, 2 users, load averages: 2.55 7.16 7.63
+# top processes by cpu
+ %CPU COMM
+ 17.7 /opt/homebrew/opt/openjdk@25/libexec/openjdk.jdk/Contents/Home/bin/java
+  9.1 powermetrics
+  6.1 /usr/libexec/sysmond
+  1.3 bash
+  1.0 /usr/sbin/notifyd
+  0.9 /opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/Resources/Python.app/Contents/MacOS/Python
+  0.8 /usr/libexec/opendirectoryd
+  0.5 /sbin/launchd
+  0.4 /usr/libexec/logd
+  0.4 /usr/sbin/cfprefsd
