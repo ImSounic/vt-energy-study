@@ -13,7 +13,10 @@ import java.util.concurrent.TimeUnit;
  *
  * <p>Pool construction, thread creation, and the resulting allocation/GC
  * pressure are deliberately included in the measured window: they are part of
- * each construct's real cost.
+ * each construct's real cost. The controls FIXED_POOL_PERSISTENT and
+ * FORK_JOIN_PERSISTENT instead build their pool once per trial (in
+ * {@link #setUp()}) and reuse it, to measure how much of that cost is pool
+ * construction; they are run only through {@code -p strategy=...}.
  *
  * <p>{@code parallelism} is the pool size (FIXED_POOL), the parallelism
  * (FORK_JOIN), or the carrier count (VIRTUAL_THREADS). The carrier count cannot
@@ -51,6 +54,7 @@ public class ConcurrencyEnergyBenchmark {
     public String workloadType;
 
     private List<Runnable> tasks;
+    private ExecutionStrategy.Session session;
 
     @Setup(Level.Trial)
     public void setUp() {
@@ -64,11 +68,17 @@ public class ConcurrencyEnergyBenchmark {
             case "SOCKET" -> Workloads.socket(TASKS, socketPort(Integer.getInteger(SOCKET_PORT_PROPERTY)));
             default -> throw new IllegalArgumentException("unknown workload: " + workloadType);
         };
+        session = strategy.open(parallelism);
+    }
+
+    @TearDown(Level.Trial)
+    public void tearDown() {
+        if (session != null) session.close();
     }
 
     @Benchmark
     public void execute(Blackhole bh) throws InterruptedException {
-        strategy.execute(tasks, parallelism);
+        session.execute(tasks);
         bh.consume(tasks.size());
     }
 

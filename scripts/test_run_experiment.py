@@ -52,6 +52,35 @@ class CellsTest(unittest.TestCase):
                 rx.Cell("SEQUENTIAL", None, "CPU", "unpinned"),
                 rx.Cell("FIXED_POOL", 16, "SLEEP", "unpinned")])
 
+    def test_cells_file_accepts_the_persistent_controls(self):
+        with tempfile.TemporaryDirectory() as d:
+            path = Path(d) / "cells.csv"
+            path.write_text("construct,p,workload,restriction\n"
+                            "FIXED_POOL_PERSISTENT,256,SLEEP,DEFAULT\nFORK_JOIN_PERSISTENT,16,SOCKET,DEFAULT\n")
+            self.assertEqual(rx.cells_from_file(path), [
+                rx.Cell("FIXED_POOL_PERSISTENT", 256, "SLEEP", "DEFAULT"),
+                rx.Cell("FORK_JOIN_PERSISTENT", 16, "SOCKET", "DEFAULT")])
+
+    def test_cells_file_rejects_bad_cells(self):
+        for row in ["FIXED_POOL_PERSISTANT,16,CPU,DEFAULT", "FORK_JOIN_PERSISTENT,,CPU,DEFAULT",
+                    "SEQUENTIAL,4,CPU,DEFAULT", "FIXED_POOL,16,IDLE,DEFAULT"]:
+            with tempfile.TemporaryDirectory() as d, self.subTest(row=row):
+                path = Path(d) / "cells.csv"
+                path.write_text("construct,p,workload,restriction\n" + row + "\n")
+                with self.assertRaises(ValueError):
+                    rx.cells_from_file(path)
+
+    def test_control_cells_file(self):
+        cells = rx.cells_from_file(rx.REPO / "results" / "mac" / "control-cells.csv")
+        self.assertEqual(len(cells), 21)
+        self.assertEqual(len(set(cells)), 21)
+        self.assertTrue(all(c.restriction == "DEFAULT" for c in cells))
+        by_construct = collections.Counter((c.construct, c.p) for c in cells)
+        self.assertEqual(by_construct, {
+            ("FIXED_POOL_PERSISTENT", 16): 3, ("FIXED_POOL_PERSISTENT", 256): 3,
+            ("FORK_JOIN_PERSISTENT", 16): 3, ("FORK_JOIN_PERSISTENT", 256): 3,
+            ("FIXED_POOL", 256): 3, ("FORK_JOIN", 256): 3, ("VIRTUAL_THREADS", 256): 3})
+
 
 class ScheduleTest(unittest.TestCase):
     def test_intel_full_has_705_runs_in_batches_of_at_most_40(self):
@@ -164,6 +193,16 @@ class JmhCommandTest(unittest.TestCase):
         self.assertEqual(argv[:3], ["taskset", "-c", "6,7"])
         self.assertEqual(argv[3], "/jdk/bin/java")
         self.assertEqual(self.cmd(rx.Cell("VIRTUAL_THREADS", 4, "CPU", "unpinned"))[0], "/jdk/bin/java")
+
+    def test_persistent_control_passes_its_strategy_and_no_carrier_flags(self):
+        argv = self.cmd(rx.Cell("FORK_JOIN_PERSISTENT", 256, "SLEEP", "DEFAULT"), "mac")
+        self.assertIn("strategy=FORK_JOIN_PERSISTENT", argv)
+        self.assertIn("parallelism=256", argv)
+        self.assertIn("workloadType=SLEEP", argv)
+        self.assertNotIn("-jvmArgsAppend", argv)
+        self.assertEqual(self.value_after(argv, "-prof"), "nl.utwente.gsd.energy.IoReportProfiler")
+        argv = self.cmd(rx.Cell("FIXED_POOL_PERSISTENT", 16, "SOCKET", "DEFAULT"), "mac")
+        self.assertEqual(self.value_after(argv, "-jvmArgsAppend"), "-Dvtenergy.socket.port=47000")
 
     def test_mac_background_uses_taskpolicy_wrapper(self):
         argv = self.cmd(rx.Cell("FIXED_POOL", 4, "CPU", "BACKGROUND"), "mac")

@@ -13,14 +13,18 @@ import java.util.concurrent.RecursiveAction;
 import java.util.concurrent.TimeUnit;
 
 /**
- * The five Java thread management constructs under comparison.
+ * The five Java thread management constructs under comparison, plus two
+ * persistent-pool controls.
  *
  * <p>SEQUENTIAL is the reference of Pinto, Castor &amp; Liu (OOPSLA 2014); the
  * next three replicate their constructs; VIRTUAL_THREADS is the JEP 444
- * construct that did not exist in 2014.
+ * construct that did not exist in 2014. FIXED_POOL and FORK_JOIN build and shut
+ * down their pool inside every operation, while VIRTUAL_THREADS reuses the
+ * JVM-wide carrier pool; FIXED_POOL_PERSISTENT and FORK_JOIN_PERSISTENT are the
+ * control that reuses one pool per trial (see {@link #open(int)}).
  *
- * <p>All five arms fail loudly and identically if any task throws: silent
- * partial work would corrupt the energy measurements.
+ * <p>All arms fail loudly and identically if any task throws: silent partial
+ * work would corrupt the energy measurements.
  */
 public enum ExecutionStrategy {
 
@@ -80,6 +84,68 @@ public enum ExecutionStrategy {
     },
 
     /**
+     * Control for FIXED_POOL: the same fixed-size pool, created once per
+     * {@link Session} (one JMH trial) and reused by every operation, as a
+     * server would. Pool construction and teardown fall outside the measured
+     * window.
+     */
+    FIXED_POOL_PERSISTENT {
+        @Override
+        public void execute(List<Runnable> tasks, int parallelism) throws InterruptedException {
+            try (Session session = open(parallelism)) {
+                session.execute(tasks);
+            }
+        }
+
+        @Override
+        public Session open(int parallelism) {
+            ExecutorService pool = Executors.newFixedThreadPool(parallelism);
+            return new Session() {
+                @Override
+                public void execute(List<Runnable> tasks) throws InterruptedException {
+                    awaitAll(pool.invokeAll(toCallables(tasks)));
+                }
+
+                @Override
+                public void close() {
+                    pool.close();
+                }
+            };
+        }
+    },
+
+    /**
+     * Control for FORK_JOIN: the same bounded Fork/Join pool and recursive
+     * halving, with the pool created once per {@link Session} (one JMH trial)
+     * and reused by every operation.
+     */
+    FORK_JOIN_PERSISTENT {
+        @Override
+        public void execute(List<Runnable> tasks, int parallelism) throws InterruptedException {
+            try (Session session = open(parallelism)) {
+                session.execute(tasks);
+            }
+        }
+
+        @Override
+        public Session open(int parallelism) {
+            ForkJoinPool pool = boundedForkJoinPool(parallelism);
+            return new Session() {
+                @Override
+                public void execute(List<Runnable> tasks) {
+                    if (tasks.isEmpty()) return;
+                    pool.invoke(new Split(tasks, 0, tasks.size()));
+                }
+
+                @Override
+                public void close() {
+                    pool.close();
+                }
+            };
+        }
+    },
+
+    /**
      * JEP 444 virtual threads: one virtual thread per task, multiplexed over a
      * carrier ForkJoinPool. The {@code parallelism} argument is deliberately
      * ignored — carrier count is set by the JVM and controlled in experiments
@@ -96,6 +162,34 @@ public enum ExecutionStrategy {
     };
 
     public abstract void execute(List<Runnable> tasks, int parallelism) throws InterruptedException;
+
+    /**
+     * Opens a session that runs operations at {@code parallelism} until closed.
+     * For the persistent controls the session owns one pool that every operation
+     * reuses; for all other constructs it calls {@link #execute(List, int)}, so
+     * their per-operation behaviour is unchanged.
+     */
+    public Session open(int parallelism) {
+        return new Session() {
+            @Override
+            public void execute(List<Runnable> tasks) throws InterruptedException {
+                ExecutionStrategy.this.execute(tasks, parallelism);
+            }
+
+            @Override
+            public void close() {
+            }
+        };
+    }
+
+    /** A sequence of operations of one construct at one concurrency level. */
+    public interface Session extends AutoCloseable {
+        void execute(List<Runnable> tasks) throws InterruptedException;
+
+        /** Shuts down and awaits any pool the session owns. */
+        @Override
+        void close();
+    }
 
     /**
      * A Fork/Join pool that never exceeds {@code parallelism} threads. By default

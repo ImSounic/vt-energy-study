@@ -41,6 +41,8 @@ JAR = REPO / "harness" / "target" / "benchmarks.jar"
 CONSTRUCTS = ["SEQUENTIAL", "PLATFORM_THREADS", "FIXED_POOL", "FORK_JOIN", "VIRTUAL_THREADS"]
 UNLEVELED = ["SEQUENTIAL", "PLATFORM_THREADS"]  # no concurrency level
 POOLED = ["FIXED_POOL", "FORK_JOIN", "VIRTUAL_THREADS"]
+# Controls that reuse one pool per trial instead of one per operation (--cells-file only).
+PERSISTENT = ["FIXED_POOL_PERSISTENT", "FORK_JOIN_PERSISTENT"]
 LEVELS = [1, 2, 4, 8, 16, 64, 256]
 EXP2_LEVELS = [4, 16]  # bracket the Mac's 6 E cores
 PILOT_LEVELS = [1, 16, 256]
@@ -124,8 +126,16 @@ def cells(platform, subset):
 
 def cells_from_file(path):
     with open(path, newline="") as f:
-        return [Cell(r["construct"], int(r["p"]) if r["p"] else None, r["workload"], r["restriction"])
-                for r in csv.DictReader(f)]
+        out = [Cell(r["construct"], int(r["p"]) if r["p"] else None, r["workload"], r["restriction"])
+               for r in csv.DictReader(f)]
+    for c in out:  # fail before the campaign, not in its first JMH fork
+        if c.construct not in CONSTRUCTS + PERSISTENT:
+            raise ValueError(f"{path}: unknown construct {c.construct}")
+        if (c.p is None) != (c.construct in UNLEVELED):
+            raise ValueError(f"{path}: {c.construct} {'takes no' if c.p is not None else 'needs a'} concurrency level")
+        if c.workload not in WORKLOADS:
+            raise ValueError(f"{path}: unknown workload {c.workload}")
+    return out
 
 
 # ---------------------------------------------------------------- schedule
