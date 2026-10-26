@@ -63,7 +63,7 @@ class CellsTest(unittest.TestCase):
 
     def test_cells_file_rejects_bad_cells(self):
         for row in ["FIXED_POOL_PERSISTANT,16,CPU,DEFAULT", "FORK_JOIN_PERSISTENT,,CPU,DEFAULT",
-                    "SEQUENTIAL,4,CPU,DEFAULT", "FIXED_POOL,16,IDLE,DEFAULT"]:
+                    "SEQUENTIAL,4,CPU,DEFAULT", "FIXED_POOL,16,IDLE,DEFAULT", "FIXED_POOL,16,mixed,DEFAULT"]:
             with tempfile.TemporaryDirectory() as d, self.subTest(row=row):
                 path = Path(d) / "cells.csv"
                 path.write_text("construct,p,workload,restriction\n" + row + "\n")
@@ -72,14 +72,25 @@ class CellsTest(unittest.TestCase):
 
     def test_control_cells_file(self):
         cells = rx.cells_from_file(rx.REPO / "results" / "mac" / "control-cells.csv")
-        self.assertEqual(len(cells), 21)
-        self.assertEqual(len(set(cells)), 21)
+        self.assertEqual(len(cells), 28)
+        self.assertEqual(len(set(cells)), 28)
         self.assertTrue(all(c.restriction == "DEFAULT" for c in cells))
-        by_construct = collections.Counter((c.construct, c.p) for c in cells)
+        by_construct = collections.Counter((c.construct, c.p) for c in cells if c.workload != "MIXED")
         self.assertEqual(by_construct, {
             ("FIXED_POOL_PERSISTENT", 16): 3, ("FIXED_POOL_PERSISTENT", 256): 3,
             ("FORK_JOIN_PERSISTENT", 16): 3, ("FORK_JOIN_PERSISTENT", 256): 3,
             ("FIXED_POOL", 256): 3, ("FORK_JOIN", 256): 3, ("VIRTUAL_THREADS", 256): 3})
+        self.assertEqual(sorted((c.construct, c.p) for c in cells if c.workload == "MIXED"), sorted([
+            ("VIRTUAL_THREADS", 256), ("VIRTUAL_THREADS", 16), ("PLATFORM_THREADS", None),
+            ("FIXED_POOL", 256), ("FORK_JOIN", 256),
+            ("FIXED_POOL_PERSISTENT", 256), ("FORK_JOIN_PERSISTENT", 256)]))
+
+    def test_mixed_op_time_has_burst_and_wait(self):
+        burst, wait = rx.MIXED_BURST_S["mac"], rx.SLEEP_D_S["mac"]
+        self.assertAlmostEqual(rx.op_seconds(rx.Cell("FIXED_POOL", 256, "MIXED", "DEFAULT"), "mac"),
+                               max(256 * burst / 10, burst + wait))
+        self.assertAlmostEqual(rx.op_seconds(rx.Cell("FIXED_POOL", 16, "MIXED", "DEFAULT"), "mac"),
+                               16 * (burst + wait))
 
 
 class ScheduleTest(unittest.TestCase):
@@ -203,6 +214,11 @@ class JmhCommandTest(unittest.TestCase):
         self.assertEqual(self.value_after(argv, "-prof"), "nl.utwente.gsd.energy.IoReportProfiler")
         argv = self.cmd(rx.Cell("FIXED_POOL_PERSISTENT", 16, "SOCKET", "DEFAULT"), "mac")
         self.assertEqual(self.value_after(argv, "-jvmArgsAppend"), "-Dvtenergy.socket.port=47000")
+
+    def test_mixed_passes_its_workload_and_needs_no_server(self):
+        argv = self.cmd(rx.Cell("FIXED_POOL_PERSISTENT", 256, "MIXED", "DEFAULT"), "mac")
+        self.assertIn("workloadType=MIXED", argv)
+        self.assertNotIn("-jvmArgsAppend", argv)
 
     def test_mac_background_uses_taskpolicy_wrapper(self):
         argv = self.cmd(rx.Cell("FIXED_POOL", 4, "CPU", "BACKGROUND"), "mac")

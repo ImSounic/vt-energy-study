@@ -37,4 +37,18 @@ class WorkloadsTest {
         long elapsedMillis = (System.nanoTime() - startNanos) / 1_000_000;
         assertTrue(elapsedMillis >= 45, "expected >=45ms block, got " + elapsedMillis);
     }
+
+    @Test
+    void computeThenSleepProducesRequestedTaskCount() {
+        assertEquals(256, Workloads.computeThenSleep(256, 64, 10).size());
+    }
+
+    @Test
+    void computeThenSleepTaskComputesAndThenBlocks() {
+        Runnable task = Workloads.computeThenSleep(1, 64, 10).get(0);
+        long startNanos = System.nanoTime();
+        task.run();
+        long elapsedMillis = (System.nanoTime() - startNanos) / 1_000_000;
+        assertTrue(elapsedMillis >= 10, "expected >=10ms (burst + 10ms sleep), got " + elapsedMillis);
+    }
 }

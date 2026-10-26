@@ -117,6 +117,30 @@ public final class Workloads {
         return tasks;
     }
 
+    /**
+     * MIXED task: a request handler that computes, then waits on a remote call.
+     * Every task first runs one Mandelbrot burst ({@link #mandelbrotEscapes} at
+     * {@code resolution}), then blocks in {@link Thread#sleep} for
+     * {@code blockMillis}. Unlike {@link #mixed}, which splits the tasks into
+     * computing and blocking ones, both phases are inside every task.
+     */
+    public static List<Runnable> computeThenSleep(int taskCount, int resolution, int blockMillis) {
+        List<Runnable> tasks = new ArrayList<>(taskCount);
+        for (int i = 0; i < taskCount; i++) {
+            final int offset = i;
+            tasks.add(() -> {
+                long r = mandelbrotEscapes(resolution, offset);
+                if (r == Long.MIN_VALUE) throw new AssertionError("unreachable");
+                try {
+                    Thread.sleep(blockMillis);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+            });
+        }
+        return tasks;
+    }
+
     /** Mixed workload: a fraction of tasks block, the remainder compute. */
     public static List<Runnable> mixed(int taskCount, int resolution, int blockMillis, double blockingFraction) {
         List<Runnable> tasks = new ArrayList<>(taskCount);

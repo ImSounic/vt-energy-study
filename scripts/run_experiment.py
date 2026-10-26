@@ -47,6 +47,8 @@ LEVELS = [1, 2, 4, 8, 16, 64, 256]
 EXP2_LEVELS = [4, 16]  # bracket the Mac's 6 E cores
 PILOT_LEVELS = [1, 16, 256]
 WORKLOADS = ["CPU", "SLEEP", "SOCKET"]
+# Compute-then-wait control workload (--cells-file only): a CPU burst, then the SLEEP wait.
+MIXED = "MIXED"
 DEFAULT_RESTRICTION = {"intel": "unpinned", "mac": "DEFAULT"}
 PINNED_ARMS = ["2P", "2E", "2LPE"]
 
@@ -133,7 +135,7 @@ def cells_from_file(path):
             raise ValueError(f"{path}: unknown construct {c.construct}")
         if (c.p is None) != (c.construct in UNLEVELED):
             raise ValueError(f"{path}: {c.construct} {'takes no' if c.p is not None else 'needs a'} concurrency level")
-        if c.workload not in WORKLOADS:
+        if c.workload not in WORKLOADS + [MIXED]:
             raise ValueError(f"{path}: unknown workload {c.workload}")
     return out
 
@@ -343,6 +345,7 @@ def chunks(items, size=BATCH_SIZE):
 CPU_TASK_S = {"intel": 0.009, "mac": 0.0057}
 CORES = {"intel": 16, "mac": 10}
 SLEEP_D_S = {"intel": 0.0103, "mac": 0.0121}
+MIXED_BURST_S = {k: v / 3.85 for k, v in CPU_TASK_S.items()}  # resolution 64 vs 128
 
 
 def op_seconds(cell, platform):
@@ -350,6 +353,9 @@ def op_seconds(cell, platform):
     width = {"SEQUENTIAL": 1}.get(cell.construct, cell.p if cell.p is not None else 256)
     if cell.workload == "CPU":
         return 256 * CPU_TASK_S[platform] / min(width, cores)
+    if cell.workload == MIXED:  # bursts share the cores; each wave of tasks also waits
+        burst = MIXED_BURST_S[platform]
+        return max(256 * burst / min(width, cores), math.ceil(256 / width) * (SLEEP_D_S[platform] + burst))
     return math.ceil(256 / width) * SLEEP_D_S[platform]
 
 

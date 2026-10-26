@@ -26,6 +26,12 @@ import java.util.concurrent.TimeUnit;
  * would drop the flags below); setup fails if it does not match. SEQUENTIAL and
  * PLATFORM_THREADS have no concurrency level; run them once, with p = 1.
  *
+ * <p>MIXED models a request handler that computes and then waits on a remote
+ * call: each task runs a Mandelbrot burst at resolution {@value #MIXED_RESOLUTION},
+ * then sleeps 10 ms like SLEEP. The CPU workload's resolution 128 takes about
+ * 5.7 ms per task on the M4; the cost scales with the grid points (measured
+ * 128/64 ratio 3.8-3.9x), so resolution 64 is a burst of about 1.5 ms.
+ *
  * <p>SOCKET needs a running {@link nl.utwente.gsd.workload.SocketDelayServer}
  * whose port is passed as {@code -Dvtenergy.socket.port}.
  */
@@ -43,6 +49,9 @@ public class ConcurrencyEnergyBenchmark {
     /** Tasks per operation, identical at every concurrency level. */
     static final int TASKS = 256;
 
+    /** Mandelbrot resolution of the MIXED workload's CPU burst (about 1.5 ms on an M4 P core). */
+    static final int MIXED_RESOLUTION = 64;
+
     @Param({"SEQUENTIAL", "PLATFORM_THREADS", "FIXED_POOL", "FORK_JOIN", "VIRTUAL_THREADS"})
     public ExecutionStrategy strategy;
 
@@ -50,7 +59,7 @@ public class ConcurrencyEnergyBenchmark {
     @Param({"1", "2", "4", "8", "16", "64", "256"})
     public int parallelism;
 
-    @Param({"CPU", "SLEEP", "SOCKET"})
+    @Param({"CPU", "SLEEP", "SOCKET", "MIXED"})
     public String workloadType;
 
     private List<Runnable> tasks;
@@ -66,6 +75,7 @@ public class ConcurrencyEnergyBenchmark {
             case "CPU" -> Workloads.cpuBound(TASKS, 128);
             case "SLEEP" -> Workloads.sleep(TASKS, 10);
             case "SOCKET" -> Workloads.socket(TASKS, socketPort(Integer.getInteger(SOCKET_PORT_PROPERTY)));
+            case "MIXED" -> Workloads.computeThenSleep(TASKS, MIXED_RESOLUTION, 10);
             default -> throw new IllegalArgumentException("unknown workload: " + workloadType);
         };
         session = strategy.open(parallelism);
