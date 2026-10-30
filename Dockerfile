@@ -14,5 +14,5 @@ COPY results results
 COPY reproduce.sh .
 # ancillary.py also writes its summary next to the data it reads.
 RUN chmod -R a+rwX results
-ENTRYPOINT ["./reproduce.sh"]
+ENTRYPOINT ["bash", "reproduce.sh"]
 CMD ["/out"]
