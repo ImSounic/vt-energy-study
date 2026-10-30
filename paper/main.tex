@@ -23,7 +23,7 @@
 \affiliation{\institution{University of Twente}\city{Enschede}\country{The Netherlands}}
 \email{v.z.zapryanov@student.utwente.nl}
 
-\thanks{Author contributions to Assignment~3. S.A.: harness extensions (sequential baseline, SOCKET and MIXED workloads, reused-pool control), the experiment orchestrator, all Mac and Intel campaigns and ancillary experiments, the statistical analysis, the replication package, Sections~\ref{sec:results} and~\ref{sec:discussion}, and the results part of the presentation (slides 5 to 9). V.Z.: \todo{confirm: report sections drafted or revised by V.Z.}, and the presentation's introduction, design, limitations, and takeaways (slides 1 to 4, 10, and 11). Both authors reviewed the full text. Text added or changed since Assignment~2 in Sections~\ref{sec:intro} to~\ref{sec:threats} is shown in \upd{violet}; Sections~\ref{sec:results} to~\ref{sec:conclusion} are new.}
+\thanks{Author contributions to Assignment~3. S.A.: methodology and implementation: harness extensions (sequential baseline, SOCKET and MIXED workloads, reused-pool control), the experiment orchestrator, all Mac and Intel campaigns and ancillary experiments, the statistical analysis, the replication package, Sections~\ref{sec:planning-units} to~\ref{sec:threats}, and the results part of the presentation (slides 5 to 9). V.Z.: the abstract, Sections~\ref{sec:context} and~\ref{sec:related}, Section~\ref{sec:planning-goals} (goals and research questions), and the presentation's introduction, design, limitations, and takeaways (slides 1 to 4, 10, and 11). Both authors reviewed the full text. Text added or changed since Assignment~2 in Sections~\ref{sec:intro} to~\ref{sec:threats} is shown in \upd{violet}; Sections~\ref{sec:results} to~\ref{sec:conclusion} are new.}
 
 \begin{abstract}
 The last systematic measurement of the energy consumed by Java's thread management constructs dates from 2014, before virtual threads (JDK~21) and before hybrid processors whose core asymmetry the JVM scheduler cannot see. We compare five constructs (sequential execution, one platform thread per task, fixed thread pools, Fork/Join, and virtual threads) at concurrency levels from 1 to 256 under CPU-bound, blocking-sleep, and loopback-socket workloads on two platforms: an Apple~M4 measured with IOReport counters (930 runs, plus a 280-run control) and an Intel Core Ultra~7 255H measured with RAPL (a reduced campaign of 318 runs with equal-count core pinning). On CPU-bound work, parallel execution used 2.4 (M4) to 4.0 (Intel) times less energy than sequential execution, the opposite of the 2014 finding, and at equal concurrency and clock frequency the construct changed energy/op by at most 3\%. Faster was greener on the M4 (Spearman $\rho = 0.99$) but not on Intel ($\rho = 0.45$), where configurations that create threads continuously ran at the 25\,W package limit and were up to 33\% faster but used up to 38\% more energy. On blocking workloads, virtual threads used 15 to 36 times less CPU energy than the platform-thread constructs at 256 threads; a control with thread pools reused across operations showed that most of the gap between pools and virtual threads is the cost of creating threads, while virtual threads with few carriers remained the lowest-energy configuration on Intel. Pinning showed that the same thread-per-task workload costs 1.5 times more energy on two P cores than on two E cores.
@@ -110,6 +110,10 @@ Raffin \& Trystram~\cite{raffin2025dissecting} & & & \yes & \\
 \input{sec-threats}
 \input{sec-results}
 \input{sec-discussion}
+
+\begin{acks}
+\emph{Use of generative AI.} The authors used Claude (Anthropic) to proofread the text, to rephrase some technical passages, and to learn concepts that were new to them. The authors reviewed all AI-assisted text and take full responsibility for the content of this report.
+\end{acks}
 
 \bibliographystyle{ACM-Reference-Format}
 \bibliography{refs}
