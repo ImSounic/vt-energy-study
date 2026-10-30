@@ -1,0 +1,11 @@
+.git
+.venv
+harness
+paper
+docs
+scripts
+reproduced
+**/*.log
+**/__pycache__
+results/pilot*
+results/aborted*
