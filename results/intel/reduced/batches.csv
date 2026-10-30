@@ -1,0 +1,11 @@
+batch,attempt,primary_domain,idle_start_W,idle_end_W,agree
+b01,1,intel-rapl:0:package-0,3.213561,3.357728,True
+b02,1,intel-rapl:0:package-0,3.210499,3.165584,True
+b03,1,intel-rapl:0:package-0,3.187075,3.18075,True
+b04,1,intel-rapl:0:package-0,3.198839,3.222308,True
+b05,1,intel-rapl:0:package-0,3.211554,3.176452,True
+b05-2,2,intel-rapl:0:package-0,3.981997,3.762247,True
+b06,1,intel-rapl:0:package-0,3.676291,3.725319,True
+b07,1,intel-rapl:0:package-0,3.647978,3.676531,True
+b08,1,intel-rapl:0:package-0,3.617224,3.664935,True
+b08-2,2,intel-rapl:0:package-0,3.499096,3.551649,True

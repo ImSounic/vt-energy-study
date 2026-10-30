@@ -1,0 +1,62 @@
+# date (UTC)
+2026-10-30T08:01:40Z
+# git
+b9899efe84a0a3518126454a979904eccae3a39b
+?? results/ancillary/intel/
+?? results/ancillary/mac/ax3/ax3-summary.csv
+?? results/ancillary/mac/ax4/ax4-summary.csv
+?? results/ancillary/mac/ax6/ax6-summary.csv
+?? results/intel/
+?? results/mac/control/
+# os
+NAME="Omarchy"
+PRETTY_NAME="Omarchy"
+VERSION_ID="4.0.6"
+Linux omarchy 7.2.8-9-omarchy #1 SMP PREEMPT_DYNAMIC Sat, 17 Oct 2026 22:09:33 +0000 x86_64 GNU/Linux
+# cpu
+CPU(s):                                  16
+Model name:                              Intel(R) Core(TM) Ultra 7 255H
+Thread(s) per core:                      1
+CPU(s) scaling MHz:                      24%
+CPU max MHz:                             5100.0000
+CPU min MHz:                             400.0000
+# core classes
+P=0-5 E=6-13 LPE=14-15
+# memory
+               total        used        free      shared  buff/cache   available
+Mem:            30Gi       9.6Gi        10Gi       1.0Gi        12Gi        21Gi
+# frequency control
+governor: powersave
+intel_pstate status: active
+no_turbo: 0
+hwp_dynamic_boost: 0
+energy_performance_preference:      16 balance_performance 
+power profile: balanced
+platform_profile: n/a
+# power
+AC online: 1
+rapl intel-rapl:0 (package-0): long_term=65000000 uW/27983872 us short_term=115000000 uW/2440 us
+rapl intel-rapl:0:0 (core): long_term=0 uW/976 us
+rapl intel-rapl:0:1 (uncore): long_term=0 uW/976 us
+rapl intel-rapl:1 (psys): long_term=220000000 uW/27983872 us short_term=221000000 uW/976 us
+rapl intel-rapl-mmio:0 (package-0): long_term=25000000 uW/27983872 us short_term=115000000 uW/2440 us
+# thermal
+coretemp max 50.0 C
+# java
+openjdk version "25.0.4.1" 2026-08-18 LTS
+OpenJDK Runtime Environment Temurin-25.0.4.1+1 (build 25.0.4.1+1-LTS)
+OpenJDK 64-Bit Server VM Temurin-25.0.4.1+1 (build 25.0.4.1+1-LTS, mixed mode, sharing)
+# uptime/load
+ 09:01:40 up  3:43,  1 user,  load average: 2.05, 14.25, 15.08
+# top processes by cpu
+%CPU COMMAND
+ 100 ps
+27.7 java
+ 7.8 bash
+ 0.6 voxtype-osd-gtk
+ 0.5 Hyprland
+ 0.4 uvicorn
+ 0.3 qs
+ 0.2 containerd
+ 0.1 voxtype
+ 0.1 dockerd

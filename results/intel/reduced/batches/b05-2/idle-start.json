@@ -1,0 +1,1 @@
+{"seconds": 60.000, "watts": {"intel-rapl:0:package-0": 3.981997, "intel-rapl:0:0:core": 0.462828, "intel-rapl:0:1:uncore": 0.272983, "intel-rapl:1:psys": 16.502193}, "frozen": []}

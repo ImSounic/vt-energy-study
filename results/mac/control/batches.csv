@@ -1,0 +1,8 @@
+batch,attempt,primary_domain,idle_start_W,idle_end_W,agree
+b01,1,CPU_Energy,0.014114,0.012799,True
+b02,1,CPU_Energy,0.012781,0.012399,True
+b03,1,CPU_Energy,0.014316,0.010848,True
+b04,1,CPU_Energy,0.012315,0.011181,True
+b05,1,CPU_Energy,0.022146,0.012165,True
+b06,1,CPU_Energy,0.012048,0.011665,True
+b07,1,CPU_Energy,0.015347,0.014831,True
